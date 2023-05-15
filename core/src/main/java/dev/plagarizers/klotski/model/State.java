@@ -3,8 +3,10 @@ package dev.plagarizers.klotski.model;
 import dev.plagarizers.klotski.util.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class State implements Cloneable {
+public class State implements Cloneable, Comparable {
   public static final int ROWS = 5;
   public static final int COLS = 4;
 
@@ -12,20 +14,25 @@ public class State implements Cloneable {
 
   public static final Coordinate SOLUTION = Coordinate.of(3, 1);
 
+  public void setPieces(Piece[] pieces) {
+    this.pieces = pieces;
+  }
+
   private Piece[] pieces = new Piece[NUM_PIECES];
 
 
   public State() {
-    pieces[0] = new Piece(new Coordinate(0, 1), 2, 2);
-    pieces[1] = new Piece(new Coordinate(0, 0), 2, 1);
-    pieces[2] = new Piece(new Coordinate(0, 3), 2, 1);
-    pieces[3] = new Piece(new Coordinate(2, 1), 1, 2);
-    pieces[4] = new Piece(new Coordinate(3, 0), 2, 1);
-    pieces[5] = new Piece(new Coordinate(3, 3), 2, 1);
-    pieces[6] = new Piece(new Coordinate(3, 1), 1, 1);
-    pieces[7] = new Piece(new Coordinate(3, 2), 1, 1);
-    pieces[8] = new Piece(new Coordinate(4, 1), 1, 1);
-    pieces[9] = new Piece(new Coordinate(4, 2), 1, 1);
+    // default configuration
+    pieces[0] = new Piece(new Coordinate(0, 1), 2, 2); // S
+    pieces[1] = new Piece(new Coordinate(2, 1), 1, 2); // H
+    pieces[2] = new Piece(new Coordinate(0, 3), 2, 1); // V
+    pieces[3] = new Piece(new Coordinate(0, 0), 2, 1); // V
+    pieces[4] = new Piece(new Coordinate(3, 0), 2, 1); // V
+    pieces[5] = new Piece(new Coordinate(3, 3), 2, 1); // V
+    pieces[6] = new Piece(new Coordinate(3, 1), 1, 1); // C
+    pieces[7] = new Piece(new Coordinate(3, 2), 1, 1); // C
+    pieces[8] = new Piece(new Coordinate(4, 1), 1, 1); // C
+    pieces[9] = new Piece(new Coordinate(4, 2), 1, 1); // C
   }
 
 
@@ -38,113 +45,66 @@ public class State implements Cloneable {
   }
 
   public boolean isSolution() {
-    return targetPiece().getCoordinate().equals(SOLUTION);
+    return targetPiece().getLocation().equals(SOLUTION);
   }
 
   public int[][] toBoard() {
     int[][] board = new int[ROWS][COLS];
     for (int n = 0; n < pieces.length; n++) {
-      Piece piece = pieces[n];
-      Coordinate coor = piece.getCoordinate();
-      int x = coor.getX();
-      int y = coor.getY();
-      int height = piece.getHeight();
-      int width = piece.getWidth();
+      Coordinate location = pieces[n].getLocation();
 
-      for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+      for (int i = 0; i < pieces[n].getHeight(); i++) {
+        for (int j = 0; j < pieces[n].getWidth(); j++) {
 
-          if (board[x + i][y + j] != 0) {
+          if (board[location.getX() + i][location.getY() + j] != 0) {
             throw new IllegalStateException("Cannot override value");
           }
-          board[x + i][y + j] = n + 1;
+          board[location.getX() + i][location.getY() + j] = n + 1;
         }
       }
     }
     return board;
   }
 
-  public List<Pair<Piece, Direction>> availableMoves() {
 
-    List<Pair<Piece, Direction>> moves = new ArrayList<>();
-
-    List<List<Coordinate>> occupiedSpacesCache = new ArrayList<>();
-    for (int i = 0; i < NUM_PIECES; i++) {
-      occupiedSpacesCache.add(pieces[i].occupiedSpaces());
-    }
-
-    for (int n = 0; n < NUM_PIECES; n++) {
-      Piece sourcePiece = pieces[n];
-      EnumMap<Direction, List<Coordinate>> adjacentSpaces = sourcePiece.adjacentSpaces();
-
-      for (Map.Entry<Direction, List<Coordinate>> entry : adjacentSpaces.entrySet()) {
-        Direction direction = entry.getKey();
-        List<Coordinate> spaces = entry.getValue();
-        if (spaces.isEmpty()) continue;
-
-
-        boolean canMove = true;
-
-        for (int m = 0; m < NUM_PIECES; m++) {
-          if (m == n) continue;
-
-
-          Piece targetPiece = pieces[m];
-          List<Coordinate> occupiedSpaces = occupiedSpacesCache.get(m);
-          for (Coordinate space : spaces) {
-            if (occupiedSpaces.contains(space)) {
-              canMove = false;
-              break;
-            }
-          }
-        }
-
-
-        if (canMove) {
-          moves.add(new Pair<>(sourcePiece, direction));
-        }
-
-      }
-    }
-
-
-    return moves;
-  }
-
-
-  public List<State> nextStates2() {
-    List<Pair<State, Integer>> nextStates = nextStates();
-
-    List<State> states = new ArrayList<>();
-    for (Pair<State, Integer> pair : nextStates) {
-      states.add(pair.getFirst());
-    }
-    return states;
-  }
-
-  public List<Pair<State, Integer>> nextStates() {
-    List<Pair<State, Integer>> nextStates = new ArrayList<>();
-    List<Pair<Piece, Direction>> moves = availableMoves();
-    for (Pair<Piece, Direction> move : moves) {
-      Piece sourcePiece = move.getFirst();
-      State newState = this.clone();
-
-      Piece found = null;
-      for (Piece p : newState.pieces) {
-        if (p.getCoordinate() == sourcePiece.getCoordinate()) {
-          found = p;
-          break;
-        }
-      }
-
-      if (found == null) {
-        throw new IllegalStateException("Piece not found");
-      }
-
-      nextStates.add(new Pair<>(newState, 1));
-    }
-    return nextStates;
-  }
+//  we could need this later, let's leave it here for the moment
+//  public List<Pair<Piece, Direction>> availableMoves() {
+//    List<Pair<Piece, Direction>> moves = new ArrayList<>();
+//    List<List<Coordinate>> occupiedSpacesCache = Arrays.stream(pieces).map(Piece::occupiedSpaces).collect(Collectors.toList());
+//
+//
+//    for (int n = 0; n < pieces.length; n++) {
+//      Piece sourcePiece = pieces[n];
+//      EnumMap<Direction, List<Coordinate>> adjSpaces = sourcePiece.adjacentSpaces();
+//
+//      for (Direction direction : adjSpaces.keySet()) {
+//        List<Coordinate> spaces = adjSpaces.get(direction);
+//
+//        if (spaces.isEmpty()) {
+//          continue;
+//        }
+//
+//        boolean canMove = true;
+//
+//        for (int m = 0; m < pieces.length; m++) {
+//
+//          final int m1 = m;
+//          if (n == m) {
+//            continue;
+//          } else if (spaces.stream().anyMatch(s -> occupiedSpacesCache.get(m1).contains(s))) {
+//            canMove = false;
+//            break;
+//          }
+//        }
+//
+//        if (canMove) {
+//          moves.add(new Pair<>(sourcePiece, direction));
+//        }
+//      }
+//    }
+//
+//    return moves;
+//  }
 
   @SuppressWarnings("DefaultLocale")
   @Override
@@ -165,8 +125,8 @@ public class State implements Cloneable {
     List<Integer> flattenedCoordinates = new ArrayList<>();
 
     for (Piece piece : pieces) {
-      int x = piece.getCoordinate().getX() & 0b111;
-      int y = piece.getCoordinate().getY() & 0b111;
+      int x = piece.getLocation().getX() & 0b111;
+      int y = piece.getLocation().getY() & 0b111;
       flattenedCoordinates.add(x);
       flattenedCoordinates.add(y);
     }
@@ -211,35 +171,112 @@ public class State implements Cloneable {
     return new State(newPieces);
   }
 
-  private Integer calculateHeuristic(State state) {
-    Coordinate targetCoor = state.targetPiece().getCoordinate();
-    int tx = targetCoor.getX();
-    int ty = targetCoor.getY();
-    int sx = SOLUTION.getX();
-    int sy = SOLUTION.getY();
-    return Math.abs(tx - sx) + Math.abs(ty - sy);
-  }
 
   public static Coordinate applyMoveToCoords(Coordinate coordinate, Direction direction) {
-
-
     Coordinate newCoord;
     switch (direction) {
       case UP:
         newCoord = coordinate.add(-1, 0);
-      case DOWN:
+        if (isValidCoordinate(newCoord)) return newCoord;
+        break;
+      case RIGHT:
         newCoord = coordinate.add(0, 1);
+        if (isValidCoordinate(newCoord)) return newCoord;
+
+        break;
       case LEFT:
         newCoord = coordinate.add(0, -1);
-      case RIGHT:
+        if (isValidCoordinate(newCoord)) return newCoord;
+
+        break;
+      case DOWN:
         newCoord = coordinate.add(1, 0);
-      default:
-        newCoord = coordinate;
+        if (isValidCoordinate(newCoord)) return newCoord;
+        break;
     }
 
-    if (newCoord.getX() >= 0 && newCoord.getX() < ROWS && newCoord.getY() >= 0 && newCoord.getY() < COLS)
-      return newCoord;
-
     return null;
+  }
+
+
+  public static boolean isValidCoordinate(Coordinate coordinate) {
+    return coordinate.getX() >= 0 && coordinate.getX() < ROWS && coordinate.getY() >= 0 && coordinate.getY() < COLS;
+  }
+
+  @Override
+  public int compareTo(Object o) {
+
+    if (o == null) {
+      throw new NullPointerException();
+    }
+
+    if (!(o instanceof State)) {
+      throw new ClassCastException();
+    }
+
+    if (this.equals(o)) {
+      return 0;
+    }
+
+    return 1;
+  }
+
+
+  public int[] toBitBoard() {
+
+    int[] bitBoard = new int[NUM_PIECES];
+
+    int j = 0;
+    for (Piece piece : pieces) {
+      int mask = 0b0000_0000_0000_0000_0000;
+      int x = piece.getLocation().getX();
+      int y = piece.getLocation().getY();
+      for (int row = x; row < x + piece.getHeight(); row++) {
+        for (int col = y; col < y + piece.getWidth(); col++) {
+          int index = 16 - (row * State.COLS) + col;
+          mask |= (1 << index);
+        }
+      }
+      bitBoard[j++] = mask;
+    }
+
+    return bitBoard;
+  }
+
+
+  @SuppressWarnings("NewApi")
+  public static State fromBitBoard(int[] bitBoard) {
+    State state = new State();
+
+    Piece[] pieces = new Piece[NUM_PIECES];
+    for (int i = 0; i < NUM_PIECES; i++) {
+      pieces[i] = extractPiece(bitBoard[i]);
+    }
+    state.setPieces(pieces);
+    return state;
+  }
+
+  private static Piece extractPiece(int block) {
+    int y = -1, x = -1, width = -1, height = -1;
+
+    for (int row = 0; row < State.ROWS; row++) {
+      for (int col = 0; col < State.COLS; col++) {
+        int bit = (block >> (State.ROWS - row - 1) * State.COLS + col) & 1;
+
+        if (bit == 1) {
+          if (y == -1) {
+            y = col;
+            x = row;
+            width = 1;
+            height = 1;
+          } else {
+            width = Math.max(width, col - y + 1);
+            height = Math.max(height, row - x + 1);
+          }
+        }
+      }
+    }
+
+    return new Piece(Coordinate.of(x, y), height, width);
   }
 }

@@ -34,6 +34,9 @@ public class Coordinate implements Cloneable {
     return new Coordinate(this.x + x, this.y + y);
   }
 
+  public Coordinate add(Coordinate c) {
+    return new Coordinate(this.x + c.x, this.y + c.y);
+  }
 
 
   @Override
