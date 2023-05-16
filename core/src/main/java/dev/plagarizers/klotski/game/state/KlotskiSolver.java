@@ -1,8 +1,7 @@
-package dev.plagarizers.klotski.game.util;
+package dev.plagarizers.klotski.game.state;
 
 import dev.plagarizers.klotski.game.block.BigBlock;
 import dev.plagarizers.klotski.game.block.Block;
-import dev.plagarizers.klotski.game.state.State;
 
 import java.util.*;
 

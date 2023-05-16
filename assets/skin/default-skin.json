@@ -1,0 +1,98 @@
+{
+"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+	"label": {
+		"file": "longmerge-label.fnt"
+	},
+	"title": {
+		"file": "longmerge-title.fnt"
+	}
+},
+"com.badlogic.gdx.graphics.Color": {
+	"button-font-color-active": {
+		"r": 0.05490196,
+		"g": 0.23529412,
+		"b": 0.09803922,
+		"a": 1
+	},
+	"button-font-color-default": {
+		"r": 0.36078432,
+		"g": 0.27058825,
+		"b": 0.011764706,
+		"a": 1
+	},
+	"button-font-color-disabled": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 1
+	},
+	"button-font-color-focused": {
+		"r": 0.14509805,
+		"g": 0.023529412,
+		"b": 0.34117648,
+		"a": 1
+	},
+	"button-font-color-over": {
+		"r": 0.14509805,
+		"g": 0.023529412,
+		"b": 0.34117648,
+		"a": 1
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+	"default": {
+		"up": "ui-kit_button-background",
+		"down": "ui-kit_button-active-background",
+		"over": "ui-kit_button-over-background",
+		"focused": "ui-kit_button-focus-background",
+		"disabled": "ui-kit_button-disabled-background"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+	"default": {
+		"parent": "default"
+	},
+	"new-game-button": {
+		"parent": "default",
+		"imageUp": "ui-kit_new-game-icon"
+	},
+	"redo-button": {
+		"parent": "default",
+		"imageUp": "ui-kit_redo-icon"
+	},
+	"undo-button": {
+		"parent": "default",
+		"imageUp": "ui-kit_undo-icon"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+	"default": {
+		"font": "label"
+	},
+	"title": {
+		"parent": "default",
+		"font": "title"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+	"default": {
+		"parent": "default",
+		"font": "label",
+		"fontColor": "button-font-color-default",
+		"overFontColor": "button-font-color-over",
+		"focusedFontColor": "button-font-color-focused",
+		"disabledFontColor": "button-font-color-disabled"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+	"default": {
+		"label": "default"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": {
+		"background": "ui-kit_window",
+		"titleFont": "label"
+	}
+}
+}

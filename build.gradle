@@ -27,6 +27,19 @@ configure(subprojects - project(':android')) {
   compileJava {
     options.incremental = true
   }
+  test {
+    useJUnitPlatform()
+    dependsOn 'cleanTest'
+
+    testLogging {
+      events 'passed', 'skipped', 'failed'
+    }
+  }
+
+  dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+  }
 }
 
 subprojects {
@@ -42,5 +55,6 @@ subprojects {
     maven { url 'https://jitpack.io' }
   }
 }
+
 
 eclipse.project.name = 'Klotski' + '-parent'

@@ -198,11 +198,7 @@ public class Block implements Cloneable, Comparable<Block> {
    */
   @Override
   public Block clone() {
-    try {
-      return (Block) super.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new AssertionError();
-    }
+    return new Block(location.clone(), height, width);
   }
 
   @Override

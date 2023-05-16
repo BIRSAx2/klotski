@@ -1,7 +1,7 @@
 package dev.plagarizers.klotski.game;
 
 import dev.plagarizers.klotski.game.state.State;
-import dev.plagarizers.klotski.game.util.KlotskiSolver;
+import dev.plagarizers.klotski.game.state.KlotskiSolver;
 
 import java.util.List;
 
