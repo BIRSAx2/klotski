@@ -3,7 +3,7 @@ package dev.plagarizers.klotski.gwt;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import dev.plagarizers.klotski.Klotski;
+import dev.plagarizers.klotski.KlotskiGame;
 
 /**
  * Launches the GWT application.
@@ -23,6 +23,6 @@ public class GwtLauncher extends GwtApplication {
 
   @Override
   public ApplicationListener createApplicationListener() {
-    return new Klotski();
+    return new KlotskiGame();
   }
 }

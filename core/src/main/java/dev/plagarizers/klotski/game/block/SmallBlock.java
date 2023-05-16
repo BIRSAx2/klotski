@@ -1,6 +1,6 @@
-package dev.plagarizers.klotski.model.block;
+package dev.plagarizers.klotski.game.block;
 
-import dev.plagarizers.klotski.model.util.Coordinate;
+import dev.plagarizers.klotski.game.util.Coordinate;
 
 public class SmallBlock extends Block {
   public SmallBlock(Coordinate location) {

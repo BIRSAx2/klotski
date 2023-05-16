@@ -2,7 +2,7 @@ package dev.plagarizers.klotski.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import dev.plagarizers.klotski.Klotski;
+import dev.plagarizers.klotski.KlotskiGame;
 
 /**
  * Launches the desktop (LWJGL3) application.
@@ -13,7 +13,7 @@ public class Lwjgl3Launcher {
   }
 
   private static Lwjgl3Application createApplication() {
-    return new Lwjgl3Application(new Klotski(), getDefaultConfiguration());
+    return new Lwjgl3Application(new KlotskiGame(), getDefaultConfiguration());
   }
 
   private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {

@@ -1,8 +1,8 @@
-package dev.plagarizers.klotski.model.state;
+package dev.plagarizers.klotski.game.state;
 
-import dev.plagarizers.klotski.model.block.*;
-import dev.plagarizers.klotski.model.util.Coordinate;
-import dev.plagarizers.klotski.model.util.Direction;
+import dev.plagarizers.klotski.game.block.*;
+import dev.plagarizers.klotski.game.util.Coordinate;
+import dev.plagarizers.klotski.game.util.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
