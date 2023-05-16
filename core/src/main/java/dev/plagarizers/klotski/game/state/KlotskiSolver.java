@@ -1,8 +1,7 @@
-package dev.plagarizers.klotski.game.util;
+package dev.plagarizers.klotski.game.state;
 
 import dev.plagarizers.klotski.game.block.BigBlock;
 import dev.plagarizers.klotski.game.block.Block;
-import dev.plagarizers.klotski.game.state.State;
 
 import java.util.*;
 
@@ -69,7 +68,6 @@ public class KlotskiSolver {
     step++;
     Queue<int[]> nextQueue = new LinkedList<>();
 
-    // Explore each state in the queue
     while (!queue.isEmpty()) {
       int[] current = queue.remove();
 
@@ -88,7 +86,6 @@ public class KlotskiSolver {
           pathToSolution = reconstructPath(parents, state);
           return step;
         }
-        // Enqueue the next state and mark it as visited
         nextQueue.add(state);
         visited.add(this.compress(state));
         visited.add(this.compress(this.getMirroredState(state)));

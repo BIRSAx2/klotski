@@ -7,7 +7,9 @@ import dev.plagarizers.klotski.game.util.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class State implements Cloneable, Comparable {
+public class State implements Cloneable, Comparable<State> {
+
+
   public static final int ROWS = 5;
   public static final int COLS = 4;
 
@@ -17,6 +19,15 @@ public class State implements Cloneable, Comparable {
   private Block[] blocks = new Block[NUM_PIECES];
 
   private State() {
+  }
+
+
+  public Block[] getBlocks() {
+    return blocks;
+  }
+
+  public void setBlocks(Block[] blocks) {
+    this.blocks = blocks;
   }
 
   /**
@@ -135,6 +146,11 @@ public class State implements Cloneable, Comparable {
    */
 
   public static Block createBlockFromBitMask(int mask) {
+
+
+    if(mask <=0) {
+      return null;
+    }
     int y = -1, x = -1, width = -1, height = -1;
 
     for (int row = 0; row < State.ROWS; row++) {
@@ -217,9 +233,9 @@ public class State implements Cloneable, Comparable {
     StringBuilder sb = new StringBuilder();
     for (int[] row : toBoard()) {
       for (int cell : row) {
-        sb.append(String.format("%3d", cell));
+        sb.append(" " + cell);
       }
-      sb.append(System.lineSeparator());
+      sb.append("\n");
     }
     return sb.toString();
   }
@@ -305,14 +321,10 @@ public class State implements Cloneable, Comparable {
    */
 
   @Override
-  public int compareTo(Object o) {
+  public int compareTo(State o) {
 
     if (o == null) {
       throw new NullPointerException();
-    }
-
-    if (!(o instanceof State)) {
-      throw new ClassCastException();
     }
 
     if (this.equals(o)) {
@@ -335,4 +347,5 @@ public class State implements Cloneable, Comparable {
     }
     return bitBoard;
   }
+
 }
