@@ -1,47 +1,98 @@
-package dev.plagarizers.klotski.model;
+package dev.plagarizers.klotski.model.block;
 
-import java.util.*;
+import dev.plagarizers.klotski.model.state.State;
+import dev.plagarizers.klotski.model.util.Coordinate;
+import dev.plagarizers.klotski.model.util.Direction;
 
-public class Piece implements Cloneable, Comparable<Piece> {
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+
+
+/**
+ * Represents a block in the Klotski puzzle.
+ */
+public class Block implements Cloneable, Comparable<Block> {
 
   private Coordinate location;
   private int height;
   private int width;
 
-  public Piece(Coordinate location, int height, int width) {
+
+  /**
+   * Constructs a Block object with the specified location, height, and width.
+   *
+   * @param location the coordinate representing the top-left corner of the block
+   * @param height   the height of the block
+   * @param width    the width of the block
+   */
+  public Block(Coordinate location, int height, int width) {
     this.location = location;
     this.width = width;
     this.height = height;
   }
 
 
+  /**
+   * Returns the location of the block.
+   *
+   * @return the coordinate representing the top-left corner of the block
+   */
   public Coordinate getLocation() {
     return location;
   }
 
-  public int getWidth() {
-    return width;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
+  /**
+   * Sets the location of the block.
+   *
+   * @param coordinate the new coordinate representing the top-left corner of the block
+   */
   public void setLocation(Coordinate coordinate) {
     this.location = coordinate;
   }
 
+  /**
+   * Returns the width of the block.
+   *
+   * @return the width of the block
+   */
+  public int getWidth() {
+    return width;
+  }
+
+  /**
+   * Sets the width of the block.
+   *
+   * @param width the new width of the block
+   */
   public void setWidth(int width) {
     this.width = width;
   }
 
+  /**
+   * Returns the height of the block.
+   *
+   * @return the height of the block
+   */
+  public int getHeight() {
+    return height;
+  }
+
+  /**
+   * Sets the height of the block.
+   *
+   * @param height the new height of the block
+   */
   public void setHeight(int height) {
     this.height = height;
   }
 
+  /**
+   * Returns a map of the adjacent spaces of the block in each direction.
+   *
+   * @return the map of adjacent spaces, with directions as keys and lists of coordinates as values
+   */
   public EnumMap<Direction, List<Coordinate>> adjacentSpaces() {
-//    EnumMap<Direction, List<Coordinate>> adjacentSpaces = new EnumMap<>(Direction.class);
-
     EnumMap<Direction, List<Coordinate>> adjacentSpaces = new EnumMap<>(Direction.class);
     for (Direction direction : Direction.values()) {
       List<Coordinate> coordinates;
@@ -96,6 +147,11 @@ public class Piece implements Cloneable, Comparable<Piece> {
   }
 
 
+  /**
+   * Returns a list of all the coordinates occupied by the block.
+   *
+   * @return the list of occupied coordinates
+   */
   public List<Coordinate> occupiedSpaces() {
 
     List<Coordinate> spaces = new ArrayList<>();
@@ -110,7 +166,12 @@ public class Piece implements Cloneable, Comparable<Piece> {
     return spaces;
   }
 
-
+  /**
+   * Moves the block in the specified direction if possible.
+   *
+   * @param direction the direction in which to move the block
+   * @return true if the block was moved successfully, false otherwise
+   */
   public boolean makeMove(Direction direction) {
     Coordinate newCoord = State.applyMoveToCoords(location, direction);
     if (newCoord == null) return false;
@@ -119,15 +180,26 @@ public class Piece implements Cloneable, Comparable<Piece> {
     return true;
   }
 
+  /**
+   * Checks if the block can be moved in the specified direction.
+   *
+   * @param direction the direction to check
+   * @return true if the block can be moved in the specified direction, false otherwise
+   */
+
   public boolean canMove(Direction direction) {
     return null != State.applyMoveToCoords(location, direction);
   }
 
-
+  /**
+   * Creates a deep copy of the block.
+   *
+   * @return a cloned instance of the block
+   */
   @Override
-  public Piece clone() {
+  public Block clone() {
     try {
-      return (Piece) super.clone();
+      return (Block) super.clone();
     } catch (CloneNotSupportedException e) {
       throw new AssertionError();
     }
@@ -138,25 +210,32 @@ public class Piece implements Cloneable, Comparable<Piece> {
     return "Piece{" + "coordinate=" + location + ", width=" + width + ", height=" + height + '}';
   }
 
+
+  /**
+   * Compares this block with the specified block for order.
+   *
+   * @param other the block to be compared
+   * @return a negative integer, zero, or a positive integer as this block is less than, equal to, or greater than the specified block
+   */
   @Override
   // not sure if we need this
-  public int compareTo(Piece o) {
+  public int compareTo(Block other) {
 
-    if (this.location.getX() < o.location.getX()) {
+    if (this.location.getX() < other.location.getX()) {
       return -1;
-    } else if (this.location.getX() > o.location.getX()) {
+    } else if (this.location.getX() > other.location.getX()) {
       return 1;
-    } else if (this.location.getY() < o.location.getY()) {
+    } else if (this.location.getY() < other.location.getY()) {
       return -1;
-    } else if (this.location.getY() > o.location.getY()) {
+    } else if (this.location.getY() > other.location.getY()) {
       return 1;
-    } else if (this.width < o.width) {
+    } else if (this.width < other.width) {
       return -1;
-    } else if (this.width > o.width) {
+    } else if (this.width > other.width) {
       return 1;
-    } else if (this.height < o.height) {
+    } else if (this.height < other.height) {
       return -1;
-    } else if (this.height > o.height) {
+    } else if (this.height > other.height) {
       return 1;
     }
     return 0;

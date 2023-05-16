@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.model;
+package dev.plagarizers.klotski.model.util;
 
 public class Coordinate implements Cloneable {
   private int x;
@@ -17,12 +17,12 @@ public class Coordinate implements Cloneable {
     return x;
   }
 
-  public int getY() {
-    return y;
-  }
-
   public void setX(int x) {
     this.x = x;
+  }
+
+  public int getY() {
+    return y;
   }
 
   public void setY(int y) {

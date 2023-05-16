@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.model;
+package dev.plagarizers.klotski.model.util;
 
 public enum Direction {
   UP, RIGHT, LEFT, DOWN
