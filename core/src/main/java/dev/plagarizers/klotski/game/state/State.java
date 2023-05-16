@@ -233,7 +233,7 @@ public class State implements Cloneable, Comparable<State> {
     StringBuilder sb = new StringBuilder();
     for (int[] row : toBoard()) {
       for (int cell : row) {
-        sb.append(" " + cell);
+        sb.append(" ").append(cell);
       }
       sb.append("\n");
     }
@@ -262,8 +262,7 @@ public class State implements Cloneable, Comparable<State> {
     int hash = 0;
     int shift = 0;
 
-    for (int i = 0; i < flattenedCoordinates.size(); i++) {
-      int bits = flattenedCoordinates.get(i);
+    for (int bits : flattenedCoordinates) {
       hash |= bits << (shift * 3); // Shift the bits and OR them with the hash
       shift++;
       if (shift == 21) { // Assuming the maximum number of pieces is 10

@@ -87,7 +87,7 @@ class BlockTest {
   void canMove() {
 
     Block block = new Block(location, 3, 4);
-    assertEquals(true, block.canMove(Direction.UP));
+    assertTrue(block.canMove(Direction.UP));
   }
 
   @Test
@@ -96,10 +96,10 @@ class BlockTest {
     Block block = new Block(location, 3, 4);
     Block clone = block.clone();
 
-    assertTrue(block.compareTo(clone) == 0);
+    assertEquals(0, block.compareTo(clone));
     block.setHeight(17);
 
-    assertFalse(block.compareTo(clone) == 0);
+    assertNotEquals(0, block.compareTo(clone));
   }
 
   @Test
