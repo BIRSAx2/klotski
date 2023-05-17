@@ -2,8 +2,13 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -40,6 +45,16 @@ public class LoadMenuScreen implements Screen {
     TextButton thirdSave = new TextButton(getSaveName() + "\nTotal moves: " + getMoves(getSaveName()), skin);
     thirdSave.getLabel().setAlignment(Align.left);
 
+    TextButton back = new TextButton("BACK", skin);
+
+    back.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        dispose();
+        game.setScreen(new MainMenuScreen(game));
+      }
+    });
+
     table.add(title).width(Gdx.graphics.getWidth() / 2f);
     table.row();
     table.add(firstSave).fillX().pad(7);
@@ -47,6 +62,8 @@ public class LoadMenuScreen implements Screen {
     table.add(secondSave).fillX().pad(7);
     table.row();
     table.add(thirdSave).fillX().pad(7);
+    table.row();
+    table.add(back).fill().pad(7);
   }
 
   public String getSaveName() {
@@ -66,7 +83,7 @@ public class LoadMenuScreen implements Screen {
   public void render(float delta) {
     float deltaT = Gdx.graphics.getDeltaTime();
     ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
-    stage.act(Math.min(deltaT, 1/60f));
+    stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
   }
 

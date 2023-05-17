@@ -20,6 +20,7 @@ public class MainMenuScreen implements Screen {
   private final Stage stage;
   private final Table table;
   private final Skin skin;
+
   public MainMenuScreen(KlotskiGame game) {
     this.game = game;
     Screen thisScreen = this;
@@ -57,7 +58,7 @@ public class MainMenuScreen implements Screen {
     settings.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        game.setScreen(new SettingsScreen());
+        game.setScreen(new SettingsScreen(thisScreen, game));
       }
     });
 
@@ -69,6 +70,7 @@ public class MainMenuScreen implements Screen {
     table.row();
     table.add(settings).uniform().fillX().pad(5);
   }
+
   @Override
   public void show() {
 
@@ -78,11 +80,11 @@ public class MainMenuScreen implements Screen {
   public void render(float delta) {
     float deltaT = Gdx.graphics.getDeltaTime();
     ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
-    if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+    if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
       dispose();
       Gdx.app.exit();
     }
-    stage.act(Math.min(deltaT, 1/60f));
+    stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
   }
 
