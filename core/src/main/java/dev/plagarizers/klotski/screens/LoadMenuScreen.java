@@ -51,7 +51,7 @@ public class LoadMenuScreen implements Screen {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         dispose();
-        game.setScreen(new MainMenuScreen(game));
+//        game.setScreen(new MainMenuScreen(game));
       }
     });
 
