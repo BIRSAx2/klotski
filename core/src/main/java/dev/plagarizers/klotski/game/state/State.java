@@ -347,4 +347,33 @@ public class State implements Cloneable, Comparable<State> {
     return bitBoard;
   }
 
+
+  public State moveBlock(Block block, Direction direction) {
+
+    System.out.println("Moving block " + block + " " + direction);
+    State newState = this.clone();
+
+    // Find the current location of the block
+    Coordinate currentLocation = block.getLocation();
+
+    // Calculate the new location of the block after the move
+    Coordinate newLocation = State.applyMoveToCoords(currentLocation, direction);
+
+    // If the new location is invalid, return the current state
+    if (newLocation == null) {
+      return this;
+    }
+
+    // Check if there is already a block at the new location
+    for (Block b : newState.getBlocks()) {
+      if (b != block && b.occupiedSpaces().contains(newLocation)) {
+        return this;
+      }
+    }
+
+    // Move the block to the new location
+    block.setLocation(newLocation);
+    System.out.println("Moved block " + block + " to " + newLocation);
+    return newState;
+  }
 }
