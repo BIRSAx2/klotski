@@ -236,4 +236,12 @@ public class Block implements Cloneable, Comparable<Block> {
     }
     return 0;
   }
+
+  public int getX() {
+    return location.getX();
+  }
+
+  public int getY() {
+    return location.getY();
+  }
 }

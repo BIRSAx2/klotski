@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
     newGame.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-//        game.setScreen(new GameScreen());
+        game.setScreen(new GameScreen());
       }
     });
 
@@ -51,14 +51,14 @@ public class MainMenuScreen implements Screen {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         dispose();
-//        game.setScreen(new LoadMenuScreen(thisScreen, game));
+        game.setScreen(new LoadMenuScreen(thisScreen, game));
       }
     });
 
     settings.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-//        game.setScreen(new SettingsScreen(thisScreen, game));
+        game.setScreen(new SettingsScreen(thisScreen, game));
       }
     });
 
