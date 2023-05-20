@@ -77,12 +77,11 @@ public class TileWidget {
 
     textureMap = new EnumMap<Block.BlockType, Texture>(Block.BlockType.class) {
       {
-        put(Block.BlockType.UnknownBlock, new Texture("textures/portrait-with-border1.png"));
-        put(Block.BlockType.BigBlock, new Texture("textures/portrait-with-border1.png"));
-        put(Block.BlockType.BigBlock, new Texture("textures/portrait-with-border1.png"));
-        put(Block.BlockType.VerticalBlock, new Texture("textures/portrait-with-border2.png"));
-        put(Block.BlockType.HorizontalBlock, new Texture("textures/portrait-with-border3.png"));
-        put(Block.BlockType.SmallBlock, new Texture("textures/portrait-with-border4.png"));
+        put(Block.BlockType.UnknownBlock, new Texture("textures/EmptyBlock.png"));
+        put(Block.BlockType.BigBlock, new Texture("textures/BigBlock.png"));
+        put(Block.BlockType.VerticalBlock, new Texture("textures/VerticalBlock.png"));
+        put(Block.BlockType.HorizontalBlock, new Texture("textures/HorizontalBlock.png"));
+        put(Block.BlockType.SmallBlock, new Texture("textures/SmallBlock.png"));
       }
     };
   }

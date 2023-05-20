@@ -46,8 +46,6 @@ public class BoardWidget extends Actor {
 
 
   public BoardWidget(State state, Skin skin) {
-    gridWidth = columns * itemWidth;
-    gridHeight = rows * itemHeight;
     this.rows = State.ROWS;
     this.columns = State.COLS;
     this.state = state;
@@ -55,6 +53,10 @@ public class BoardWidget extends Actor {
     this.myShapeRenderer = new MyShapeRenderer();
     this.tiles = new ArrayList<>();
     this.skin = skin;
+
+    // Calculate the total size of the grid
+    gridWidth = columns * itemWidth;
+    gridHeight = rows * itemHeight;
 
 
     loadBlocks();
@@ -66,23 +68,19 @@ public class BoardWidget extends Actor {
     solution = solver.getPathToSolution();
   }
 
+
+  public int getMinSteps() {
+    return minSteps;
+  }
+
   public void playBestMove() {
 
-    System.out.println("Play best move");
     if (solution == null) {
       calculateSolution();
     }
-    if (solution.size() > 0) {
-      state = solution.remove(0);
-      loadBlocks();
-    }
 
-    System.out.println(minSteps);
+    state = solution.remove(0);
     loadBlocks();
-  }
-
-  public List<TileWidget> getTiles() {
-    return tiles;
   }
 
   public void loadBlocks() {
@@ -110,11 +108,6 @@ public class BoardWidget extends Actor {
   }
 
   @Override
-  public void act(float delta) {
-    super.act(delta);
-  }
-
-  @Override
   public void draw(Batch batch, float parentAlpha) {
 
     batch.end();
@@ -126,9 +119,6 @@ public class BoardWidget extends Actor {
 
     shapeRenderer.line(0, 1, 10, 1);
 
-    // Calculate the total size of the grid
-    float gridWidth = columns * itemWidth;
-    float gridHeight = rows * itemHeight;
 
     // Calculate the position of the top-left corner of the grid
     float startX = getX() - (gridWidth / 2);
@@ -151,7 +141,7 @@ public class BoardWidget extends Actor {
     // Render the tiles
     for (TileWidget tile : tiles) {
       batch.setColor(Color.WHITE);
-      if (selectedTile == tile) batch.setColor(Color.RED);
+      if (selectedTile == tile) batch.setColor(Color.LIGHT_GRAY);
       float tileX = getX() + tile.getX();
       float tileY = getY() + tile.getY();
 
@@ -244,46 +234,5 @@ public class BoardWidget extends Actor {
       selectedBlockIndex = nextIndex;
       selectedTile = tiles.get(nextIndex);
     }
-  }
-
-
-  @Override
-  public void setPosition(float x, float y) {
-    super.setPosition(x, y);
-  }
-
-  @Override
-  public void setSize(float width, float height) {
-    super.setSize(width, height);
-  }
-
-  @Override
-  public void setBounds(float x, float y, float width, float height) {
-    super.setBounds(x, y, width, height);
-
-  }
-
-  @Override
-  public void setX(float x) {
-    super.setX(x);
-
-  }
-
-  @Override
-  public void setY(float y) {
-    super.setY(y);
-
-  }
-
-  @Override
-  public void setWidth(float width) {
-    super.setWidth(width);
-
-  }
-
-  @Override
-  public void setHeight(float height) {
-    super.setHeight(height);
-
   }
 }

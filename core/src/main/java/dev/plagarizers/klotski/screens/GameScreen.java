@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
   private Table table;
   private TextButton backButton;
   private TextButton nextMoveButton;
-  private TextButton solveButton;
+  private TextButton saveButton;
 
   public GameScreen() {
     float screenWidth = Gdx.graphics.getWidth();
@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
         grid.playBestMove();
       }
     });
-    solveButton = new TextButton("Solve", skin);
+    saveButton = new TextButton("Save", skin);
 
     // Create table
     table = new Table();
@@ -64,9 +64,10 @@ public class GameScreen implements Screen {
     // Add widgets to the table
     table.add(grid).expand().center().colspan(3).row();
     table.row();
+    table.row();
     table.add(backButton).bottom();
     table.add(nextMoveButton).bottom();
-    table.add(solveButton).bottom();
+    table.add(saveButton).bottom();
 
     stage.addActor(table);
 

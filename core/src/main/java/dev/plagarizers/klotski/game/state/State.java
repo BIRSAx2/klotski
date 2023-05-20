@@ -394,8 +394,6 @@ public class State implements Cloneable, Comparable<State> {
   public State moveBlock(int index, Direction direction) {
     Block block = blocks[index];
 
-    System.out.println(block);
-
     State newState = this.clone();
 
     // Find the current location of the block

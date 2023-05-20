@@ -3,10 +3,9 @@ package dev.plagarizers.klotski.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -36,7 +35,10 @@ public class MainMenuScreen implements Screen {
 //    skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
     skin = new Skin(Gdx.files.internal("skins/pixthulhu-ui/pixthulhu-ui.json"));
 
-    Image title = new Image(new Texture(Gdx.files.internal("title.png")));
+//    Image title = new Image(new Texture(Gdx.files.internal("title.png")));
+
+    Label title = new Label("K L O T S K I", skin);
+    title.setFontScale(3f);
     TextButton newGame = new TextButton("NEW GAME", skin);
     TextButton loadGame = new TextButton("LOAD GAME", skin);
     TextButton settings = new TextButton("SETTINGS", skin);
@@ -63,7 +65,7 @@ public class MainMenuScreen implements Screen {
       }
     });
 
-    table.add(title).width(Gdx.graphics.getWidth() / 3f).fillX().padBottom(5);
+    table.add(title).center().padBottom(5);
     table.row();
     table.add(newGame).uniform().fillX().pad(5);
     table.row();
