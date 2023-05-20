@@ -4,8 +4,11 @@ import com.badlogic.gdx.Game;
 import dev.plagarizers.klotski.screens.LoadMenuScreen;
 import dev.plagarizers.klotski.screens.MainMenuScreen;
 
+import java.util.EnumMap;
+
 
 public class KlotskiGame extends Game {
+
 
   @Override
   public void create() {

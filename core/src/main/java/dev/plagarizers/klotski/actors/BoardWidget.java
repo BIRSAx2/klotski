@@ -5,71 +5,87 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.plagarizers.klotski.game.block.Block;
+import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Direction;
 import dev.plagarizers.klotski.ui.TileWidget;
 import dev.plagarizers.klotski.util.MyShapeRenderer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BoardWidget extends Actor {
   private State state;
+
+  private Skin skin;
   private int rows;
   private int columns;
   private float itemWidth = 64;
   private float itemHeight = 64;
+
+  private float gridHeight, gridWidth;
+  private float topLeftX, topLeftY;
   private ShapeRenderer shapeRenderer;
 
   private MyShapeRenderer myShapeRenderer;
-
   private TileWidget selectedTile;
+
+  private int selectedBlockIndex = 1;
+
+  private Vector2 dragStartPos = null;
+
+  private List<State> solution;
+
+  private int minSteps = -1;
 
   private List<TileWidget> tiles;
 
-  public BoardWidget(State state) {
+
+  public BoardWidget(State state, Skin skin) {
+    gridWidth = columns * itemWidth;
+    gridHeight = rows * itemHeight;
     this.rows = State.ROWS;
     this.columns = State.COLS;
     this.state = state;
     this.shapeRenderer = new ShapeRenderer();
     this.myShapeRenderer = new MyShapeRenderer();
     this.tiles = new ArrayList<>();
-    loadBlocks();
+    this.skin = skin;
 
-    selectedTile = tiles.get(1);
+
+    loadBlocks();
+  }
+
+  private void calculateSolution() {
+    KlotskiSolver solver = new KlotskiSolver(state);
+    minSteps = solver.minSteps();
+    solution = solver.getPathToSolution();
+  }
+
+  public void playBestMove() {
+
+    System.out.println("Play best move");
+    if (solution == null) {
+      calculateSolution();
+    }
+    if (solution.size() > 0) {
+      state = solution.remove(0);
+      loadBlocks();
+    }
+
+    System.out.println(minSteps);
+    loadBlocks();
   }
 
   public List<TileWidget> getTiles() {
     return tiles;
   }
 
-  public void handleInput() {
-
-    Map<Integer, Direction> keyToDirection = new HashMap<>();
-
-    keyToDirection.put(Input.Keys.LEFT, Direction.LEFT);
-    keyToDirection.put(Input.Keys.RIGHT, Direction.RIGHT);
-    keyToDirection.put(Input.Keys.UP, Direction.UP);
-    keyToDirection.put(Input.Keys.DOWN, Direction.DOWN);
-
-    if (selectedTile == null) {
-      return;
-    }
-    for (Map.Entry<Integer, Direction> entry : keyToDirection.entrySet()) {
-      if (Gdx.input.isKeyJustPressed(entry.getKey())) {
-        System.out.println("key pressed");
-
-        state = state.moveBlock(selectedTile.getBlock(), entry.getValue());
-      }
-    }
-  }
-
   public void loadBlocks() {
-
     if (state == null) throw new IllegalStateException("State is null");
 
     tiles.clear();
@@ -84,8 +100,8 @@ public class BoardWidget extends Actor {
     y = rows - y - height;
     float gridOffsetX = (columns * itemWidth) / 2;
     float gridOffsetY = (rows * itemHeight) / 2;
-    float tileX = getX() + (x * itemWidth) - gridOffsetX;
-    float tileY = getY() + (y * itemHeight) - gridOffsetY;
+    float tileX = (x * itemWidth) - gridOffsetX;
+    float tileY = (y * itemHeight) - gridOffsetY;
     float tileWidth = width * itemWidth;
     float tileHeight = height * itemHeight;
     TileWidget tile = new TileWidget(tileX, tileY, tileWidth, tileHeight);
@@ -94,12 +110,21 @@ public class BoardWidget extends Actor {
   }
 
   @Override
+  public void act(float delta) {
+    super.act(delta);
+  }
+
+  @Override
   public void draw(Batch batch, float parentAlpha) {
+
+    batch.end();
     shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-    shapeRenderer.setColor(Color.WHITE);
+    shapeRenderer.setColor(Color.LIGHT_GRAY);
+
+    shapeRenderer.line(0, 1, 10, 1);
 
     // Calculate the total size of the grid
     float gridWidth = columns * itemWidth;
@@ -122,42 +147,143 @@ public class BoardWidget extends Actor {
     }
     shapeRenderer.end();
 
-
-    myShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
+    batch.begin();
+    // Render the tiles
     for (TileWidget tile : tiles) {
-      myShapeRenderer.setColor(tile.getColor());
+      batch.setColor(Color.WHITE);
+      if (selectedTile == tile) batch.setColor(Color.RED);
       float tileX = getX() + tile.getX();
       float tileY = getY() + tile.getY();
-      myShapeRenderer.roundedRect(tileX + 5, tileY + 5, tile.getWidth() - 10, tile.getHeight() - 10, 10);
-    }
 
-    // End rendering shapes
-    myShapeRenderer.end();
-  }
-
-  public boolean moveTile(TileWidget tile, Direction direction) {
-    Block block = tile.getBlock();
-    System.out.println("Moving block " + block);
-
-    state = state.moveBlock(block, direction);
-    loadBlocks();
-//      block.makeMove(direction);
-//      state.moveBlock(block, x, y);
-//      tile.setX(getX() + (x * itemWidth) - ((columns * itemWidth) / 2));
-//      tile.setY(getY() + ((rows - y - block.getHeight()) * itemHeight) - ((rows * itemHeight) / 2));
-    return true;
-  }
-
-  private void moveSelectedTile(Direction direction) {
-    if (selectedTile != null) {
-      moveTile(selectedTile, direction);
+      batch.draw(tile.getTexture(), tileX + 5, tileY + 5, tile.getWidth() - 10, tile.getHeight() - 10);
     }
   }
 
-  public boolean canMove(TileWidget tile, Direction direction) {
-    return tile.getBlock().canMove(direction);
+  public void handleInput() {
+    if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+      state = state.moveBlock(selectedBlockIndex, Direction.LEFT);
+      loadBlocks();
+
+    } else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+      state = state.moveBlock(selectedBlockIndex, Direction.RIGHT);
+      loadBlocks();
+
+    } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+      state = state.moveBlock(selectedBlockIndex, Direction.UP);
+      loadBlocks();
+
+    } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+      state = state.moveBlock(selectedBlockIndex, Direction.DOWN);
+      loadBlocks();
+
+    }
+
+    if (Gdx.input.justTouched()) {
+      dragStartPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+      // Convert screen coordinates to local coordinates
+      float localX = Gdx.input.getX() - getX();
+      float localY = -(Gdx.input.getY() - getY());
+
+      // Check if any tile contains the clicked coordinates
+      for (int i = 0; i < tiles.size(); i++) {
+        TileWidget tile = tiles.get(i);
+        if (tile.contains(localX, localY)) {
+          selectedTile = tile;
+          selectedBlockIndex = i;
+          break;
+        }
+      }
+    } else if (Gdx.input.isTouched()) {
+      Vector2 dragEndPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+
+      // Calculate the drag direction based on the start and end positions
+      Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
+
+      if (dragDirection != null) {
+        state = state.moveBlock(selectedBlockIndex, dragDirection);
+        loadBlocks();
+
+      }
+    }
+    if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+      selectNextTile();
+    }
+  }
+
+  private Direction calculateDragDirection(Vector2 start, Vector2 end) {
+    float deltaX = end.x - start.x;
+    float deltaY = end.y - start.y;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0) {
+        return Direction.RIGHT;
+      } else {
+        return Direction.LEFT;
+      }
+    } else {
+      if (deltaY > 0) {
+        return Direction.DOWN;
+      } else {
+        return Direction.UP;
+      }
+    }
+  }
+
+  private void selectNextTile() {
+    if (selectedTile == null) {
+      // If no tile is currently selected, select the first tile
+      if (!tiles.isEmpty()) {
+        selectedTile = tiles.get(0);
+      }
+    } else {
+      // Find the index of the currently selected tile
+      selectedBlockIndex = tiles.indexOf(selectedTile);
+
+      // Select the next tile in the list, or wrap around to the first tile
+      int nextIndex = (selectedBlockIndex + 1) % tiles.size();
+      selectedBlockIndex = nextIndex;
+      selectedTile = tiles.get(nextIndex);
+    }
   }
 
 
+  @Override
+  public void setPosition(float x, float y) {
+    super.setPosition(x, y);
+  }
+
+  @Override
+  public void setSize(float width, float height) {
+    super.setSize(width, height);
+  }
+
+  @Override
+  public void setBounds(float x, float y, float width, float height) {
+    super.setBounds(x, y, width, height);
+
+  }
+
+  @Override
+  public void setX(float x) {
+    super.setX(x);
+
+  }
+
+  @Override
+  public void setY(float y) {
+    super.setY(y);
+
+  }
+
+  @Override
+  public void setWidth(float width) {
+    super.setWidth(width);
+
+  }
+
+  @Override
+  public void setHeight(float height) {
+    super.setHeight(height);
+
+  }
 }

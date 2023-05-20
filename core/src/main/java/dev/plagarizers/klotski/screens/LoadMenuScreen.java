@@ -33,7 +33,9 @@ public class LoadMenuScreen implements Screen {
 
     table.setDebug(false);
 
-    skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+//    skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+    skin = new Skin(Gdx.files.internal("skins/pixthulhu-ui/pixthulhu-ui.json"));
+
 
     Label title = new Label("SELECT A SAVE SLOT", skin);
     title.setAlignment(Align.center);

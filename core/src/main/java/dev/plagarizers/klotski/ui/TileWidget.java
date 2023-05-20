@@ -1,7 +1,10 @@
 package dev.plagarizers.klotski.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import dev.plagarizers.klotski.game.block.Block;
+
+import java.util.EnumMap;
 
 public class TileWidget {
   private float x;
@@ -9,8 +12,17 @@ public class TileWidget {
   private float width;
   private float height;
 
-  private Color color;
 
+  private EnumMap<Block.BlockType, Texture> textureMap;
+  private EnumMap<Block.BlockType, Color> colorMap = new EnumMap<Block.BlockType, Color>(Block.BlockType.class) {
+    {
+      put(Block.BlockType.UnknownBlock, Color.WHITE);
+      put(Block.BlockType.BigBlock, Color.RED);
+      put(Block.BlockType.VerticalBlock, Color.BLUE);
+      put(Block.BlockType.HorizontalBlock, Color.GREEN);
+      put(Block.BlockType.SmallBlock, Color.YELLOW);
+    }
+  };
   private Block block;
 
   public float getX() {
@@ -49,6 +61,10 @@ public class TileWidget {
     return block;
   }
 
+  public Texture getTexture() {
+    return textureMap.get(block.getType());
+  }
+
   public void setBlock(Block block) {
     this.block = block;
   }
@@ -58,18 +74,28 @@ public class TileWidget {
     this.y = y;
     this.width = width;
     this.height = height;
+
+    textureMap = new EnumMap<Block.BlockType, Texture>(Block.BlockType.class) {
+      {
+        put(Block.BlockType.UnknownBlock, new Texture("textures/portrait-with-border1.png"));
+        put(Block.BlockType.BigBlock, new Texture("textures/portrait-with-border1.png"));
+        put(Block.BlockType.BigBlock, new Texture("textures/portrait-with-border1.png"));
+        put(Block.BlockType.VerticalBlock, new Texture("textures/portrait-with-border2.png"));
+        put(Block.BlockType.HorizontalBlock, new Texture("textures/portrait-with-border3.png"));
+        put(Block.BlockType.SmallBlock, new Texture("textures/portrait-with-border4.png"));
+      }
+    };
   }
 
-
   public Color getColor() {
-    if (color == null) {
-      color = getRandomColor();
-    }
-    return color;
+    return colorMap.get(block.getType());
   }
 
   public Color getRandomColor() {
     return new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
   }
-}
 
+  public boolean contains(float x, float y) {
+    return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
+  }
+}

@@ -18,6 +18,16 @@ public class Block implements Cloneable, Comparable<Block> {
   private int height;
   private int width;
 
+  public BlockType getType() {
+    return type;
+  }
+
+  public void setType(BlockType type) {
+    this.type = type;
+  }
+
+  private BlockType type = BlockType.UnknownBlock;
+
 
   /**
    * Constructs a Block object with the specified location, height, and width.
@@ -30,6 +40,14 @@ public class Block implements Cloneable, Comparable<Block> {
     this.location = location;
     this.width = width;
     this.height = height;
+  }
+
+
+  public Block(Coordinate location, int height, int width, BlockType type) {
+    this.location = location;
+    this.width = width;
+    this.height = height;
+    this.type = type;
   }
 
 
@@ -198,7 +216,7 @@ public class Block implements Cloneable, Comparable<Block> {
    */
   @Override
   public Block clone() {
-    return new Block(location.clone(), height, width);
+    return new Block(location.clone(), height, width, type);
   }
 
   @Override
@@ -243,5 +261,10 @@ public class Block implements Cloneable, Comparable<Block> {
 
   public int getY() {
     return location.getY();
+  }
+
+
+  public static enum BlockType {
+    BigBlock, SmallBlock, VerticalBlock, HorizontalBlock, UnknownBlock
   }
 }

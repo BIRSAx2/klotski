@@ -90,6 +90,33 @@ public class State implements Cloneable, Comparable<State> {
     return null;
   }
 
+
+  public Coordinate applyMoveToCoords(Coordinate coordinate, Direction direction, int width, int height) {
+    Coordinate newCoord;
+    switch (direction) {
+      case UP:
+        newCoord = coordinate.add(-1, 0);
+        if (isValidCoordinate(newCoord, width, height)) return newCoord;
+        break;
+      case RIGHT:
+        newCoord = coordinate.add(0, 1);
+        if (isValidCoordinate(newCoord, width, height)) return newCoord;
+
+        break;
+      case LEFT:
+        newCoord = coordinate.add(0, -1);
+        if (isValidCoordinate(newCoord, width, height)) return newCoord;
+
+        break;
+      case DOWN:
+        newCoord = coordinate.add(1, 0);
+        if (isValidCoordinate(newCoord, width, height)) return newCoord;
+        break;
+    }
+
+    return null;
+  }
+
   /**
    * Checks if the given coordinate is a valid coordinate within the board boundaries.
    *
@@ -148,7 +175,7 @@ public class State implements Cloneable, Comparable<State> {
   public static Block createBlockFromBitMask(int mask) {
 
 
-    if(mask <=0) {
+    if (mask <= 0) {
       return null;
     }
     int y = -1, x = -1, width = -1, height = -1;
@@ -173,7 +200,24 @@ public class State implements Cloneable, Comparable<State> {
       }
     }
 
-    return new Block(Coordinate.of(x, y), height, width);
+    Block block = new Block(Coordinate.of(x, y), height, width);
+    block.setType(getBlockTypeBySize(height, width));
+    return block;
+  }
+
+
+  private static Block.BlockType getBlockTypeBySize(int height, int width) {
+    if (height == 2 && width == 2) {
+      return Block.BlockType.BigBlock;
+    } else if (height == 2 && width == 1) {
+      return Block.BlockType.VerticalBlock;
+    } else if (height == 1 && width == 2) {
+      return Block.BlockType.HorizontalBlock;
+    } else if (height == 1 && width == 1) {
+      return Block.BlockType.SmallBlock;
+    } else {
+      return Block.BlockType.UnknownBlock;
+    }
   }
 
   public void setPieces(Block[] blocks) {
@@ -347,33 +391,69 @@ public class State implements Cloneable, Comparable<State> {
     return bitBoard;
   }
 
+  public State moveBlock(int index, Direction direction) {
+    Block block = blocks[index];
 
-  public State moveBlock(Block block, Direction direction) {
+    System.out.println(block);
 
-    System.out.println("Moving block " + block + " " + direction);
     State newState = this.clone();
 
     // Find the current location of the block
-    Coordinate currentLocation = block.getLocation();
+    Coordinate currentLocation = block.getLocation().clone();
 
     // Calculate the new location of the block after the move
-    Coordinate newLocation = State.applyMoveToCoords(currentLocation, direction);
+    Coordinate newLocation = applyMoveToCoords(currentLocation, direction, block.getWidth(), block.getHeight());
+
+    Block block1 = block.clone();
 
     // If the new location is invalid, return the current state
-    if (newLocation == null) {
+    if (newLocation == null || isOverlap(index, newLocation, block1)) {
       return this;
     }
-
-    // Check if there is already a block at the new location
-    for (Block b : newState.getBlocks()) {
-      if (b != block && b.occupiedSpaces().contains(newLocation)) {
-        return this;
-      }
-    }
-
     // Move the block to the new location
     block.setLocation(newLocation);
-    System.out.println("Moved block " + block + " to " + newLocation);
+    newState.setBlock(index, block);
     return newState;
+  }
+
+
+  private void setBlock(int index, Block block) {
+    blocks[index] = block;
+  }
+
+
+  private boolean isOverlap(int index, Coordinate newLocation, Block block) {
+
+    block.setLocation(newLocation);
+    for (int i = 0; i < NUM_PIECES; i++) {
+      if (i == index) {
+        continue; // Skip checking the block being moved
+      }
+
+      Block otherBlock = blocks[i];
+      for (Coordinate coordinate : block.occupiedSpaces()) {
+        if (otherBlock.occupiedSpaces().contains(coordinate)) {
+          return true;
+        }
+      }
+//      if (otherBlock.occupiedSpaces().contains(newLocation)) return true;
+    }
+
+    return false; // No overlap with any other block
+  }
+
+
+  private boolean isValidCoordinate(Coordinate coordinate, int width, int height) {
+    int x = coordinate.getX();
+    int y = coordinate.getY();
+
+    // Check if the coordinate is within the boundaries of the puzzle
+    if (x >= 0 && y >= 0 && x <= ROWS && y <= COLS) {
+      // Check if the coordinate is within the boundaries of the block
+      if (y + width <= COLS && x + height <= ROWS) {
+        return true;
+      }
+    }
+    return false;
   }
 }

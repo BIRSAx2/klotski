@@ -33,7 +33,8 @@ public class MainMenuScreen implements Screen {
 
     table.setDebug(false);
 
-    skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+//    skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+    skin = new Skin(Gdx.files.internal("skins/pixthulhu-ui/pixthulhu-ui.json"));
 
     Image title = new Image(new Texture(Gdx.files.internal("title.png")));
     TextButton newGame = new TextButton("NEW GAME", skin);
