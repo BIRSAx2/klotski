@@ -3,16 +3,22 @@ package dev.plagarizers.klotski.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
+import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.game.util.SavesManager;
+
+import java.util.List;
 
 public class LoadMenuScreen implements Screen {
   private final Stage stage;
@@ -20,6 +26,8 @@ public class LoadMenuScreen implements Screen {
   private final Skin skin;
   private final Screen caller;
   private final KlotskiGame game;
+
+  private final SavesManager savesManager = new SavesManager();
 
   public LoadMenuScreen(Screen caller, KlotskiGame game) {
     this.game = game;
@@ -39,12 +47,30 @@ public class LoadMenuScreen implements Screen {
     Label title = new Label("SELECT A SAVE SLOT", skin);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
-    TextButton firstSave = new TextButton(getSaveName() + "\nTotal moves: " + getMoves(getSaveName()), skin);
-    firstSave.getLabel().setAlignment(Align.left);
-    TextButton secondSave = new TextButton(getSaveName() + "\nTotal moves: " + getMoves(getSaveName()), skin);
-    secondSave.getLabel().setAlignment(Align.left);
-    TextButton thirdSave = new TextButton(getSaveName() + "\nTotal moves: " + getMoves(getSaveName()), skin);
-    thirdSave.getLabel().setAlignment(Align.left);
+
+    List<String> saves = savesManager.getSavedStatePaths();
+
+    table.add(title).width(Gdx.graphics.getWidth() / 2f);
+    table.row();
+
+    ClickListener startFromSave = new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        String saveName = ((TextButton) event.getListenerActor()).getText().toString();
+        System.out.println("Loading save: " + saveName);
+        State save = savesManager.loadStateByName(saveName);
+        game.setScreen(new GameScreen(game, save));
+      }
+    };
+    for (String save : saves) {
+      String fileName = save.substring(save.lastIndexOf("/") + 1);
+      TextButton saveButton = new TextButton(fileName, skin);
+      saveButton.addListener(startFromSave);
+      saveButton.getLabel().setAlignment(Align.left);
+      table.add(saveButton).fillX().pad(7);
+      table.row();
+    }
+
 
     TextButton back = new TextButton("BACK", skin);
 
@@ -55,15 +81,6 @@ public class LoadMenuScreen implements Screen {
         game.setScreen(new MainMenuScreen(game));
       }
     });
-
-    table.add(title).width(Gdx.graphics.getWidth() / 2f);
-    table.row();
-    table.add(firstSave).fillX().pad(7);
-    table.row();
-    table.add(secondSave).fillX().pad(7);
-    table.row();
-    table.add(thirdSave).fillX().pad(7);
-    table.row();
     table.add(back).fill().pad(7);
   }
 

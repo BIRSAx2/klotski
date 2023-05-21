@@ -1,5 +1,6 @@
 package dev.plagarizers.klotski.game.state;
 
+import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.block.*;
 import dev.plagarizers.klotski.game.util.Coordinate;
 import dev.plagarizers.klotski.game.util.Direction;
@@ -454,4 +455,26 @@ public class State implements Cloneable, Comparable<State> {
     }
     return false;
   }
+
+  /**
+   * Converts the state to a JSON string.
+   *
+   * @return The JSON representation of the state.
+   */
+  public String toJson() {
+    Gson gson = new Gson();
+    return gson.toJson(this);
+  }
+
+  /**
+   * Creates a state object from a JSON string.
+   *
+   * @param json The JSON string representing the state.
+   * @return The State object created from the JSON string.
+   */
+  public static State fromJson(String json) {
+    Gson gson = new Gson();
+    return gson.fromJson(json, State.class);
+  }
+
 }

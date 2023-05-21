@@ -1,6 +1,8 @@
 package dev.plagarizers.klotski.game.util;
 
 
+import com.google.gson.Gson;
+
 /**
  * Represents a coordinate with x and y values.
  */
@@ -144,5 +146,16 @@ public class Coordinate implements Cloneable {
   @Override
   public Coordinate clone() {
     return new Coordinate(x, y);
+  }
+
+
+  public String toJson() {
+    Gson gson = new Gson();
+    return gson.toJson(this);
+  }
+
+  public static Coordinate fromJson(String json) {
+    Gson gson = new Gson();
+    return gson.fromJson(json, Coordinate.class);
   }
 }

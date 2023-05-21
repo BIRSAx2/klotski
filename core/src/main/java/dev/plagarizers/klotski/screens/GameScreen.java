@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.actors.BoardWidget;
 import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.game.util.SavesManager;
 
 public class GameScreen implements Screen {
 
@@ -31,7 +32,11 @@ public class GameScreen implements Screen {
 
   private KlotskiGame game;
 
-  public GameScreen(KlotskiGame game) {
+  private SavesManager savesManager = new SavesManager();
+
+
+  public GameScreen(KlotskiGame game, State state) {
+
     this.game = game;
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
@@ -42,7 +47,12 @@ public class GameScreen implements Screen {
 
     stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
 
-    state = State.fromDefaultConfiguration();
+    if (state == null)
+      this.state = State.fromDefaultConfiguration();
+    else
+      this.state = state;
+
+
     skin = new Skin(Gdx.files.internal(game.getSkinPath()));
 
 
@@ -69,6 +79,13 @@ public class GameScreen implements Screen {
       }
     });
     saveButton = new TextButton("Save", skin);
+
+    saveButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        savesManager.saveState(grid.getState());
+      }
+    });
 
     // Create table
     table = new Table();

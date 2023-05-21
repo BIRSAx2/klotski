@@ -1,5 +1,6 @@
 package dev.plagarizers.klotski.game.block;
 
+import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Coordinate;
 import dev.plagarizers.klotski.game.util.Direction;
@@ -263,6 +264,27 @@ public class Block implements Cloneable, Comparable<Block> {
     return location.getY();
   }
 
+
+  /**
+   * Converts the block to a JSON string.
+   *
+   * @return The JSON representation of the state.
+   */
+  public String toJson() {
+    Gson gson = new Gson();
+    return gson.toJson(this);
+  }
+
+  /**
+   * Creates a block object from a JSON string.
+   *
+   * @param json The JSON string representing the state.
+   * @return The State object created from the JSON string.
+   */
+  public static Block fromJson(String json) {
+    Gson gson = new Gson();
+    return gson.fromJson(json, Block.class);
+  }
 
   public static enum BlockType {
     BigBlock, SmallBlock, VerticalBlock, HorizontalBlock, UnknownBlock

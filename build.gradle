@@ -12,8 +12,6 @@ buildscript {
     classpath "com.android.tools.build:gradle:$androidPluginVersion"
     classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion"
     classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
-
-
   }
 }
 

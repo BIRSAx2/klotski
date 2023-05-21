@@ -240,4 +240,8 @@ public class BoardWidget extends Actor {
       selectedTile = tiles.get(nextIndex);
     }
   }
+
+  public State getState() {
+    return state;
+  }
 }
