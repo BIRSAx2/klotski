@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.actors.BoardWidget;
 import dev.plagarizers.klotski.game.state.State;
 
@@ -28,7 +29,10 @@ public class GameScreen implements Screen {
   private TextButton nextMoveButton;
   private TextButton saveButton;
 
-  public GameScreen() {
+  private KlotskiGame game;
+
+  public GameScreen(KlotskiGame game) {
+    this.game = game;
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
 
@@ -39,13 +43,22 @@ public class GameScreen implements Screen {
     stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
 
     state = State.fromDefaultConfiguration();
-    skin = new Skin(Gdx.files.internal("skins/pixthulhu-ui/pixthulhu-ui.json"));
+    skin = new Skin(Gdx.files.internal(game.getSkinPath()));
 
 
     grid = new BoardWidget(state, skin);
 
     // Create buttons
     backButton = new TextButton("Back", skin);
+
+    backButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        dispose();
+        game.setScreen(new MainMenuScreen(game));
+      }
+    });
+
     nextMoveButton = new TextButton("Next Move", skin);
 
     // Add click listener to nextMoveButton
@@ -65,9 +78,9 @@ public class GameScreen implements Screen {
     table.add(grid).expand().center().colspan(3).row();
     table.row();
     table.row();
-    table.add(backButton).bottom();
-    table.add(nextMoveButton).bottom();
-    table.add(saveButton).bottom();
+    table.add(backButton).bottom().fillX().pad(10);
+    table.add(nextMoveButton).bottom().fillX().pad(10);
+    table.add(saveButton).bottom().fillX().pad(10);
 
     stage.addActor(table);
 

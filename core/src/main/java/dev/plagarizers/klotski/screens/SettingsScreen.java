@@ -25,8 +25,7 @@ public class SettingsScreen implements Screen {
 
   public SettingsScreen(Screen caller, KlotskiGame game) {
     this.stage = new Stage(new ScreenViewport());
-//    this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-    skin = new Skin(Gdx.files.internal("skins/pixthulhu-ui/pixthulhu-ui.json"));
+    skin = new Skin(Gdx.files.internal(game.getSkinPath()));
 
     this.game = game;
     this.caller = caller;

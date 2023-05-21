@@ -3,6 +3,7 @@ package dev.plagarizers.klotski.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 
 public class MainMenuScreen implements Screen {
@@ -19,11 +20,22 @@ public class MainMenuScreen implements Screen {
   private final Stage stage;
   private final Table table;
   private final Skin skin;
+  private OrthographicCamera cam;
+
 
   public MainMenuScreen(KlotskiGame game) {
     this.game = game;
     Screen thisScreen = this;
-    stage = new Stage(new ScreenViewport());
+
+    float screenWidth = Gdx.graphics.getWidth();
+    float screenHeight = Gdx.graphics.getHeight();
+
+    cam = new OrthographicCamera(screenWidth, screenHeight);
+    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+    cam.update();
+
+    stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
+
     Gdx.input.setInputProcessor(stage);
 
     table = new Table();
@@ -32,10 +44,7 @@ public class MainMenuScreen implements Screen {
 
     table.setDebug(false);
 
-//    skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-    skin = new Skin(Gdx.files.internal("skins/pixthulhu-ui/pixthulhu-ui.json"));
-
-//    Image title = new Image(new Texture(Gdx.files.internal("title.png")));
+    skin = new Skin(Gdx.files.internal(game.getSkinPath()));
 
     Label title = new Label("K L O T S K I", skin);
     title.setFontScale(3f);
@@ -46,7 +55,7 @@ public class MainMenuScreen implements Screen {
     newGame.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        game.setScreen(new GameScreen());
+        game.setScreen(new GameScreen(game));
       }
     });
 
@@ -94,6 +103,9 @@ public class MainMenuScreen implements Screen {
   @Override
   public void resize(int width, int height) {
     stage.getViewport().update(width, height);
+    stage.getViewport().update(width, height);
+    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+    cam.update();
   }
 
   @Override

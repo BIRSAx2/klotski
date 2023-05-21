@@ -21,6 +21,8 @@ import java.util.List;
 public class BoardWidget extends Actor {
   private State state;
 
+  private float padding = 10f;
+
   private Skin skin;
   private int rows;
   private int columns;
@@ -77,6 +79,10 @@ public class BoardWidget extends Actor {
 
     if (solution == null) {
       calculateSolution();
+    }
+
+    if (solution.isEmpty()) {
+      return;
     }
 
     state = solution.remove(0);
@@ -144,8 +150,7 @@ public class BoardWidget extends Actor {
       if (selectedTile == tile) batch.setColor(Color.LIGHT_GRAY);
       float tileX = getX() + tile.getX();
       float tileY = getY() + tile.getY();
-
-      batch.draw(tile.getTexture(), tileX + 5, tileY + 5, tile.getWidth() - 10, tile.getHeight() - 10);
+      batch.draw(tile.getTexture(), tileX + padding / 2f, tileY + padding / 2f, tile.getWidth() - padding, tile.getHeight() - padding);
     }
   }
 
