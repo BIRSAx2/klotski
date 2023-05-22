@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
+import dev.plagarizers.klotski.game.state.State;
 
 public class MainMenuScreen implements Screen {
   private final KlotskiGame game;
@@ -27,6 +28,7 @@ public class MainMenuScreen implements Screen {
     this.game = game;
     Screen thisScreen = this;
 
+    Gdx.graphics.setWindowedMode(800,800);
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
 
@@ -55,7 +57,7 @@ public class MainMenuScreen implements Screen {
     newGame.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
-        game.setScreen(new GameScreen(game, null));
+        game.setScreen(new GameScreen(game, State.fromDefaultConfiguration()));
       }
     });
 
