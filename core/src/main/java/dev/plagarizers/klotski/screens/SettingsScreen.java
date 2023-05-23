@@ -2,13 +2,17 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -39,14 +43,24 @@ public class SettingsScreen implements Screen {
 
     table.setDebug(false);
 
+    TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textures/buttons/button.png"))));
+
+    // Create the ImageButton style
+    ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
+    buttonStyle.up = buttonBackground;
+    buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
+
+
     Label title = new Label("SETTINGS", skin);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
 
     table.add(title).width(Gdx.graphics.getWidth() / 2f);
     table.row();
-    TextButton back = new TextButton("BACK", skin);
+//    TextButton back = new TextButton("BACK", skin);
 
+    ImageButton back = new ImageButton(buttonStyle);
+    back.add(new Label("BACK", skin));
     table.add(back).fillX().pad(7);
 
     back.addListener(new ChangeListener() {
@@ -70,7 +84,9 @@ public class SettingsScreen implements Screen {
 
     float deltaT = Gdx.graphics.getDeltaTime();
 
-    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
+//    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
+    ScreenUtils.clear(Color.valueOf("#72751B"));
+
     stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
 

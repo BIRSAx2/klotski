@@ -2,13 +2,16 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -26,11 +29,15 @@ public class GameScreen implements Screen {
   private Skin skin;
 
   private Table table;
-  private TextButton backButton;
-  private TextButton nextMoveButton;
-  private TextButton saveButton;
+  private ImageButton backButton;
+  private ImageButton nextMoveButton;
+  private ImageButton saveButton;
+
+  private Texture background;
 
   private KlotskiGame game;
+
+  private SpriteBatch spriteBatch = new SpriteBatch();
 
   private SavesManager savesManager = new SavesManager();
 
@@ -41,16 +48,15 @@ public class GameScreen implements Screen {
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
 
+
     cam = new OrthographicCamera(screenWidth, screenHeight);
     cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
     cam.update();
 
     stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
 
-    if (state == null)
-      this.state = State.fromDefaultConfiguration();
-    else
-      this.state = state;
+    if (state == null) this.state = State.fromDefaultConfiguration();
+    else this.state = state;
 
 
     skin = new Skin(Gdx.files.internal(game.getSkinPath()));
@@ -59,7 +65,18 @@ public class GameScreen implements Screen {
     grid = new BoardWidget(state, skin);
 
     // Create buttons
-    backButton = new TextButton("Back", skin);
+//    backButton = new TextButton("Back", skin);
+
+    TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textures/buttons/button.png"))));
+
+    // Create the ImageButton style
+    ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
+    buttonStyle.up = buttonBackground;
+    buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
+
+    // Create the ImageButton with text and style
+    backButton = new ImageButton(buttonStyle);
+    backButton.add(new Label("Back", skin)); // Add the button text label
 
     backButton.addListener(new ClickListener() {
       @Override
@@ -69,7 +86,8 @@ public class GameScreen implements Screen {
       }
     });
 
-    nextMoveButton = new TextButton("Next Move", skin);
+    nextMoveButton = new ImageButton(buttonStyle);
+    nextMoveButton.add(new Label("Next Move", skin));
 
     // Add click listener to nextMoveButton
     nextMoveButton.addListener(new ClickListener() {
@@ -78,7 +96,8 @@ public class GameScreen implements Screen {
         grid.playBestMove();
       }
     });
-    saveButton = new TextButton("Save", skin);
+    saveButton = new ImageButton(buttonStyle);
+    saveButton.add(new Label("Save", skin));
 
     saveButton.addListener(new ClickListener() {
       @Override
@@ -111,7 +130,8 @@ public class GameScreen implements Screen {
 
   @Override
   public void render(float delta) {
-    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
+    ScreenUtils.clear(Color.valueOf("#72751B"));
+
     grid.handleInput();
     stage.act(delta / 60f);
     stage.draw();
@@ -143,5 +163,6 @@ public class GameScreen implements Screen {
   public void dispose() {
     stage.dispose();
     skin.dispose();
+    spriteBatch.dispose();
   }
 }

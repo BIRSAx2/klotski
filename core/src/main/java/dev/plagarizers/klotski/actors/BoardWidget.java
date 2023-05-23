@@ -88,8 +88,11 @@ public class BoardWidget extends Actor {
 
   public void playBestMove() {
 
+    selectedTile = tiles.get(0);
+    selectedBlockIndex = 0;
     if (solution == null) {
       calculateSolution();
+      loadBlocks();
     }
 
     if (solution.isEmpty()) {

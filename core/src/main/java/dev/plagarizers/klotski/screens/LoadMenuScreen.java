@@ -2,15 +2,19 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -43,6 +47,13 @@ public class LoadMenuScreen implements Screen {
 
     skin = new Skin(Gdx.files.internal(game.getSkinPath()));
 
+    TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textures/buttons/button.png"))));
+
+    // Create the ImageButton style
+    ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
+    buttonStyle.up = buttonBackground;
+    buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
+
 
     Label title = new Label("SELECT A SAVE SLOT", skin);
     title.setAlignment(Align.center);
@@ -56,7 +67,9 @@ public class LoadMenuScreen implements Screen {
     ClickListener startFromSave = new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        String saveName = ((TextButton) event.getListenerActor()).getText().toString();
+        String saveName = ((Label) event.getTarget()).getText().toString();
+
+        System.out.println("Save name: " + saveName);
         System.out.println("Loading save: " + saveName);
         State save = savesManager.loadStateByName(saveName);
         game.setScreen(new GameScreen(game, save));
@@ -64,16 +77,17 @@ public class LoadMenuScreen implements Screen {
     };
     for (String save : saves) {
       String fileName = save.substring(save.lastIndexOf("/") + 1);
-      TextButton saveButton = new TextButton(fileName, skin);
+//      TextButton saveButton = new TextButton(fileName, skin);
+      ImageButton saveButton = new ImageButton(buttonStyle);
+      saveButton.add(new Label(fileName, skin));
       saveButton.addListener(startFromSave);
-      saveButton.getLabel().setAlignment(Align.left);
       table.add(saveButton).fillX().pad(7);
       table.row();
     }
 
 
-    TextButton back = new TextButton("BACK", skin);
-
+    ImageButton back = new ImageButton(buttonStyle);
+    back.add(new Label("BACK", skin));
     back.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
@@ -100,7 +114,9 @@ public class LoadMenuScreen implements Screen {
   @Override
   public void render(float delta) {
     float deltaT = Gdx.graphics.getDeltaTime();
-    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
+//    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
+    ScreenUtils.clear(Color.valueOf("#72751B"));
+
     stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
   }
