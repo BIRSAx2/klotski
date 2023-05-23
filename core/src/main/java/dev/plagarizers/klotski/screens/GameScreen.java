@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -40,6 +43,10 @@ public class GameScreen implements Screen {
   private SpriteBatch spriteBatch = new SpriteBatch();
 
   private SavesManager savesManager = new SavesManager();
+
+
+  private int numberOfMoves = 0;
+  private Label numberOfMovesLabel;
 
 
   public GameScreen(KlotskiGame game, State state) {
@@ -93,6 +100,7 @@ public class GameScreen implements Screen {
     nextMoveButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        numberOfMoves++;
         grid.playBestMove();
       }
     });
@@ -109,7 +117,8 @@ public class GameScreen implements Screen {
     // Create table
     table = new Table();
     table.setFillParent(true);
-
+    numberOfMovesLabel = new Label("Number of moves: " + numberOfMoves, skin);
+    table.add(numberOfMovesLabel).colspan(3).pad(10).row();
     // Add widgets to the table
     table.add(grid).expand().center().colspan(3).row();
     table.row();

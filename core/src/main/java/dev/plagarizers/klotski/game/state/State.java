@@ -11,6 +11,16 @@ import java.util.List;
 public class State implements Cloneable, Comparable<State> {
 
 
+  private int moves = 0;
+
+  public int getMoves() {
+    return moves;
+  }
+
+  public void setMoves(int moves) {
+    this.moves = moves;
+  }
+
   public static final int ROWS = 5;
   public static final int COLS = 4;
 
@@ -348,6 +358,7 @@ public class State implements Cloneable, Comparable<State> {
       newBlocks[i] = blocks[i].clone();
     }
     State newState = new State();
+    newState.setMoves(this.moves);
     newState.setBlocks(newBlocks);
     return newState;
   }
@@ -390,6 +401,8 @@ public class State implements Cloneable, Comparable<State> {
   }
 
   public State moveBlock(int index, Direction direction) {
+
+    System.out.println("Moves: " + this.moves);
     Block block = blocks[index];
 
     State newState = this.clone();
@@ -409,6 +422,9 @@ public class State implements Cloneable, Comparable<State> {
     // Move the block to the new location
     block.setLocation(newLocation);
     newState.setBlock(index, block);
+
+    newState.setMoves(newState.moves + 1);
+    this.setMoves(this.moves + 1);
     return newState;
   }
 

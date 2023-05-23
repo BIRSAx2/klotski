@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
@@ -28,6 +29,8 @@ public class BoardWidget extends Actor {
   private Skin skin;
   private int rows;
   private int columns;
+
+  private int numberOfMoves = 0;
   private float itemWidth = 64;
   private float itemHeight = 64;
 
@@ -141,13 +144,10 @@ public class BoardWidget extends Actor {
   public void draw(Batch batch, float parentAlpha) {
 
 
+    Label label = new Label("Number of moves    :   " + state.getMoves(), skin);
+    label.setPosition(getX() - itemWidth ,getY() - itemHeight * 3 - itemHeight );
+
     batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
-    batch.end();
-
-    // Calculate the position of the top-left corner of the grid
-
-    batch.begin();
-    // Render the tiles
     for (TileWidget tile : tiles) {
       Vector2 currentPos = currentPositions.get(tile);
       Vector2 targetPos = targetPositions.get(tile);
@@ -166,6 +166,9 @@ public class BoardWidget extends Actor {
         }
       }
     }
+
+    label.draw(batch, parentAlpha);
+
   }
 
   public void handleInput() {
