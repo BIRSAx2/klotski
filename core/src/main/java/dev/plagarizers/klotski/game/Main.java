@@ -1,6 +1,12 @@
 package dev.plagarizers.klotski.game;
 
+import dev.plagarizers.klotski.game.block.Block;
+import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -8,10 +14,7 @@ public class Main {
 
     State state = State.fromDefaultConfiguration();
 
-    System.out.println(state);
-    State state1 = State.fromJson(state.toJson());
-
-    System.out.println(state1);
+    System.out.println(State.fromRandomConfiguration());
 
   }
 }

@@ -27,9 +27,6 @@ public class State implements Cloneable, Comparable<State> {
     return blocks;
   }
 
-  public void setBlocks(Block[] blocks) {
-    this.blocks = blocks;
-  }
 
   /**
    * Creates and returns a new State object initialized with the default configuration of blocks.
@@ -141,7 +138,7 @@ public class State implements Cloneable, Comparable<State> {
     for (int i = 0; i < NUM_PIECES; i++) {
       blocks[i] = createBlockFromBitMask(bitBoard[i]);
     }
-    state.setPieces(blocks);
+    state.setBlocks(blocks);
     return state;
   }
 
@@ -221,7 +218,7 @@ public class State implements Cloneable, Comparable<State> {
     }
   }
 
-  public void setPieces(Block[] blocks) {
+  public void setBlocks(Block[] blocks) {
     this.blocks = blocks;
   }
 
@@ -230,7 +227,7 @@ public class State implements Cloneable, Comparable<State> {
    *
    * @return The target piece.
    */
-  public Block targetPiece() {
+  public Block targetBlock() {
     return blocks[0];
   }
 
@@ -241,7 +238,7 @@ public class State implements Cloneable, Comparable<State> {
    */
 
   public boolean isSolution() {
-    return targetPiece().getLocation().equals(SOLUTION);
+    return targetBlock().getLocation().equals(SOLUTION);
   }
 
   /**
@@ -351,7 +348,7 @@ public class State implements Cloneable, Comparable<State> {
       newBlocks[i] = blocks[i].clone();
     }
     State newState = new State();
-    newState.setPieces(newBlocks);
+    newState.setBlocks(newBlocks);
     return newState;
   }
 
@@ -477,4 +474,47 @@ public class State implements Cloneable, Comparable<State> {
     return gson.fromJson(json, State.class);
   }
 
+
+  public static State fromRandomConfiguration() {
+
+    State state = State.fromDefaultConfiguration();
+
+    KlotskiSolver solver = new KlotskiSolver(state);
+
+    solver.minSteps();
+    // take a random item from solver
+    int randomIndex = (int) (Math.random() * solver.getPathToSolution().size());
+    return shuffleState(solver.getPathToSolution().get(randomIndex));
+  }
+
+
+  // this kinda works but the solved state is the same for all configurations
+
+  private static State shuffleState(State currentState) {
+    int shuffleMoves = 100; // Number of random moves to apply
+    Direction[] allDirections = Direction.values();
+
+    for (int i = 0; i < shuffleMoves; i++) {
+      // Generate a random direction
+      Direction randomDirection = allDirections[(int) (Math.random() * allDirections.length)];
+
+      // Generate a random index of a movable block in the current state
+      int randomIndex = getRandomMovableBlockIndex(currentState);
+
+      // Apply the random move to the current state
+      currentState = currentState.moveBlock(randomIndex, randomDirection);
+    }
+
+    return currentState;
+  }
+
+  private static int getRandomMovableBlockIndex(State state) {
+    List<Integer> movableBlocks = new ArrayList<>();
+    for (int i = 0; i < State.NUM_PIECES; i++) {
+      movableBlocks.add(i);
+    }
+
+    int randomIndex = movableBlocks.get((int) (Math.random() * movableBlocks.size()));
+    return randomIndex;
+  }
 }

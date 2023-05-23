@@ -62,6 +62,24 @@ public class Block implements Cloneable, Comparable<Block> {
   }
 
   /**
+   * Returns a list of all the coordinates occupied by the block.
+   *
+   * @return the list of occupied coordinates
+   */
+
+  public List<Coordinate> getOccupiedLocations() {
+    List<Coordinate> occupiedLocations = new ArrayList<>();
+
+    for (int row = 0; row < height; row++) {
+      for (int col = 0; col < width; col++) {
+        occupiedLocations.add(location.add(row, col));
+      }
+    }
+
+    return occupiedLocations;
+  }
+
+  /**
    * Sets the location of the block.
    *
    * @param coordinate the new coordinate representing the top-left corner of the block

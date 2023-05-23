@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
 
     stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
 
-    if (state == null) this.state = State.fromDefaultConfiguration();
+    if (state == null) this.state = State.fromRandomConfiguration();
     else this.state = state;
 
 

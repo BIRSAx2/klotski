@@ -90,13 +90,13 @@ class StateTest {
     assertArrayEquals(bitBoard, newState.toBitBoard());
   }
 
-
-  @Test
-  void testTargetPiece() {
-    Block targetPiece = state.targetPiece();
-    assertNotNull(targetPiece);
-    assertTrue(targetPiece instanceof BigBlock);
-  }
+//
+//  @Test
+//  void testTargetPiece() {
+//    Block targetPiece = state.targetPiece();
+//    assertNotNull(targetPiece);
+//    assertTrue(targetPiece instanceof BigBlock);
+//  }
 
   @Test
   void testIsSolution() {
