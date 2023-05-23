@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -41,6 +42,10 @@ public class MainMenuScreen implements Screen {
 
 
     TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textures/buttons/button.png"))));
+    Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
+    background.setScaling(Scaling.fill);
+    background.setZIndex(0);
+    stage.addActor(background);
 
     // Create the ImageButton style
     ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
@@ -111,7 +116,7 @@ public class MainMenuScreen implements Screen {
   public void render(float delta) {
     float deltaT = Gdx.graphics.getDeltaTime();
 //    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
-    ScreenUtils.clear(Color.valueOf("#72751B"));
+    //ScreenUtils.clear(Color.valueOf("#72751B"));
 
     if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
       dispose();

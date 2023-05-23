@@ -7,13 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -30,6 +28,10 @@ public class SettingsScreen implements Screen {
   public SettingsScreen(Screen caller, KlotskiGame game) {
     this.stage = new Stage(new ScreenViewport());
     skin = new Skin(Gdx.files.internal(game.getSkinPath()));
+    Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
+    background.setScaling(Scaling.fill);
+    background.setZIndex(0);
+    stage.addActor(background);
 
     this.game = game;
     this.caller = caller;
@@ -85,7 +87,7 @@ public class SettingsScreen implements Screen {
     float deltaT = Gdx.graphics.getDeltaTime();
 
 //    ScreenUtils.clear(0.176f, 0.067f, 0.365f, 0.135f);
-    ScreenUtils.clear(Color.valueOf("#72751B"));
+    //ScreenUtils.clear(Color.valueOf("#72751B"));
 
     stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
