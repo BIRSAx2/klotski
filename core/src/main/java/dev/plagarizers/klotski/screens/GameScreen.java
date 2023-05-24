@@ -49,6 +49,7 @@ public class GameScreen implements Screen {
     backButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        game.buttonPressedPlay();
         dispose();
         game.setScreen(new MainMenuScreen(game));
       }
@@ -60,6 +61,7 @@ public class GameScreen implements Screen {
     nextMoveButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        game.buttonPressedPlay();
         numberOfMoves++;
         grid.playBestMove();
       }
@@ -71,6 +73,7 @@ public class GameScreen implements Screen {
     saveButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        game.buttonPressedPlay();
         savesManager.saveState(grid.getState());
       }
     });

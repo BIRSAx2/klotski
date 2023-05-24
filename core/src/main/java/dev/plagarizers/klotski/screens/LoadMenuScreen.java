@@ -48,6 +48,7 @@ public class LoadMenuScreen implements Screen {
     ClickListener startFromSave = new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        game.buttonPressedPlay();
         String saveName = ((Label) event.getTarget()).getText().toString();
 
         System.out.println("Save name: " + saveName);
@@ -71,6 +72,7 @@ public class LoadMenuScreen implements Screen {
     back.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
+        game.buttonPressedPlay();
         dispose();
         game.setScreen(new MainMenuScreen(game));
       }

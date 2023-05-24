@@ -2,6 +2,8 @@ package dev.plagarizers.klotski;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,16 +18,28 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dev.plagarizers.klotski.screens.MainMenuScreen;
 
+// TODO: use assetManager class for shared resources to reduce allocation and memory consumption
 public class KlotskiGame extends Game {
   private Skin skin;
   private boolean debug;
   private ImageButton.ImageButtonStyle buttonStyle;
   private OrthographicCamera cam;
+  private float musicVolume;
+  private float effectsVolume;
+  private Music music;
+  private Sound buttonPressed;
 
   @Override
   public void create() {
     debug = false;
-    Gdx.graphics.setWindowedMode(800,800);
+    musicVolume = 0.5f;
+    effectsVolume = 0.5f;
+
+    music = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusic.wav"));
+    music.setLooping(true);
+    music.setVolume(musicVolume);
+
+    buttonPressed = Gdx.audio.newSound(Gdx.files.internal("buttonPressedSound.mp3"));
 
     final String skinPath = "skins/default/uiskin.json";
     skin = new Skin(Gdx.files.internal(skinPath));
@@ -42,6 +56,7 @@ public class KlotskiGame extends Game {
     buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
 
     this.setScreen(new MainMenuScreen(this));
+    music.play();
   }
 
   public boolean debug() {
@@ -70,6 +85,27 @@ public class KlotskiGame extends Game {
 
     Gdx.input.setInputProcessor(stage);
     return stage;
+  }
+
+  public void buttonPressedPlay() {
+    buttonPressed.play(effectsVolume);
+  }
+
+  public void setMusicVolume(float musicVolume) {
+    this.musicVolume = musicVolume / 100;
+    music.setVolume(this.musicVolume);
+  }
+
+  public float getMusicVolume() {
+    return musicVolume;
+  }
+
+  public void setEffectsVolume(float effectsVolume) {
+    this.effectsVolume = effectsVolume / 100;
+  }
+
+  public float getEffectsVolume() {
+    return effectsVolume;
   }
 
   public Skin getSkin() {
