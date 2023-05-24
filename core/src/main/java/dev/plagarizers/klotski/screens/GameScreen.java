@@ -3,13 +3,10 @@ package dev.plagarizers.klotski.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.actors.BoardWidget;
@@ -29,12 +26,8 @@ public class GameScreen implements Screen {
 
   private int numberOfMoves = 0;
 
-
   public GameScreen(KlotskiGame game, State state) {
     this.game = game;
-
-    float screenWidth = Gdx.graphics.getWidth();
-    float screenHeight = Gdx.graphics.getHeight();
 
     savesManager = new SavesManager();
 
@@ -42,25 +35,10 @@ public class GameScreen implements Screen {
     else this.state = state;
     grid = new BoardWidget(state, game.getSkin());
 
-    setupUI(screenWidth, screenHeight);
-  }
+    float screenWidth = Gdx.graphics.getWidth();
+    float screenHeight = Gdx.graphics.getHeight();
 
-  private OrthographicCamera getCamera(float screenWidth, float screenHeight) {
-    OrthographicCamera cam = new OrthographicCamera(screenWidth, screenHeight);
-    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-    cam.update();
-    return cam;
-  }
-
-  private void setupUI(float screenWidth, float screenHeight) {
-    stage = new Stage(new FitViewport(screenWidth, screenHeight, getCamera(screenWidth, screenHeight)));
-    Gdx.input.setInputProcessor(stage);
-
-    Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
-    background.setScaling(Scaling.fill);
-    background.setZIndex(0);
-    stage.addActor(background);
-
+    stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
     setupLayout(game.getImageButtonStyle(), game.getSkin());
   }
 

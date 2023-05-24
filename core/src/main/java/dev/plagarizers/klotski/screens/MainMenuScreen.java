@@ -4,13 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
@@ -18,34 +15,13 @@ import dev.plagarizers.klotski.game.state.State;
 public class MainMenuScreen implements Screen {
   private final KlotskiGame game;
   private Stage stage;
-  private OrthographicCamera cam;
 
   public MainMenuScreen(KlotskiGame game) {
     this.game = game;
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
-
-    setupCamera(screenWidth, screenHeight);
-
-    setupUI(screenWidth, screenHeight);
-  }
-
-  private void setupCamera(float screenWidth, float screenHeight) {
-    cam = new OrthographicCamera(screenWidth, screenHeight);
-    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-    cam.update();
-  }
-
-  private void setupUI(float screenWidth, float screenHeight) {
-    stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
-
-    Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
-    background.setScaling(Scaling.fill);
-    background.setZIndex(0);
-    stage.addActor(background);
-
-    Gdx.input.setInputProcessor(stage);
+    stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
     setupLayout(game.getImageButtonStyle(), game.getSkin());
   }
 

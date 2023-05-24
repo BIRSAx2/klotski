@@ -3,38 +3,21 @@ package dev.plagarizers.klotski.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 
 public class SettingsScreen implements Screen {
-
   private Stage stage;
-
   private final KlotskiGame game;
 
   public SettingsScreen(KlotskiGame game) {
     this.game = game;
-
-    setupUI();
-  }
-
-  private void setupUI() {
-    stage = new Stage(new ScreenViewport());
-    Gdx.input.setInputProcessor(stage);
-
-    final int backgroundZIndex = 0;
-    Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
-    background.setScaling(Scaling.fill);
-    background.setZIndex(backgroundZIndex);
-    stage.addActor(background);
-
+    stage = game.getStage(new ScreenViewport());
     setupLayout(game.getImageButtonStyle(), game.getSkin());
   }
 
@@ -77,7 +60,6 @@ public class SettingsScreen implements Screen {
 
     stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
-
   }
 
   @Override
