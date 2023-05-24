@@ -2,18 +2,14 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.actors.BoardWidget;
@@ -25,66 +21,51 @@ public class GameScreen implements Screen {
   private Stage stage;
   private State state;
 
-  private BoardWidget grid;
-  private OrthographicCamera cam;
-  private Skin skin;
+  private final BoardWidget grid;
 
-  private Table table;
-  private ImageButton backButton;
-  private ImageButton nextMoveButton;
-  private ImageButton saveButton;
+  private final KlotskiGame game;
 
-  private Texture background;
-
-  private KlotskiGame game;
-
-  private SpriteBatch spriteBatch = new SpriteBatch();
-
-  private SavesManager savesManager = new SavesManager();
-
+  private final SavesManager savesManager;
 
   private int numberOfMoves = 0;
-  private Label numberOfMovesLabel;
 
 
   public GameScreen(KlotskiGame game, State state) {
-
     this.game = game;
+
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
 
-
-    cam = new OrthographicCamera(screenWidth, screenHeight);
-    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-    cam.update();
-
-    stage = new Stage(new FitViewport(screenWidth, screenHeight, cam));
+    savesManager = new SavesManager();
 
     if (state == null) this.state = State.fromRandomConfiguration();
     else this.state = state;
+    grid = new BoardWidget(state, game.getSkin());
 
+    setupUI(screenWidth, screenHeight);
+  }
 
-    skin = new Skin(Gdx.files.internal(game.getSkinPath()));
+  private OrthographicCamera getCamera(float screenWidth, float screenHeight) {
+    OrthographicCamera cam = new OrthographicCamera(screenWidth, screenHeight);
+    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+    cam.update();
+    return cam;
+  }
 
+  private void setupUI(float screenWidth, float screenHeight) {
+    stage = new Stage(new FitViewport(screenWidth, screenHeight, getCamera(screenWidth, screenHeight)));
+    Gdx.input.setInputProcessor(stage);
 
-    grid = new BoardWidget(state, skin);
-
-    // Create buttons
-//    backButton = new TextButton("Back", skin);
-
-    TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textures/buttons/button.png"))));
     Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
     background.setScaling(Scaling.fill);
     background.setZIndex(0);
     stage.addActor(background);
 
-    // Create the ImageButton style
-    ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
-    buttonStyle.up = buttonBackground;
-    buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
+    setupLayout(game.getImageButtonStyle(), game.getSkin());
+  }
 
-    // Create the ImageButton with text and style
-    backButton = new ImageButton(buttonStyle);
+  private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
+    ImageButton backButton = new ImageButton(buttonStyle);
     backButton.add(new Label("Back", skin)); // Add the button text label
 
     backButton.addListener(new ClickListener() {
@@ -95,10 +76,9 @@ public class GameScreen implements Screen {
       }
     });
 
-    nextMoveButton = new ImageButton(buttonStyle);
+    ImageButton nextMoveButton = new ImageButton(buttonStyle);
     nextMoveButton.add(new Label("Next Move", skin));
 
-    // Add click listener to nextMoveButton
     nextMoveButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
@@ -106,7 +86,8 @@ public class GameScreen implements Screen {
         grid.playBestMove();
       }
     });
-    saveButton = new ImageButton(buttonStyle);
+
+    ImageButton saveButton = new ImageButton(buttonStyle);
     saveButton.add(new Label("Save", skin));
 
     saveButton.addListener(new ClickListener() {
@@ -116,12 +97,10 @@ public class GameScreen implements Screen {
       }
     });
 
-    // Create table
-    table = new Table();
+    Table table = new Table();
     table.setFillParent(true);
-    numberOfMovesLabel = new Label("Number of moves: " + numberOfMoves, skin);
+    Label numberOfMovesLabel = new Label("Number of moves: " + numberOfMoves, skin);
     table.add(numberOfMovesLabel).colspan(3).pad(10).row();
-    // Add widgets to the table
     table.add(grid).expand().center().colspan(3).row();
     table.row();
     table.row();
@@ -130,8 +109,6 @@ public class GameScreen implements Screen {
     table.add(saveButton).bottom().fillX().pad(10);
 
     stage.addActor(table);
-
-    Gdx.input.setInputProcessor(stage);
   }
 
   @Override
@@ -141,7 +118,7 @@ public class GameScreen implements Screen {
 
   @Override
   public void render(float delta) {
-    ScreenUtils.clear(Color.valueOf("#72751B"));
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     grid.handleInput();
     stage.act(delta / 60f);
@@ -151,8 +128,8 @@ public class GameScreen implements Screen {
   @Override
   public void resize(int width, int height) {
     stage.getViewport().update(width, height);
-    cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-    cam.update();
+    //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+    //cam.update();
   }
 
   @Override
@@ -173,7 +150,5 @@ public class GameScreen implements Screen {
   @Override
   public void dispose() {
     stage.dispose();
-    skin.dispose();
-    spriteBatch.dispose();
   }
 }
