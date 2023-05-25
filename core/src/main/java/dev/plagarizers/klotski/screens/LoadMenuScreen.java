@@ -2,7 +2,9 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
@@ -39,7 +40,7 @@ public class LoadMenuScreen implements Screen {
 
     table.setDebug(game.debug());
 
-    Label title = new Label("SELECT A SAVE SLOT", skin);
+    Label title = new Label("SELECT A SAVE SLOT", skin, "MenuTitleFont", Color.GOLD);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
 
@@ -64,7 +65,7 @@ public class LoadMenuScreen implements Screen {
     for (String save : saves) {
       String fileName = getSaveName(save);
       ImageButton saveButton = new ImageButton(buttonStyle);
-      Label saveName = new Label(fileName, skin);
+      Label saveName = new Label(fileName, skin, "ButtonFont", Color.GOLD);
       saveName.setAlignment(Align.left);
       saveButton.add(saveName);
       saveButton.addListener(startFromSave);
@@ -73,7 +74,7 @@ public class LoadMenuScreen implements Screen {
     }
 
     ImageButton back = new ImageButton(buttonStyle);
-    back.add(new Label("BACK", skin));
+    back.add(new Label("BACK", skin, "ButtonFont", Color.GOLD));
     back.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {

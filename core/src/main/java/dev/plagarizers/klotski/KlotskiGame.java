@@ -8,7 +8,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -30,6 +32,7 @@ public class KlotskiGame extends Game {
   private final String skinPath = "skins/default/uiskin.json";
   private AssetManager manager;
   private Stage stage;
+  private FreeTypeFontGenerator generator;
 
   @Override
   public void create() {
@@ -40,10 +43,12 @@ public class KlotskiGame extends Game {
     Gdx.input.setInputProcessor(stage);
 
     manager = new AssetManager();
+    generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/font.ttf"));
 
     manager.load(music, Music.class);
     manager.load(buttonPressedSound, Sound.class);
     manager.load(skinPath, Skin.class);
+    //manager.load("fonts/font.ttf", FreeTypeFontGenerator.class);
     manager.finishLoading();
     manager.get(music, Music.class).setLooping(true);
     manager.get(music, Music.class).setVolume(musicVolume);
@@ -115,6 +120,15 @@ public class KlotskiGame extends Game {
     return manager.get(skinPath, Skin.class);
   }
 
+  public void addFont(FreeTypeFontGenerator.FreeTypeFontParameter parameter, String name) {
+    BitmapFont generated = generator.generateFont(parameter);
+    manager.get(skinPath, Skin.class).add(name, generated, BitmapFont.class);
+  }
+
+  public BitmapFont getFont(String name) {
+    return manager.get(skinPath, Skin.class).getFont(name);
+  }
+
   @Override
   public void render() {
     if(manager.update(17)) {
@@ -127,5 +141,6 @@ public class KlotskiGame extends Game {
   public void dispose() {
     manager.dispose();
     stage.dispose();
+    generator.dispose();
   }
 }

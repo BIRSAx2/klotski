@@ -3,7 +3,9 @@ package dev.plagarizers.klotski.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -31,17 +33,28 @@ public class MainMenuScreen implements Screen {
     stage.addActor(table);
 
     table.setDebug(game.debug());
-
-    Label title = new Label("K L O T S K I", skin);
+    FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    param.size = 15;
+    game.addFont(param, "TitleFont");
+    FreeTypeFontGenerator.FreeTypeFontParameter param1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    param1.size = 10;
+    game.addFont(param1, "ButtonFont");
+    FreeTypeFontGenerator.FreeTypeFontParameter param2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    param2.size = 12;
+    game.addFont(param, "MenuTitleFont");
+    FreeTypeFontGenerator.FreeTypeFontParameter param3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    param3.size = 9;
+    game.addFont(param3, "SelectBoxFont");
+    Label title = new Label("KLOTSKI", skin, "TitleFont", Color.GOLD);
     title.setFontScale(3f);
     ImageButton newGame = new ImageButton(buttonStyle);
-    newGame.add(new Label("NEW GAME", skin));
+    newGame.add(new Label("NEW GAME", skin, "ButtonFont", Color.GOLD));
 
     ImageButton loadGame = new ImageButton(buttonStyle);
-    loadGame.add(new Label("LOAD GAME", skin));
+    loadGame.add(new Label("LOAD GAME", skin, "ButtonFont", Color.GOLD));
 
     ImageButton settings = new ImageButton(buttonStyle);
-    settings.add(new Label("SETTINGS", skin));
+    settings.add(new Label("SETTINGS", skin, "ButtonFont", Color.GOLD));
     newGame.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {

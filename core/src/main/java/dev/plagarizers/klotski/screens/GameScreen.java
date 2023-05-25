@@ -2,6 +2,7 @@ package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -43,7 +44,7 @@ public class GameScreen implements Screen {
 
   private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
     ImageButton backButton = new ImageButton(buttonStyle);
-    backButton.add(new Label("Back", skin)); // Add the button text label
+    backButton.add(new Label("Back", skin, "ButtonFont", Color.GOLD)); // Add the button text label
 
     backButton.addListener(new ClickListener() {
       @Override
@@ -54,7 +55,7 @@ public class GameScreen implements Screen {
     });
 
     ImageButton nextMoveButton = new ImageButton(buttonStyle);
-    nextMoveButton.add(new Label("Next Move", skin));
+    nextMoveButton.add(new Label("Next Move", skin, "ButtonFont", Color.GOLD));
 
     nextMoveButton.addListener(new ClickListener() {
       @Override
@@ -66,7 +67,7 @@ public class GameScreen implements Screen {
     });
 
     ImageButton saveButton = new ImageButton(buttonStyle);
-    saveButton.add(new Label("Save", skin));
+    saveButton.add(new Label("Save", skin, "ButtonFont", Color.GOLD));
 
     saveButton.addListener(new ClickListener() {
       @Override
@@ -78,8 +79,6 @@ public class GameScreen implements Screen {
 
     Table table = new Table();
     table.setFillParent(true);
-    Label numberOfMovesLabel = new Label("Number of moves: " + numberOfMoves, skin);
-    table.add(numberOfMovesLabel).colspan(3).pad(10).row();
     table.add(grid).expand().center().colspan(3).row();
     table.row();
     table.row();
