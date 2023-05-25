@@ -2,9 +2,9 @@ package dev.plagarizers.klotski.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,7 +14,6 @@ import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Direction;
-import dev.plagarizers.klotski.util.MyShapeRenderer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +22,6 @@ import java.util.Map;
 
 public class BoardWidget extends Actor {
   private State state;
-
-  private float padding = 10f;
-
   private Skin skin;
   private int rows;
   private int columns;
@@ -34,11 +30,6 @@ public class BoardWidget extends Actor {
   private float itemWidth = 64;
   private float itemHeight = 64;
 
-  private float gridHeight, gridWidth;
-  private float topLeftX, topLeftY;
-  private ShapeRenderer shapeRenderer;
-
-  private MyShapeRenderer myShapeRenderer;
   private TileWidget selectedTile;
 
   private int selectedBlockIndex = 1;
@@ -62,18 +53,11 @@ public class BoardWidget extends Actor {
     this.rows = State.ROWS;
     this.columns = State.COLS;
     this.state = state;
-    this.shapeRenderer = new ShapeRenderer();
-    this.myShapeRenderer = new MyShapeRenderer();
     this.tiles = new ArrayList<>();
     this.skin = skin;
 
     currentPositions = new HashMap<>();
     targetPositions = new HashMap<>();
-
-    // Calculate the total size of the grid
-    gridWidth = columns * itemWidth;
-    gridHeight = rows * itemHeight;
-
 
     loadBlocks();
   }
@@ -143,16 +127,14 @@ public class BoardWidget extends Actor {
   @Override
   public void draw(Batch batch, float parentAlpha) {
 
-
+    loadBlocks();
     Label label = new Label("Number of moves    :   " + state.getMoves(), skin);
-    label.setPosition(getX() - itemWidth ,getY() - itemHeight * 3 - itemHeight );
+    label.setPosition(getX() - itemWidth, getY() - itemHeight * 3 - itemHeight);
 
     batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
     for (TileWidget tile : tiles) {
       Vector2 currentPos = currentPositions.get(tile);
       Vector2 targetPos = targetPositions.get(tile);
-//      float tileX = getX() + tile.getX();
-//      float tileY = getY() + tile.getY();
 
       if (currentPos != null && targetPos != null) {
         float interpolatedX = MathUtils.lerp(currentPos.x, targetPos.x, Gdx.graphics.getDeltaTime());
@@ -160,7 +142,15 @@ public class BoardWidget extends Actor {
         float tileX = getX() + interpolatedX;
         float tileY = getY() + interpolatedY;
 
-        batch.draw(tile.getTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
+
+        if (tile.getColor() != null) {
+          batch.setColor(tile.getColor());
+          batch.draw(tile.getTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
+          batch.setColor(Color.WHITE);
+        } else {
+          batch.draw(tile.getTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
+
+        }
         if (selectedTile == tile) {
           batch.draw(tile.getContourTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
         }
@@ -172,25 +162,37 @@ public class BoardWidget extends Actor {
   }
 
   public void handleInput() {
-    if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-      state = state.moveBlock(selectedBlockIndex, Direction.LEFT);
-      loadBlocks();
 
-    } else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-      state = state.moveBlock(selectedBlockIndex, Direction.RIGHT);
-      loadBlocks();
+    HashMap<Integer, Direction> mappings = new HashMap<>();
+    mappings.put(Input.Keys.UP, Direction.UP);
+    mappings.put(Input.Keys.DOWN, Direction.DOWN);
+    mappings.put(Input.Keys.LEFT, Direction.LEFT);
+    mappings.put(Input.Keys.RIGHT, Direction.RIGHT);
 
-    } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-      state = state.moveBlock(selectedBlockIndex, Direction.UP);
-      loadBlocks();
 
-    } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-      state = state.moveBlock(selectedBlockIndex, Direction.DOWN);
-      loadBlocks();
+    boolean keyPressed = false;
 
+    for (Map.Entry<Integer, Direction> entry : mappings.entrySet()) {
+      if (Gdx.input.isKeyJustPressed(entry.getKey())) {
+        boolean result = state.moveBlock(selectedTile.getBlock(), entry.getValue());
+        selectedTile.setColor(result ? Color.GREEN : Color.RED);
+        keyPressed = true;
+        break;
+      }
     }
 
+    if (!keyPressed) {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.A) ||
+        Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+        selectNextTile();
+      }
+    }
+
+    // we could skip mouse click processing if the mouse is clicked outside of the board
     if (Gdx.input.justTouched()) {
+
+
+      // skip if coordinates not in this actor
       dragStartPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
       // Convert screen coordinates to local coordinates
 
@@ -200,8 +202,6 @@ public class BoardWidget extends Actor {
       localX = localCoords.x;
       localY = localCoords.y;
 
-
-      System.out.println("localX: " + localX + " localY: " + localY);
       // Check if any tile contains the clicked coordinates
       for (int i = 0; i < tiles.size(); i++) {
         TileWidget tile = tiles.get(i);
@@ -218,7 +218,7 @@ public class BoardWidget extends Actor {
       Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
 
       if (dragDirection != null && selectedBlockIndex != -1) {
-        state = state.moveBlock(selectedBlockIndex, dragDirection);
+        state.moveBlock(selectedTile.getBlock(), dragDirection);
         loadBlocks();
 
       }
@@ -261,7 +261,6 @@ public class BoardWidget extends Actor {
       int nextIndex = (selectedBlockIndex + 1) % tiles.size();
       selectedBlockIndex = nextIndex;
       selectedTile = tiles.get(nextIndex);
-      System.out.println(selectedBlockIndex);
     }
   }
 

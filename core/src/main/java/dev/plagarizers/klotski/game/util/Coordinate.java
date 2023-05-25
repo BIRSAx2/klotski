@@ -96,6 +96,21 @@ public class Coordinate implements Cloneable {
   }
 
 
+  public Coordinate move(Direction direction) {
+    switch (direction) {
+      case UP:
+        return this.add(-1, 0);
+      case RIGHT:
+        return this.add(0, 1);
+      case LEFT:
+        return this.add(0, -1);
+      case DOWN:
+        return this.add(1, 0);
+    }
+
+    return null;
+  }
+
   /**
    * Checks if this Coordinate object is equal to the given object.
    *

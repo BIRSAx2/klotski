@@ -1,12 +1,9 @@
 package dev.plagarizers.klotski.game;
 
-import dev.plagarizers.klotski.game.block.Block;
-import dev.plagarizers.klotski.game.state.KlotskiSolver;
+import dev.plagarizers.klotski.game.block.HorizontalBlock;
 import dev.plagarizers.klotski.game.state.State;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import dev.plagarizers.klotski.game.util.Coordinate;
+import dev.plagarizers.klotski.game.util.Direction;
 
 public class Main {
 
@@ -14,7 +11,14 @@ public class Main {
 
     State state = State.fromDefaultConfiguration();
 
-    System.out.println(State.fromRandomConfiguration());
+    System.out.println(state);
+
+//    state.moveBlock(new HorizontalBlock(Coordinate.of(2,1)), Direction.LEFT);
+    state.moveBlock(state.getBlocks()[1], Direction.RIGHT);
+    System.out.println(state);
+    state.moveBlock(state.getBlocks()[1], Direction.UP);
+
+    System.out.println(state);
 
   }
 }
