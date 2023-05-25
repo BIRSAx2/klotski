@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class State implements Cloneable {
 
-  private HashMap<Coordinate, Block> blocks;
+  private final HashMap<Coordinate, Block> blocks;
   private int moves = 0;
 
 
@@ -65,33 +65,6 @@ public class State implements Cloneable {
     }
   }
 
-  //  public boolean canMoveBlock(Block block, Direction direction) {
-//    Coordinate newTopLeft = block.getLocation().move(direction);
-//
-//    System.out.println(newTopLeft.getX() + " " + newTopLeft.getY());
-//    for (int i = block.getX(); i < block.getX() + block.getWidth() - 1; i++) {
-//      Block contained = blocks.get(Coordinate.of(i, block.getY()));
-//      if (contained != null && !contained.equals(block)) {
-//        return false;
-//      }
-//
-//    }
-//    for (int i = block.getY(); i < block.getY() + block.getHeight() - 1; i++) {
-//      Block contained = blocks.get(Coordinate.of(block.getX(), i));
-//      if (contained != null && !contained.equals(block)) {
-//        return false;
-//      }
-//    }
-//    Block cloned = block.clone();
-//    cloned.setLocation(newTopLeft);
-//    for (Coordinate coordinate : cloned.getOccupiedLocations()) {
-//      if (coordinate.getX() < 0 || coordinate.getY()> COLS || coordinate.getY() < 0 || coordinate.getX() > ROWS) {
-//        return false;
-//      }
-//    }
-//    System.out.println("Can move block " + block + " in direction " + direction);
-//    return true;
-//  }
   public boolean canMoveBlock(Block block, Direction direction) {
 
     Coordinate newTopLeft = block.getLocation().move(direction);
@@ -99,14 +72,9 @@ public class State implements Cloneable {
     if (!isValidCoordinate(newTopLeft, block.getWidth(), block.getHeight())) {
       return false;
     }
-
-    Block cloned = block.clone();
-    cloned.setLocation(newTopLeft);
-    for (Coordinate coordinate : cloned.getOccupiedLocations()) {
-      Block contained = blocks.get(coordinate);
-      if (contained != null && !contained.equals(block)) {
-        return false;
-      }
+    for (Coordinate coordinate : block.getOccupiedLocations(newTopLeft)) {
+      if (!blocks.containsKey(coordinate)) continue;
+      if (!blocks.get(coordinate).equals(block)) return false;
     }
     return true;
   }
@@ -126,6 +94,8 @@ public class State implements Cloneable {
     for (Coordinate coordinate : block.getOccupiedLocations()) {
       blocks.put(coordinate, block);
     }
+
+    moves++;
 
     return true;
   }
@@ -169,8 +139,6 @@ public class State implements Cloneable {
 
     List<Block> list = set.stream().sorted(Comparator.comparing(Block::getWidth).thenComparing(Block::getHeight)).collect(Collectors.toList());
     Collections.reverse(list);
-
-
     return list.toArray(new Block[0]);
   }
 
@@ -286,8 +254,7 @@ public class State implements Cloneable {
       }
     }
 
-    Block block = new Block(Coordinate.of(x, y), height, width);
-    return block;
+    return new Block(Coordinate.of(x, y), height, width);
   }
 
 

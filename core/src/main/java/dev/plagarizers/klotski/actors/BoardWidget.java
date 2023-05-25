@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -41,11 +40,10 @@ public class BoardWidget extends Actor {
 
   private int minSteps = -1;
 
-  private Map<TileWidget, Vector2> currentPositions;
-  private Map<TileWidget, Vector2> targetPositions;
-
 
   private List<TileWidget> tiles;
+
+  private HashMap<Block, TileWidget> blockToTileMap = new HashMap<>();
 
 
   public BoardWidget(State state, Skin skin) {
@@ -55,9 +53,6 @@ public class BoardWidget extends Actor {
     this.state = state;
     this.tiles = new ArrayList<>();
     this.skin = skin;
-
-    currentPositions = new HashMap<>();
-    targetPositions = new HashMap<>();
 
     loadBlocks();
   }
@@ -97,11 +92,37 @@ public class BoardWidget extends Actor {
       addTile(block);
     }
 
-    currentPositions = new HashMap<>();
-    for (TileWidget tile : tiles) {
-      currentPositions.put(tile, new Vector2(tile.getX(), tile.getY()));
-    }
+//    for (Block block : state.getBlocks()) {
+//      updateTile(block);
+//    }
   }
+
+//  private void updateTile(Block block) {
+//
+//    int x = block.getY(), y = block.getX(), width = block.getWidth(), height = block.getHeight();
+//    // need to swap x and y, to convert coordinate from grid based to screen based
+//    y = rows - y - height;
+//    float gridOffsetX = (columns * itemWidth) / 2;
+//    float gridOffsetY = (rows * itemHeight) / 2;
+//    float tileX = (x * itemWidth) - gridOffsetX;
+//    float tileY = (y * itemHeight) - gridOffsetY;
+//    float tileWidth = width * itemWidth;
+//    float tileHeight = height * itemHeight;
+//
+//
+//    TileWidget tile = blockToTileMap.get(block);
+//    if (tile == null) {
+//      tile = new TileWidget(tileX, tileY, tileWidth, tileHeight);
+//      tile.setBlock(block);
+//      if (state.getBlocks()[selectedBlockIndex].equals(block)) {
+//        selectedTile = tile;
+//      }
+//      tiles.add(tile);
+//      blockToTileMap.put(block, tile);
+//    } else {
+//      tile.setBounds(tileX, tileY, tileWidth, tileHeight);
+//    }
+//  }
 
   public void addTile(Block block) {
 
@@ -120,44 +141,22 @@ public class BoardWidget extends Actor {
       selectedTile = tile;
     }
     tiles.add(tile);
-    Vector2 targetPos = new Vector2(tileX, tileY);
-    targetPositions.put(tile, targetPos);
   }
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
 
-    loadBlocks();
-    Label label = new Label("Number of moves    :   " + state.getMoves(), skin);
-    label.setPosition(getX() - itemWidth, getY() - itemHeight * 3 - itemHeight);
-
     batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
     for (TileWidget tile : tiles) {
-      Vector2 currentPos = currentPositions.get(tile);
-      Vector2 targetPos = targetPositions.get(tile);
+      float tileX = getX() + tile.getX();
+      float tileY = getY() + tile.getY();
 
-      if (currentPos != null && targetPos != null) {
-        float interpolatedX = MathUtils.lerp(currentPos.x, targetPos.x, Gdx.graphics.getDeltaTime());
-        float interpolatedY = MathUtils.lerp(currentPos.y, targetPos.y, Gdx.graphics.getDeltaTime());
-        float tileX = getX() + interpolatedX;
-        float tileY = getY() + interpolatedY;
+      batch.draw(tile.getTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
 
-
-        if (tile.getColor() != null) {
-          batch.setColor(tile.getColor());
-          batch.draw(tile.getTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
-          batch.setColor(Color.WHITE);
-        } else {
-          batch.draw(tile.getTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
-
-        }
-        if (selectedTile == tile) {
-          batch.draw(tile.getContourTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
-        }
+      if (selectedTile == tile) {
+        batch.draw(tile.getContourTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
       }
     }
-
-    label.draw(batch, parentAlpha);
 
   }
 
@@ -175,6 +174,7 @@ public class BoardWidget extends Actor {
     for (Map.Entry<Integer, Direction> entry : mappings.entrySet()) {
       if (Gdx.input.isKeyJustPressed(entry.getKey())) {
         boolean result = state.moveBlock(selectedTile.getBlock(), entry.getValue());
+        loadBlocks();
         selectedTile.setColor(result ? Color.GREEN : Color.RED);
         keyPressed = true;
         break;
@@ -182,8 +182,7 @@ public class BoardWidget extends Actor {
     }
 
     if (!keyPressed) {
-      if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.A) ||
-        Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.D)) {
         selectNextTile();
       }
     }

@@ -87,6 +87,20 @@ public class Block implements Cloneable, Comparable<Block> {
     return occupiedLocations;
   }
 
+
+  public List<Coordinate> getOccupiedLocations(Coordinate startLoc){
+
+    List<Coordinate> occupiedLocations = new ArrayList<>();
+
+    for (int row = 0; row < height; row++) {
+      for (int col = 0; col < width; col++) {
+        occupiedLocations.add(startLoc.add(row, col));
+      }
+    }
+
+    return occupiedLocations;
+  }
+
   /**
    * Sets the location of the block.
    *
