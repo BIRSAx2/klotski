@@ -49,7 +49,6 @@ public class SettingsScreen implements Screen {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         game.buttonPressedPlay();
-        dispose();
         game.setScreen(new MainMenuScreen(game));
       }
     });
@@ -144,6 +143,5 @@ public class SettingsScreen implements Screen {
 
   @Override
   public void dispose() {
-    stage.dispose();
   }
 }

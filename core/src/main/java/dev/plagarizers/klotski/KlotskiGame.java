@@ -2,6 +2,7 @@ package dev.plagarizers.klotski;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -14,35 +15,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dev.plagarizers.klotski.screens.MainMenuScreen;
 
 // TODO: use assetManager class for shared resources to reduce allocation and memory consumption
 public class KlotskiGame extends Game {
-  private Skin skin;
   private boolean debug;
   private ImageButton.ImageButtonStyle buttonStyle;
   private OrthographicCamera cam;
   private float musicVolume;
   private float effectsVolume;
-  private Music music;
-  private Sound buttonPressed;
+  private final String music = "backgroundMusic.wav";
+  private final String buttonPressedSound = "buttonPressedSound.mp3";
+  private final String skinPath = "skins/default/uiskin.json";
+  private AssetManager manager;
+  private Stage stage;
 
   @Override
   public void create() {
     debug = false;
     musicVolume = 0.5f;
     effectsVolume = 0.5f;
+    stage = new Stage();
+    Gdx.input.setInputProcessor(stage);
 
-    music = Gdx.audio.newMusic(Gdx.files.internal("backgroundMusic.wav"));
-    music.setLooping(true);
-    music.setVolume(musicVolume);
+    manager = new AssetManager();
 
-    buttonPressed = Gdx.audio.newSound(Gdx.files.internal("buttonPressedSound.mp3"));
-
-    final String skinPath = "skins/default/uiskin.json";
-    skin = new Skin(Gdx.files.internal(skinPath));
+    manager.load(music, Music.class);
+    manager.load(buttonPressedSound, Sound.class);
+    manager.load(skinPath, Skin.class);
+    manager.finishLoading();
+    manager.get(music, Music.class).setLooping(true);
+    manager.get(music, Music.class).setVolume(musicVolume);
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
@@ -56,7 +60,6 @@ public class KlotskiGame extends Game {
     buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
 
     this.setScreen(new MainMenuScreen(this));
-    music.play();
   }
 
   public boolean debug() {
@@ -76,24 +79,24 @@ public class KlotskiGame extends Game {
   }
 
   public Stage getStage(Viewport viewport) {
-    Stage stage = new Stage(viewport);
+    stage.clear();
+    stage.setViewport(viewport);
 
     Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
     background.setScaling(Scaling.fill);
     background.setZIndex(0);
     stage.addActor(background);
 
-    Gdx.input.setInputProcessor(stage);
     return stage;
   }
 
   public void buttonPressedPlay() {
-    buttonPressed.play(effectsVolume);
+    manager.get(buttonPressedSound, Sound.class).play(effectsVolume);
   }
 
   public void setMusicVolume(float musicVolume) {
     this.musicVolume = musicVolume / 100;
-    music.setVolume(this.musicVolume);
+    manager.get(music, Music.class).setVolume(this.musicVolume);
   }
 
   public float getMusicVolume() {
@@ -109,16 +112,20 @@ public class KlotskiGame extends Game {
   }
 
   public Skin getSkin() {
-    return skin;
+    return manager.get(skinPath, Skin.class);
   }
 
   @Override
   public void render() {
-    super.render();
+    if(manager.update(17)) {
+      manager.get(music, Music.class).play();
+      super.render();
+    }
   }
 
   @Override
   public void dispose() {
-    skin.dispose();
+    manager.dispose();
+    stage.dispose();
   }
 }

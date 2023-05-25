@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
@@ -25,7 +26,9 @@ public class LoadMenuScreen implements Screen {
 
   public LoadMenuScreen(KlotskiGame game) {
     this.game = game;
-    stage = game.getStage(new ScreenViewport());
+    float screenWidth = Gdx.graphics.getWidth();
+    float screenHeight = Gdx.graphics.getHeight();
+    stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
     setupLayout(game.getImageButtonStyle(), game.getSkin());
   }
 
@@ -59,9 +62,11 @@ public class LoadMenuScreen implements Screen {
     };
 
     for (String save : saves) {
-      String fileName = save.substring(save.lastIndexOf("/") + 1);
+      String fileName = getSaveName(save);
       ImageButton saveButton = new ImageButton(buttonStyle);
-      saveButton.add(new Label(fileName, skin));
+      Label saveName = new Label(fileName, skin);
+      saveName.setAlignment(Align.left);
+      saveButton.add(saveName);
       saveButton.addListener(startFromSave);
       table.add(saveButton).fillX().pad(7);
       table.row();
@@ -73,11 +78,21 @@ public class LoadMenuScreen implements Screen {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
         game.buttonPressedPlay();
-        dispose();
         game.setScreen(new MainMenuScreen(game));
       }
     });
     table.add(back).fill().pad(7);
+  }
+
+  private String getSaveName(String save) {
+    String filename = save.trim().substring(save.lastIndexOf("/") + 1, save.length() - 5);
+    String[] parts = filename.split("_");
+    return "Save: " + parts[1] + "\nMoves: " + getMoves();
+  }
+
+  // TODO: implement getMoves from file
+  private int getMoves() {
+    return 42;
   }
 
   @Override
@@ -116,6 +131,5 @@ public class LoadMenuScreen implements Screen {
 
   @Override
   public void dispose() {
-    stage.dispose();
   }
 }

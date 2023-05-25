@@ -28,7 +28,6 @@ public class GameScreen implements Screen {
 
   public GameScreen(KlotskiGame game, State state) {
     this.game = game;
-
     savesManager = new SavesManager();
 
     if (state == null) this.state = State.fromRandomConfiguration();
@@ -50,7 +49,6 @@ public class GameScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         game.buttonPressedPlay();
-        dispose();
         game.setScreen(new MainMenuScreen(game));
       }
     });
@@ -130,6 +128,5 @@ public class GameScreen implements Screen {
 
   @Override
   public void dispose() {
-    stage.dispose();
   }
 }
