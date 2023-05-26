@@ -1,0 +1,3802 @@
+[
+  {
+    "level": 1,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 2,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 3,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 4,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 5,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 6,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 7,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 8,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 9,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 10,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 11,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 12,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 13,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 14,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 15,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 16,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 17,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 18,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 19,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 20,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 21,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 22,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 23,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 24,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 25,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 26,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 27,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 28,
+    "board": [
+      {
+        "location": {
+          "x": 1,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 29,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 30,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 31,
+    "board": [
+      {
+        "location": {
+          "x": 1,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 32,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 33,
+    "board": [
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 34,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 35,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 36,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 37,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 38,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 39,
+    "board": [
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 0
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 1
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 3
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  },
+  {
+    "level": 40,
+    "board": [
+      {
+        "location": {
+          "x": 1,
+          "y": 0
+        },
+        "height": 2,
+        "width": 2,
+        "type": "BigBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 1,
+          "y": 2
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 2,
+          "y": 3
+        },
+        "height": 2,
+        "width": 1,
+        "type": "VerticalBlock"
+      },
+      {
+        "location": {
+          "x": 3,
+          "y": 1
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 2
+        },
+        "height": 1,
+        "width": 2,
+        "type": "HorizontalBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 0
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 0,
+          "y": 2
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      },
+      {
+        "location": {
+          "x": 4,
+          "y": 1
+        },
+        "height": 1,
+        "width": 1,
+        "type": "SmallBlock"
+      }
+    ]
+  }
+]

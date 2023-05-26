@@ -24,7 +24,7 @@ public class KlotskiSolver {
    */
   public KlotskiSolver(State state) {
     bitBoard = state.toBitBoard();
-    Block targetPiece = new BigBlock(State.SOLUTION);
+    Block targetPiece = new BigBlock(State.GOAL);
     target = State.createBitMaskForBlock(targetPiece);
   }
 

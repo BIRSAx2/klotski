@@ -1,11 +1,9 @@
 package dev.plagarizers.klotski.game.block;
 
-import dev.plagarizers.klotski.game.state.State;
+import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.util.Coordinate;
-import dev.plagarizers.klotski.game.util.Direction;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 
 
@@ -17,6 +15,16 @@ public class Block implements Cloneable, Comparable<Block> {
   private Coordinate location;
   private int height;
   private int width;
+
+  public BlockType getType() {
+    return type;
+  }
+
+  public void setType(BlockType type) {
+    this.type = type;
+  }
+
+  private BlockType type = BlockType.UnknownBlock;
 
 
   /**
@@ -30,6 +38,25 @@ public class Block implements Cloneable, Comparable<Block> {
     this.location = location;
     this.width = width;
     this.height = height;
+    type = getBlockTypeBySize(this);
+  }
+
+  private BlockType getBlockTypeBySize(Block block) {
+
+    if (block.getWidth() == 2 && block.getHeight() == 2) return BlockType.BigBlock;
+    if (block.getWidth() == 1 && block.getHeight() == 2) return BlockType.VerticalBlock;
+    if (block.getWidth() == 2 && block.getHeight() == 1) return BlockType.HorizontalBlock;
+    if (block.getWidth() == 1 && block.getHeight() == 1) return BlockType.SmallBlock;
+
+    throw new IllegalArgumentException("Invalid block size");
+  }
+
+
+  public Block(Coordinate location, int height, int width, BlockType type) {
+    this.location = location;
+    this.width = width;
+    this.height = height;
+    this.type = type;
   }
 
 
@@ -40,6 +67,38 @@ public class Block implements Cloneable, Comparable<Block> {
    */
   public Coordinate getLocation() {
     return location;
+  }
+
+  /**
+   * Returns a list of all the coordinates occupied by the block.
+   *
+   * @return the list of occupied coordinates
+   */
+
+  public List<Coordinate> getOccupiedLocations() {
+    List<Coordinate> occupiedLocations = new ArrayList<>();
+
+    for (int row = 0; row < height; row++) {
+      for (int col = 0; col < width; col++) {
+        occupiedLocations.add(location.add(row, col));
+      }
+    }
+
+    return occupiedLocations;
+  }
+
+
+  public List<Coordinate> getOccupiedLocations(Coordinate startLoc){
+
+    List<Coordinate> occupiedLocations = new ArrayList<>();
+
+    for (int row = 0; row < height; row++) {
+      for (int col = 0; col < width; col++) {
+        occupiedLocations.add(startLoc.add(row, col));
+      }
+    }
+
+    return occupiedLocations;
   }
 
   /**
@@ -87,65 +146,65 @@ public class Block implements Cloneable, Comparable<Block> {
     this.height = height;
   }
 
-  /**
-   * Returns a map of the adjacent spaces of the block in each direction.
-   *
-   * @return the map of adjacent spaces, with directions as keys and lists of coordinates as values
-   */
-  public EnumMap<Direction, List<Coordinate>> adjacentSpaces() {
-    EnumMap<Direction, List<Coordinate>> adjacentSpaces = new EnumMap<>(Direction.class);
-    for (Direction direction : Direction.values()) {
-      List<Coordinate> coordinates;
-      if (direction == Direction.UP || direction == Direction.DOWN) {
-        coordinates = new ArrayList<>(width);
-      } else {
-        coordinates = new ArrayList<>(height);
-      }
-      adjacentSpaces.put(direction, coordinates);
-    }
-
-
-    final Coordinate upperLeft = location.clone();
-    Coordinate bottomLeft = location.add(height - 1, 0);
-    Coordinate upperRight = location.add(0, width - 1);
-
-
-    Coordinate result;
-    for (int col = 0; col < width; col++) {
-
-      Coordinate upperRow = upperLeft.add(0, col);
-      result = State.applyMoveToCoords(upperRow, Direction.UP);
-
-      if (result != null) {
-        adjacentSpaces.get(Direction.UP).add(result);
-      }
-
-      Coordinate bottomRow = bottomLeft.add(0, col);
-
-      result = State.applyMoveToCoords(bottomRow, Direction.DOWN);
-      if (result != null) {
-        adjacentSpaces.get(Direction.DOWN).add(result);
-      }
-
-    }
-
-    for (int row = 0; row < height; row++) {
-      Coordinate leftCol = upperLeft.add(row, 0);
-      result = State.applyMoveToCoords(leftCol, Direction.LEFT);
-      if (result != null) {
-        adjacentSpaces.get(Direction.LEFT).add(result);
-      }
-
-      Coordinate rightCol = upperRight.add(row, 0);
-      result = State.applyMoveToCoords(rightCol, Direction.RIGHT);
-      if (result != null) {
-        adjacentSpaces.get(Direction.RIGHT).add(result);
-      }
-    }
-
-    return adjacentSpaces;
-  }
-
+//  /**
+//   * Returns a map of the adjacent spaces of the block in each direction.
+//   *
+//   * @return the map of adjacent spaces, with directions as keys and lists of coordinates as values
+//   */
+//  public EnumMap<Direction, List<Coordinate>> adjacentSpaces() {
+//    EnumMap<Direction, List<Coordinate>> adjacentSpaces = new EnumMap<>(Direction.class);
+//    for (Direction direction : Direction.values()) {
+//      List<Coordinate> coordinates;
+//      if (direction == Direction.UP || direction == Direction.DOWN) {
+//        coordinates = new ArrayList<>(width);
+//      } else {
+//        coordinates = new ArrayList<>(height);
+//      }
+//      adjacentSpaces.put(direction, coordinates);
+//    }
+//
+//
+//    final Coordinate upperLeft = location.clone();
+//    Coordinate bottomLeft = location.add(height - 1, 0);
+//    Coordinate upperRight = location.add(0, width - 1);
+//
+//
+//    Coordinate result;
+//    for (int col = 0; col < width; col++) {
+//
+//      Coordinate upperRow = upperLeft.add(0, col);
+//      result = State.applyMoveToCoords(upperRow, Direction.UP);
+//
+//      if (result != null) {
+//        adjacentSpaces.get(Direction.UP).add(result);
+//      }
+//
+//      Coordinate bottomRow = bottomLeft.add(0, col);
+//
+//      result = State.applyMoveToCoords(bottomRow, Direction.DOWN);
+//      if (result != null) {
+//        adjacentSpaces.get(Direction.DOWN).add(result);
+//      }
+//
+//    }
+//
+//    for (int row = 0; row < height; row++) {
+//      Coordinate leftCol = upperLeft.add(row, 0);
+//      result = State.applyMoveToCoords(leftCol, Direction.LEFT);
+//      if (result != null) {
+//        adjacentSpaces.get(Direction.LEFT).add(result);
+//      }
+//
+//      Coordinate rightCol = upperRight.add(row, 0);
+//      result = State.applyMoveToCoords(rightCol, Direction.RIGHT);
+//      if (result != null) {
+//        adjacentSpaces.get(Direction.RIGHT).add(result);
+//      }
+//    }
+//
+//    return adjacentSpaces;
+//  }
+//
 
   /**
    * Returns a list of all the coordinates occupied by the block.
@@ -166,19 +225,19 @@ public class Block implements Cloneable, Comparable<Block> {
     return spaces;
   }
 
-  /**
-   * Moves the block in the specified direction if possible.
-   *
-   * @param direction the direction in which to move the block
-   * @return true if the block was moved successfully, false otherwise
-   */
-  public boolean makeMove(Direction direction) {
-    Coordinate newCoord = State.applyMoveToCoords(location, direction);
-    if (newCoord == null) return false;
-
-    location = newCoord;
-    return true;
-  }
+//  /**
+//   * Moves the block in the specified direction if possible.
+//   *
+//   * @param direction the direction in which to move the block
+//   * @return true if the block was moved successfully, false otherwise
+//   */
+//  public boolean makeMove(Direction direction) {
+//    Coordinate newCoord = State.applyMoveToCoords(location, direction);
+//    if (newCoord == null) return false;
+//
+//    location = newCoord;
+//    return true;
+//  }
 
   /**
    * Checks if the block can be moved in the specified direction.
@@ -187,9 +246,9 @@ public class Block implements Cloneable, Comparable<Block> {
    * @return true if the block can be moved in the specified direction, false otherwise
    */
 
-  public boolean canMove(Direction direction) {
-    return null != State.applyMoveToCoords(location, direction);
-  }
+//  public boolean canMove(Direction direction) {
+//    return null != State.applyMoveToCoords(location, direction);
+//  }
 
   /**
    * Creates a deep copy of the block.
@@ -198,7 +257,7 @@ public class Block implements Cloneable, Comparable<Block> {
    */
   @Override
   public Block clone() {
-    return new Block(location.clone(), height, width);
+    return new Block(location.clone(), height, width, type);
   }
 
   @Override
@@ -206,6 +265,14 @@ public class Block implements Cloneable, Comparable<Block> {
     return "Piece{" + "coordinate=" + location + ", width=" + width + ", height=" + height + '}';
   }
 
+
+  public String getIcon() {
+    if (this.getType() == BlockType.BigBlock) return "B";
+    if (this.getType() == BlockType.SmallBlock) return "S";
+    if (this.getType() == BlockType.VerticalBlock) return "V";
+    if (this.getType() == BlockType.HorizontalBlock) return "H";
+    return "X";
+  }
 
   /**
    * Compares this block with the specified block for order.
@@ -235,5 +302,47 @@ public class Block implements Cloneable, Comparable<Block> {
       return 1;
     }
     return 0;
+  }
+
+  public int getX() {
+    return location.getX();
+  }
+
+  public int getY() {
+    return location.getY();
+  }
+
+
+  /**
+   * Converts the block to a JSON string.
+   *
+   * @return The JSON representation of the state.
+   */
+  public String toJson() {
+    Gson gson = new Gson();
+    return gson.toJson(this);
+  }
+
+  /**
+   * Creates a block object from a JSON string.
+   *
+   * @param json The JSON string representing the state.
+   * @return The State object created from the JSON string.
+   */
+  public static Block fromJson(String json) {
+    Gson gson = new Gson();
+    return gson.fromJson(json, Block.class);
+  }
+
+  public static enum BlockType {
+    BigBlock, SmallBlock, VerticalBlock, HorizontalBlock, UnknownBlock
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    if (!(obj instanceof Block)) return false;
+    Block other = (Block) obj;
+    return this.location.equals(other.location) && this.width == other.width && this.height == other.height;
   }
 }

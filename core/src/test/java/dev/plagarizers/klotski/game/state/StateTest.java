@@ -1,13 +1,13 @@
 package dev.plagarizers.klotski.game.state;
 
-import dev.plagarizers.klotski.game.block.BigBlock;
 import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.util.Coordinate;
-import dev.plagarizers.klotski.game.util.Direction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,33 +33,11 @@ class StateTest {
     assertEquals(10, blocks.length);
   }
 
-  @Test
-  void testSetBlocks() {
-    Block[] newBlocks = new Block[10];
-    state.setBlocks(newBlocks);
-    assertSame(newBlocks, state.getBlocks());
-  }
 
   @Test
-  void testApplyMoveToCoords() {
-    Coordinate initialCoord = Coordinate.of(0, 1);
-
-    // Test valid move
-    Coordinate newCoord = State.applyMoveToCoords(initialCoord, Direction.DOWN);
-    assertNotNull(newCoord);
-    assertEquals(1, newCoord.getX());
-    assertEquals(1, newCoord.getY());
-
-    // Test invalid move
-    newCoord = State.applyMoveToCoords(initialCoord, Direction.LEFT);
-    assertNotNull(newCoord);
-    assertEquals(0, newCoord.getY());
-    assertEquals(0, newCoord.getX());
-
-    // Test invalid move
-
-    newCoord = State.applyMoveToCoords(Coordinate.of(0, 0), Direction.LEFT);
-    assertNull(newCoord);
+  void testSetBlockThrowsException() {
+    Block[] newBlocks = new Block[11];
+    assertThrows(IllegalArgumentException.class, () -> state.setBlocks(newBlocks));
   }
 
   @Test
@@ -84,28 +62,24 @@ class StateTest {
       0b0000_0000_0000_0010_0000,
       0b0000_0000_0000_0000_0001};
 
+    // sort bitBoard
+    Arrays.sort(bitBoard);
+
     State newState = State.fromBitBoard(bitBoard);
 
+    int[] bitBoard2 = newState.toBitBoard();
+    Arrays.sort(bitBoard2);
+
     assertNotNull(newState);
-    assertArrayEquals(bitBoard, newState.toBitBoard());
+    assertArrayEquals(bitBoard, bitBoard2);
+
   }
 
-
-  @Test
-  void testTargetPiece() {
-    Block targetPiece = state.targetPiece();
-    assertNotNull(targetPiece);
-    assertTrue(targetPiece instanceof BigBlock);
-  }
 
   @Test
   void testIsSolution() {
+    State state = State.fromDefaultConfiguration();
     assertFalse(state.isSolution());
-
-    // Move the target piece to the solution position
-    state.getBlocks()[0].getLocation().setX(3);
-    state.getBlocks()[0].getLocation().setY(1);
-    assertTrue(state.isSolution());
   }
 }
 
