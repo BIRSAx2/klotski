@@ -163,12 +163,15 @@ public class State implements Cloneable {
 
   public String toJson() {
     Gson gson = new Gson();
-    return gson.toJson(this);
+    return gson.toJson(this.getBlocks());
   }
 
   public static State fromJson(String json) {
     Gson gson = new Gson();
-    return gson.fromJson(json, State.class);
+    Block[] blocks = gson.fromJson(json, Block[].class);
+    State state = new State();
+    state.setBlocks(blocks);
+    return state;
   }
 
   @Override

@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -53,20 +55,26 @@ public class LoadMenuScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         game.buttonPressedPlay();
-        String saveName = ((Label) event.getTarget()).getText().toString();
+        String saveName = "";
+        if (event.getTarget() instanceof Label) {
+          saveName = ((Label) event.getTarget()).getText().toString();
+        } else {
+          saveName = event.getTarget().getName();
+        }
 
-        System.out.println("Save name: " + saveName);
-        System.out.println("Loading save: " + saveName);
+        System.out.println("Loaded save: " + saveName);
         State save = savesManager.loadStateByName(saveName);
+        System.out.println(save);
         game.setScreen(new GameScreen(game, save));
       }
     };
 
     for (String save : saves) {
-      String fileName = getSaveName(save);
+      String fileName = save.substring(save.lastIndexOf("/") + 1);
       ImageButton saveButton = new ImageButton(buttonStyle);
       Label saveName = new Label(fileName, skin, "ButtonFont", Color.GOLD);
       saveName.setAlignment(Align.left);
+      saveButton.setName(fileName);
       saveButton.add(saveName);
       saveButton.addListener(startFromSave);
       table.add(saveButton).fillX().pad(7);
@@ -83,12 +91,6 @@ public class LoadMenuScreen implements Screen {
       }
     });
     table.add(back).fill().pad(7);
-  }
-
-  private String getSaveName(String save) {
-    String filename = save.trim().substring(save.lastIndexOf("/") + 1, save.length() - 5);
-    String[] parts = filename.split("_");
-    return "Save: " + parts[1] + "\nMoves: " + getMoves();
   }
 
   // TODO: implement getMoves from file

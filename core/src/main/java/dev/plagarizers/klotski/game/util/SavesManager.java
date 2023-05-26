@@ -5,8 +5,8 @@ import dev.plagarizers.klotski.game.state.State;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SavesManager {
@@ -20,7 +20,7 @@ public class SavesManager {
 
   public void saveState(State state) {
     try {
-      String json = gson.toJson(state);
+      String json = state.toJson();
 
       createSaveDirectoryIfNotExists();
       String filename = generateFilename();
@@ -64,7 +64,7 @@ public class SavesManager {
       bufferedReader.close();
 
       String json = stringBuilder.toString();
-      return gson.fromJson(json, State.class);
+      return State.fromJson(json);
     } catch (IOException e) {
       System.err.println("Error loading state: " + e.getMessage());
       return null;
@@ -83,7 +83,7 @@ public class SavesManager {
 
   private String generateFilename() {
     SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-    String timestamp = dateFormat.format(new Date());
+    String timestamp = dateFormat.format(LocalDate.now());
     return "save_" + timestamp + ".json";
   }
 
