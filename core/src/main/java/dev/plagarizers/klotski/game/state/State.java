@@ -56,7 +56,8 @@ public class State implements Cloneable {
 
 
   public boolean isSolution() {
-    return blocks.get(Coordinate.of(1, 3)).equals(new BigBlock(Coordinate.of(1, 3)));
+    if (!blocks.containsKey(GOAL)) return false;
+    return blocks.get(GOAL).equals(new BigBlock(GOAL));
   }
 
   public void setBlocks(Block[] base) {
@@ -146,11 +147,7 @@ public class State implements Cloneable {
 
   @SuppressWarnings("NewApi")
   public Block[] getBlocks() {
-
-    // add blocks to array without duplicates
-
     HashSet<Block> set = new HashSet<>(blocks.values());
-
     List<Block> list = set.stream().sorted(Comparator.comparing(Block::getWidth).thenComparing(Block::getHeight)).collect(Collectors.toList());
     Collections.reverse(list);
     return list.toArray(new Block[0]);

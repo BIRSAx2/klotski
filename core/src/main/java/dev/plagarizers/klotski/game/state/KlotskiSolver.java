@@ -127,6 +127,7 @@ public class KlotskiSolver {
 
     // Reverse the path to obtain the correct order
     Collections.reverse(path);
+    path.remove(0); // Remove the initial state
     return path;
   }
 

@@ -345,4 +345,12 @@ public class Block implements Cloneable, Comparable<Block> {
     Block other = (Block) obj;
     return this.location.equals(other.location) && this.width == other.width && this.height == other.height;
   }
+
+  @Override
+  public int hashCode() {
+    int result = location != null ? location.hashCode() : 0;
+    result = 31 * result + height;
+    result = 31 * result + width;
+    return result;
+  }
 }
