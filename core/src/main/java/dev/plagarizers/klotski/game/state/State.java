@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.block.*;
 import dev.plagarizers.klotski.game.util.Coordinate;
 import dev.plagarizers.klotski.game.util.Direction;
+import dev.plagarizers.klotski.game.util.Level;
+import dev.plagarizers.klotski.game.util.SavesManager;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,6 +15,8 @@ public class State implements Cloneable {
 
   private final HashMap<Coordinate, Block> blocks;
   private int moves = 0;
+
+  private static SavesManager savesManager = new SavesManager();
 
 
   public final static int ROWS = 5, COLS = 4, NUM_PIECES = 10;
@@ -56,6 +60,7 @@ public class State implements Cloneable {
   }
 
   public void setBlocks(Block[] base) {
+    blocks.clear();
     if (base.length != NUM_PIECES) throw new IllegalArgumentException("Invalid number of blocks");
     for (Block block : base) {
       if (block == null) throw new IllegalArgumentException("Invalid block");
@@ -102,7 +107,21 @@ public class State implements Cloneable {
 
 
   public static State fromRandomConfiguration() {
-    return fromDefaultConfiguration();
+    List<Level> levels = savesManager.loadLevels();
+
+    Random random = new Random();
+    int index = random.nextInt(levels.size());
+    Level level = levels.get(index);
+
+    State state = new State();
+    state.setBlocks(level.getBoard());
+    return state;
+  }
+
+  public static State fromLevel(Level level) {
+    State state = new State();
+    state.setBlocks(level.getBoard());
+    return state;
   }
 
   /**
