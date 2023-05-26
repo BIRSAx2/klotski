@@ -2,10 +2,12 @@ package dev.plagarizers.klotski.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
@@ -36,6 +38,7 @@ public class BoardWidget extends Actor {
   private State startingConfiguration;
 
   private Stack<State> previousStates;
+  private Label movesLabel;
 
   public BoardWidget(State state, Skin skin) {
     this.startingConfiguration = state.clone();
@@ -51,6 +54,9 @@ public class BoardWidget extends Actor {
 
     loadBlocks();
     selectedTile = tiles.get(0);
+
+    movesLabel = new Label("Moves: ", skin, "ButtonFont", Color.GOLD);
+    movesLabel.setFontScale(1.5f);
   }
 
   private void calculateSolution() {
@@ -81,10 +87,9 @@ public class BoardWidget extends Actor {
 
     previousStates.push(state.clone());
     State next = solution.remove(0);
+    next.setMoves(state.getMoves() + 1);
 
-    System.out.println(next.equals(state));
     state = next.clone();
-    System.out.println("Solution size: " + solution.size());
     loadBlocks();
   }
 
@@ -119,6 +124,7 @@ public class BoardWidget extends Actor {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
+    movesLabel.setText("Moves: " + state.getMoves());
 
     batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
     for (TileWidget tile : tiles) {
@@ -131,6 +137,9 @@ public class BoardWidget extends Actor {
         batch.draw(tile.getContourTexture(), tileX, tileY, tile.getWidth(), tile.getHeight());
       }
     }
+
+    movesLabel.setPosition(getX() - itemWidth ,getY() - itemHeight * 4 );
+    movesLabel.draw(batch, parentAlpha);
 
   }
 
