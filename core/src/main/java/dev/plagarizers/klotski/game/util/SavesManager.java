@@ -49,9 +49,10 @@ public class SavesManager {
   }
 
 
-  public State loadStateByName(String name){
+  public State loadStateByName(String name) {
     return loadStateByPath(getSaveFilePath(name));
   }
+
   public State loadStateByPath(String path) {
     try {
       BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
@@ -88,5 +89,27 @@ public class SavesManager {
 
   private String getSaveFilePath(String filename) {
     return SAVE_DIRECTORY + File.separator + filename;
+  }
+
+  public List<Level> loadLevels() {
+    return loadLevels("assets/levels/levels.json");
+  }
+
+  public List<Level> loadLevels(String filePath) {
+    try {
+      BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+      StringBuilder stringBuilder = new StringBuilder();
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        stringBuilder.append(line);
+      }
+      bufferedReader.close();
+
+      String json = stringBuilder.toString();
+      return Level.fromJson(json);
+    } catch (IOException e) {
+      System.err.println("Error loading levels: " + e.getMessage());
+      return null;
+    }
   }
 }
