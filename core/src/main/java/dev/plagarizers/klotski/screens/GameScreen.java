@@ -13,14 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
-import dev.plagarizers.klotski.actors.BoardWidget;
+import dev.plagarizers.klotski.actors.Board;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 
 public class GameScreen implements Screen {
 
   private Stage stage;
-  private BoardWidget grid;
+  private Board grid;
 
   private final KlotskiGame game;
 
@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
 
     if (currentState == null) currentState = State.fromRandomConfiguration();
 
-    grid = new BoardWidget(currentState, game.getSkin());
+    grid = new Board(currentState, game.getSkin());
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();

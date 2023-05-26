@@ -16,7 +16,7 @@ import dev.plagarizers.klotski.game.util.Direction;
 
 import java.util.*;
 
-public class BoardWidget extends Actor {
+public class Board extends Actor {
   private State state;
   private int rows;
   private int columns;
@@ -24,7 +24,7 @@ public class BoardWidget extends Actor {
   private float itemWidth = 64;
   private float itemHeight = 64;
 
-  private TileWidget selectedTile;
+  private Tile selectedTile;
 
   private Vector2 dragStartPos = null;
 
@@ -33,14 +33,14 @@ public class BoardWidget extends Actor {
 
   private int minSteps = -1;
 
-  private List<TileWidget> tiles;
+  private List<Tile> tiles;
 
   private State startingConfiguration;
 
   private Stack<State> previousStates;
   private Label movesLabel;
 
-  public BoardWidget(State state, Skin skin) {
+  public Board(State state, Skin skin) {
     this.startingConfiguration = state.clone();
     boardTexture = new Texture(Gdx.files.internal("textures/board.png"));
     this.rows = State.ROWS;
@@ -114,7 +114,7 @@ public class BoardWidget extends Actor {
     float tileY = (y * itemHeight) - gridOffsetY;
     float tileWidth = width * itemWidth;
     float tileHeight = height * itemHeight;
-    TileWidget tile = new TileWidget(tileX, tileY, tileWidth, tileHeight);
+    Tile tile = new Tile(tileX, tileY, tileWidth, tileHeight);
     tile.setBlock(block);
     if (selectedTile != null && selectedTile.getBlock().equals(block)) {
       selectedTile = tile;
@@ -127,7 +127,7 @@ public class BoardWidget extends Actor {
     movesLabel.setText("Moves: " + state.getMoves());
 
     batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
-    for (TileWidget tile : tiles) {
+    for (Tile tile : tiles) {
       float tileX = getX() + tile.getX();
       float tileY = getY() + tile.getY();
 
@@ -204,7 +204,7 @@ public class BoardWidget extends Actor {
 
       // Check if any tile contains the clicked coordinates
       for (int i = 0; i < tiles.size(); i++) {
-        TileWidget tile = tiles.get(i);
+        Tile tile = tiles.get(i);
         if (tile.contains(localX, localY)) {
           selectedTile = tile;
           break;
@@ -286,5 +286,21 @@ public class BoardWidget extends Actor {
   public void setState(State clone) {
     this.state = clone.clone();
     loadBlocks();
+  }
+
+  public void setItemHeight(float itemHeight) {
+    this.itemHeight = itemHeight;
+  }
+
+  public void setItemWidth(float itemWidth) {
+    this.itemWidth = itemWidth;
+  }
+
+  public float getItemHeight() {
+    return itemHeight;
+  }
+
+  public float getItemWidth() {
+    return itemWidth;
   }
 }

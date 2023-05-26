@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -47,14 +50,27 @@ public class MainMenuScreen implements Screen {
     game.addFont(param3, "SelectBoxFont");
     Label title = new Label("KLOTSKI", skin, "TitleFont", Color.GOLD);
     title.setFontScale(3f);
+
+
     ImageButton newGame = new ImageButton(buttonStyle);
-    newGame.add(new Label("NEW GAME", skin, "ButtonFont", Color.GOLD));
+    newGame.add(new Label("NEW GAME (RANDOM)", skin, "ButtonFont", Color.GOLD));
+
+    ImageButton configuration = new ImageButton(buttonStyle);
+    configuration.add(new Label("CHOOSE CONFIGURATION", skin, "ButtonFont", Color.GOLD));
 
     ImageButton loadGame = new ImageButton(buttonStyle);
     loadGame.add(new Label("LOAD GAME", skin, "ButtonFont", Color.GOLD));
 
     ImageButton settings = new ImageButton(buttonStyle);
     settings.add(new Label("SETTINGS", skin, "ButtonFont", Color.GOLD));
+
+    configuration.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        game.buttonPressedPlay();
+        game.setScreen(new ConfigurationMenuScreen(game));
+      }
+    });
     newGame.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
@@ -82,6 +98,8 @@ public class MainMenuScreen implements Screen {
     table.add(title).center().padBottom(5);
     table.row();
     table.add(newGame).uniform().fillX().pad(5);
+    table.row();
+    table.add(configuration).uniform().fillX().pad(5);
     table.row();
     table.add(loadGame).uniform().fillX().pad(5);
     table.row();
