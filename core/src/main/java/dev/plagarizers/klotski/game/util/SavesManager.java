@@ -5,12 +5,13 @@ import dev.plagarizers.klotski.game.state.State;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SavesManager {
   private static final String SAVE_DIRECTORY = "saves";
+  private static final String LEVEL_DIRECTORY = "assets/levels";
   private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
   private Gson gson;
 
@@ -82,7 +83,7 @@ public class SavesManager {
 
   private String generateFilename() {
     SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-    String timestamp = dateFormat.format(LocalDate.now());
+    String timestamp = dateFormat.format(new Date());
     return "save_" + timestamp + ".json";
   }
 
@@ -91,7 +92,7 @@ public class SavesManager {
   }
 
   public List<Level> loadLevels() {
-    return loadLevels("assets/levels/levels.json");
+    return loadLevels(LEVEL_DIRECTORY + "/levels.json");
   }
 
   public List<Level> loadLevels(String filePath) {

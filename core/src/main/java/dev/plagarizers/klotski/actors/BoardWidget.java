@@ -39,8 +39,10 @@ public class BoardWidget extends Actor {
 
   private List<TileWidget> tiles;
 
+  private State startingConfiguration;
 
   public BoardWidget(State state, Skin skin) {
+    this.startingConfiguration = state.clone();
     boardTexture = new Texture(Gdx.files.internal("textures/board.png"));
     this.rows = State.ROWS;
     this.columns = State.COLS;
@@ -221,7 +223,17 @@ public class BoardWidget extends Actor {
     }
   }
 
+  public void reset() {
+    state = startingConfiguration.clone();
+    loadBlocks();
+  }
+
   public State getState() {
     return state;
+  }
+
+  public void setState(State clone) {
+    this.state = clone.clone();
+    loadBlocks();
   }
 }

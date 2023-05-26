@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class State implements Cloneable {
 
-  private final HashMap<Coordinate, Block> blocks;
+  private HashMap<Coordinate, Block> blocks;
   private int moves = 0;
 
   private static SavesManager savesManager = new SavesManager();
@@ -118,11 +118,6 @@ public class State implements Cloneable {
     return state;
   }
 
-  public static State fromLevel(Level level) {
-    State state = new State();
-    state.setBlocks(level.getBoard());
-    return state;
-  }
 
   /**
    * Checks if the given coordinate is a valid coordinate within the board boundaries.
@@ -176,11 +171,17 @@ public class State implements Cloneable {
 
   @Override
   public State clone() {
-    try {
-      return (State) super.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new AssertionError();
+    State clone = new State();
+
+    clone.moves = this.moves;
+
+    for (Map.Entry<Coordinate, Block> entry : this.blocks.entrySet()) {
+      Coordinate coordinate = entry.getKey();
+      Block block = entry.getValue();
+
+      clone.blocks.put(coordinate.clone(), block.clone());
     }
+    return clone;
   }
 
   /**
