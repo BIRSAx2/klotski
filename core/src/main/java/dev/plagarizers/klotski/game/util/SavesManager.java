@@ -28,7 +28,6 @@ public class SavesManager {
       fileWriter.write(json);
       fileWriter.close();
 
-      System.out.println("State saved successfully with filename: " + filename);
     } catch (IOException e) {
       System.err.println("Error saving state: " + e.getMessage());
     }

@@ -33,6 +33,7 @@ public class LoadMenuScreen implements Screen {
     float screenHeight = Gdx.graphics.getHeight();
     stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
     setupLayout(game.getImageButtonStyle(), game.getSkin());
+    Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
   }
 
   private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
@@ -54,6 +55,7 @@ public class LoadMenuScreen implements Screen {
     ClickListener startFromSave = new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
         game.buttonPressedPlay();
         String saveName = "";
         if (event.getTarget() instanceof Label) {
@@ -62,9 +64,8 @@ public class LoadMenuScreen implements Screen {
           saveName = event.getTarget().getName();
         }
 
-        System.out.println("Loaded save: " + saveName);
         State save = savesManager.loadStateByName(saveName);
-        System.out.println(save);
+        Gdx.app.log("LoadMenuScreen", "Loaded state from save: " + saveName);
         game.setScreen(new GameScreen(game, save));
       }
     };
@@ -78,6 +79,7 @@ public class LoadMenuScreen implements Screen {
       saveButton.add(saveName);
       saveButton.addListener(startFromSave);
       table.add(saveButton).fillX().pad(7);
+      Gdx.app.log("LoadMenuScreen", "Added save button: " + fileName);
       table.row();
     }
 
@@ -91,6 +93,7 @@ public class LoadMenuScreen implements Screen {
       }
     });
     table.add(back).fill().pad(7);
+    Gdx.app.log("LoadMenuScreen", "Added back button");
   }
 
   // TODO: implement getMoves from file

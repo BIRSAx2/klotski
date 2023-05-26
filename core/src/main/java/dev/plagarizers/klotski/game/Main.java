@@ -13,27 +13,5 @@ public class Main {
 
   public static void main(String[] args) {
 
-    State state = State.fromRandomConfiguration();
-
-
-    Block small = new SmallBlock(Coordinate.of(3, 1));
-
-    System.out.println(small);
-
-    System.out.println(small.getOccupiedLocations());
-    SavesManager savesManager = new SavesManager();
-
-
-    List<Level> levels = savesManager.loadLevels();
-
-    Level level = levels.get(0);
-
-    for (Block block : level.getBoard()) {
-      System.out.println(block);
-    }
-    System.out.println(levels.get(0).toState());
-    System.out.println(levels.get(1).toState());
-
-
   }
 }

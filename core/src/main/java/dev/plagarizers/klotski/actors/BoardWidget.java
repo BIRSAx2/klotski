@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
@@ -21,11 +20,9 @@ import java.util.Map;
 
 public class BoardWidget extends Actor {
   private State state;
-  private Skin skin;
   private int rows;
   private int columns;
 
-  private int numberOfMoves = 0;
   private float itemWidth = 64;
   private float itemHeight = 64;
 
@@ -40,10 +37,7 @@ public class BoardWidget extends Actor {
 
   private int minSteps = -1;
 
-
   private List<TileWidget> tiles;
-
-  private HashMap<Block, TileWidget> blockToTileMap = new HashMap<>();
 
 
   public BoardWidget(State state, Skin skin) {
@@ -52,7 +46,6 @@ public class BoardWidget extends Actor {
     this.columns = State.COLS;
     this.state = state;
     this.tiles = new ArrayList<>();
-    this.skin = skin;
 
     loadBlocks();
   }
@@ -61,11 +54,6 @@ public class BoardWidget extends Actor {
     KlotskiSolver solver = new KlotskiSolver(state);
     minSteps = solver.minSteps();
     solution = solver.getPathToSolution();
-  }
-
-
-  public int getMinSteps() {
-    return minSteps;
   }
 
   public void playBestMove() {
@@ -92,37 +80,7 @@ public class BoardWidget extends Actor {
       addTile(block);
     }
 
-//    for (Block block : state.getBlocks()) {
-//      updateTile(block);
-//    }
   }
-
-//  private void updateTile(Block block) {
-//
-//    int x = block.getY(), y = block.getX(), width = block.getWidth(), height = block.getHeight();
-//    // need to swap x and y, to convert coordinate from grid based to screen based
-//    y = rows - y - height;
-//    float gridOffsetX = (columns * itemWidth) / 2;
-//    float gridOffsetY = (rows * itemHeight) / 2;
-//    float tileX = (x * itemWidth) - gridOffsetX;
-//    float tileY = (y * itemHeight) - gridOffsetY;
-//    float tileWidth = width * itemWidth;
-//    float tileHeight = height * itemHeight;
-//
-//
-//    TileWidget tile = blockToTileMap.get(block);
-//    if (tile == null) {
-//      tile = new TileWidget(tileX, tileY, tileWidth, tileHeight);
-//      tile.setBlock(block);
-//      if (state.getBlocks()[selectedBlockIndex].equals(block)) {
-//        selectedTile = tile;
-//      }
-//      tiles.add(tile);
-//      blockToTileMap.put(block, tile);
-//    } else {
-//      tile.setBounds(tileX, tileY, tileWidth, tileHeight);
-//    }
-//  }
 
   public void addTile(Block block) {
 
