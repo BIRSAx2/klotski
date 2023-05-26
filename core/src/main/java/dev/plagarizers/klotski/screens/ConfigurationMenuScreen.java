@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -54,7 +51,13 @@ public class ConfigurationMenuScreen implements Screen {
     table.add(title).colspan(6).center().padBottom(20);
     table.row();
 
-
+    Table selectableLevels = new Table();
+    selectableLevels.setDebug(game.debug());
+    ScrollPane levelSelector = new ScrollPane(selectableLevels, skin);
+    levelSelector.setFadeScrollBars(false);
+    levelSelector.setFlickScroll(false);
+    table.add(levelSelector).fill().colspan(6).pad(7);
+    selectableLevels.defaults().padBottom(20).fillX().colspan(2);
     List<Level> levels = savesManager.loadLevels();
 
     levels = levels.subList(0, 6); // TODO: remove this line once we figure out how to make the table scrollable
@@ -62,7 +65,8 @@ public class ConfigurationMenuScreen implements Screen {
     int i = 0;
     for (Level level : levels) {
       if (i % 3 == 0) {
-        table.row();
+        selectableLevels.row();
+        //table.row();
       }
 
       BoardPreview board = new BoardPreview(level, skin);
@@ -73,11 +77,12 @@ public class ConfigurationMenuScreen implements Screen {
           game.setScreen(new GameScreen(game, level.toState()));
         }
       });
-      table.add(board).colspan(2).fillX().padBottom(20);
-
+      selectableLevels.add(board);
+      //table.add(board);
 
       i++;
     }
+    levelSelector.validate();
     table.row();
 
 

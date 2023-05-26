@@ -36,7 +36,7 @@ public class KlotskiGame extends Game {
 
   @Override
   public void create() {
-    debug = false;
+    debug = true;
     musicVolume = 0.5f;
     effectsVolume = 0.5f;
     stage = new Stage();

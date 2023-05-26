@@ -64,6 +64,9 @@ public class MainMenuScreen implements Screen {
     ImageButton settings = new ImageButton(buttonStyle);
     settings.add(new Label("SETTINGS", skin, "ButtonFont", Color.GOLD));
 
+    ImageButton quit = new ImageButton(buttonStyle);
+    quit.add(new Label("QUIT", skin, "ButtonFont", Color.GOLD));
+
     configuration.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
@@ -95,6 +98,14 @@ public class MainMenuScreen implements Screen {
       }
     });
 
+    quit.addListener(new ChangeListener() {
+      @Override
+      public void changed(ChangeEvent event, Actor actor) {
+        game.dispose();
+        System.exit(0);
+      }
+    });
+
     table.add(title).center().padBottom(5);
     table.row();
     table.add(newGame).uniform().fillX().pad(5);
@@ -104,6 +115,8 @@ public class MainMenuScreen implements Screen {
     table.add(loadGame).uniform().fillX().pad(5);
     table.row();
     table.add(settings).uniform().fillX().pad(5);
+    table.row();
+    table.add(quit).uniform().fillX().pad(5);
   }
 
   @Override
@@ -115,11 +128,6 @@ public class MainMenuScreen implements Screen {
   public void render(float delta) {
     float deltaT = Gdx.graphics.getDeltaTime();
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-    if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-      dispose();
-      Gdx.app.exit();
-    }
 
     stage.act(Math.min(deltaT, 1 / 60f));
     stage.draw();
