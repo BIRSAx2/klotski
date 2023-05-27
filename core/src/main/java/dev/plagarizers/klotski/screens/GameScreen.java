@@ -6,34 +6,35 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
-import dev.plagarizers.klotski.actors.BoardWidget;
+import dev.plagarizers.klotski.actors.Board;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 
 public class GameScreen implements Screen {
 
   private Stage stage;
-  private State state;
-
-  private final BoardWidget grid;
+  private Board grid;
 
   private final KlotskiGame game;
 
   private final SavesManager savesManager;
 
-  private int numberOfMoves = 0;
 
   public GameScreen(KlotskiGame game, State state) {
     this.game = game;
     savesManager = new SavesManager();
+    State currentState = state;
 
-    if (state == null) this.state = State.fromRandomConfiguration();
-    else this.state = state;
-    grid = new BoardWidget(state, game.getSkin());
+    if (currentState == null) currentState = State.fromRandomConfiguration();
+
+    grid = new Board(currentState, game.getSkin());
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
@@ -61,7 +62,6 @@ public class GameScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         game.buttonPressedPlay();
-        numberOfMoves++;
         grid.playBestMove();
       }
     });
@@ -77,14 +77,42 @@ public class GameScreen implements Screen {
       }
     });
 
+
+    ImageButton resetButton = new ImageButton(buttonStyle);
+    resetButton.add(new Label("Reset", skin, "ButtonFont", Color.GOLD));
+
+    resetButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        game.buttonPressedPlay();
+        grid.reset();
+        Gdx.app.log("Reset", "Resetting board");
+      }
+    });
+
+    ImageButton undoButton = new ImageButton(buttonStyle);
+    undoButton.add(new Label("Undo", skin, "ButtonFont", Color.GOLD));
+
+    undoButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        game.buttonPressedPlay();
+        grid.undoMove();
+        Gdx.app.log("Undo", "Undoing move");
+      }
+    });
+
     Table table = new Table();
     table.setFillParent(true);
-    table.add(grid).expand().center().colspan(3).row();
+    table.add(grid).expand().center().colspan(6).row();
     table.row();
+    table.add(undoButton).bottom().fillX().colspan(2).pad(10);
+    table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
+    table.add(saveButton).bottom().fillX().colspan(2).pad(10);
     table.row();
-    table.add(backButton).bottom().fillX().pad(10);
-    table.add(nextMoveButton).bottom().fillX().pad(10);
-    table.add(saveButton).bottom().fillX().pad(10);
+    table.add(resetButton).bottom().fillX().colspan(3).pad(10);
+    table.add(backButton).bottom().fillX().colspan(3).pad(10);
+
 
     stage.addActor(table);
   }
@@ -97,7 +125,10 @@ public class GameScreen implements Screen {
   @Override
   public void render(float delta) {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+    // Check if the game is over
+    if (grid.getState().isSolved()) {
+      game.setScreen(new GameOverScreen(game, grid.getState()));
+    }
     grid.handleInput();
     stage.act(delta / 60f);
     stage.draw();

@@ -7,18 +7,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Direction;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class BoardWidget extends Actor {
+public class Board extends Actor {
+  public static final int MIN_DRAG_DISTANCE = 10;
   private State state;
   private int rows;
   private int columns;
@@ -26,9 +25,7 @@ public class BoardWidget extends Actor {
   private float itemWidth = 64;
   private float itemHeight = 64;
 
-  private TileWidget selectedTile;
-
-  private int selectedBlockIndex = 1;
+  private Tile selectedTile;
 
   private Vector2 dragStartPos = null;
 
@@ -37,43 +34,69 @@ public class BoardWidget extends Actor {
 
   private int minSteps = -1;
 
-  private List<TileWidget> tiles;
+  private List<Tile> tiles;
 
+  private State startingConfiguration;
 
-  public BoardWidget(State state, Skin skin) {
+  private Stack<State> previousStates;
+  private Label movesLabel;
+
+  public Board(State state, Skin skin) {
+    this.startingConfiguration = state.clone();
     boardTexture = new Texture(Gdx.files.internal("textures/board.png"));
     this.rows = State.ROWS;
     this.columns = State.COLS;
-    this.state = state;
+    this.state = state.clone();
     this.tiles = new ArrayList<>();
+    solution = new ArrayList<>();
+
+    previousStates = new Stack<>();
+    previousStates.push(state.clone());
 
     loadBlocks();
+    selectedTile = tiles.get(0);
+
+    movesLabel = new Label("Moves: ", skin, "ButtonFont", Color.GOLD);
+    movesLabel.setFontScale(1.5f);
   }
 
   private void calculateSolution() {
-    KlotskiSolver solver = new KlotskiSolver(state);
+    Gdx.app.log("BoardWidget", "Calculating next best move");
+    KlotskiSolver solver = new KlotskiSolver(state.clone());
     minSteps = solver.minSteps();
-    solution = solver.getPathToSolution();
+    solution.clear();
+    solution.addAll(solver.getPathToSolution());
   }
 
   public void playBestMove() {
+    Gdx.app.log("BoardWidget", "Playing best move");
 
-    selectedTile = tiles.get(0);
-    selectedBlockIndex = 0;
-    if (solution == null) {
+    if (state.isSolved()) return;
+
+    calculateSolution(); // Recalculate the solution
+
+    if (solution == null || solution.isEmpty()) {
+      // If no solution is available, recalculate and try again
       calculateSolution();
-      loadBlocks();
     }
 
     if (solution.isEmpty()) {
       return;
     }
 
-    state = solution.remove(0);
+    selectedTile = tiles.get(0);
+
+    previousStates.push(state.clone());
+    State next = solution.remove(0);
+    next.setMoves(state.getMoves() + 1);
+
+    state = next.clone();
     loadBlocks();
   }
 
   public void loadBlocks() {
+
+    Gdx.app.log("BoardWidget", "Loading blocks");
     if (state == null) throw new IllegalStateException("State is null");
     tiles.clear();
     for (Block block : state.getBlocks()) {
@@ -93,9 +116,9 @@ public class BoardWidget extends Actor {
     float tileY = (y * itemHeight) - gridOffsetY;
     float tileWidth = width * itemWidth;
     float tileHeight = height * itemHeight;
-    TileWidget tile = new TileWidget(tileX, tileY, tileWidth, tileHeight);
+    Tile tile = new Tile(tileX, tileY, tileWidth, tileHeight);
     tile.setBlock(block);
-    if (state.getBlocks()[selectedBlockIndex].equals(block)) {
+    if (selectedTile != null && selectedTile.getBlock().equals(block)) {
       selectedTile = tile;
     }
     tiles.add(tile);
@@ -103,9 +126,9 @@ public class BoardWidget extends Actor {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
+    movesLabel.setText("Moves: " + state.getMoves());
 
-    batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
-    for (TileWidget tile : tiles) {
+    for (Tile tile : tiles) {
       float tileX = getX() + tile.getX();
       float tileY = getY() + tile.getY();
 
@@ -116,9 +139,29 @@ public class BoardWidget extends Actor {
       }
     }
 
+    movesLabel.setPosition(getX() - itemWidth, getY() - itemHeight * 4);
+    movesLabel.draw(batch, parentAlpha);
+    batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
+
+  }
+
+
+  private boolean moveBlock(Block block, Direction direction) {
+    boolean result = state.moveBlock(block, direction);
+
+    if (result) {
+      previousStates.push(state.clone());
+    }
+
+    loadBlocks();
+    return result;
   }
 
   public void handleInput() {
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+      selectNextTile();
+    }
 
     HashMap<Integer, Direction> mappings = new HashMap<>();
     mappings.put(Input.Keys.UP, Direction.UP);
@@ -129,11 +172,13 @@ public class BoardWidget extends Actor {
 
     boolean keyPressed = false;
 
+    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+      undoMove();
+    }
+
     for (Map.Entry<Integer, Direction> entry : mappings.entrySet()) {
       if (Gdx.input.isKeyJustPressed(entry.getKey())) {
-        boolean result = state.moveBlock(selectedTile.getBlock(), entry.getValue());
-        loadBlocks();
-        selectedTile.setColor(result ? Color.GREEN : Color.RED);
+        boolean result = moveBlock(selectedTile.getBlock(), entry.getValue());
         keyPressed = true;
         break;
       }
@@ -161,29 +206,31 @@ public class BoardWidget extends Actor {
 
       // Check if any tile contains the clicked coordinates
       for (int i = 0; i < tiles.size(); i++) {
-        TileWidget tile = tiles.get(i);
+        Tile tile = tiles.get(i);
         if (tile.contains(localX, localY)) {
           selectedTile = tile;
-          selectedBlockIndex = i;
           break;
         }
       }
     } else if (Gdx.input.isTouched()) {
       Vector2 dragEndPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 
-      // Calculate the drag direction based on the start and end positions
-      Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
+      float dragDistance = dragEndPos.dst(dragStartPos);
 
-      if (dragDirection != null && selectedBlockIndex != -1) {
-        state.moveBlock(selectedTile.getBlock(), dragDirection);
-        loadBlocks();
+      if (dragDistance >= MIN_DRAG_DISTANCE) {
 
+        // Calculate the drag direction based on the start and end positions
+        Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
+
+        if (dragDirection != null && selectedTile != null) {
+          moveBlock(selectedTile.getBlock(), dragDirection);
+        }
       }
+
     }
-    if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-      selectNextTile();
-    }
+
   }
+
 
   private Direction calculateDragDirection(Vector2 start, Vector2 end) {
     float deltaX = end.x - start.x;
@@ -204,6 +251,17 @@ public class BoardWidget extends Actor {
     }
   }
 
+
+  public void undoMove() {
+    Gdx.app.log("undo", "undoing the last move");
+    if (previousStates.isEmpty()) {
+      return;
+    }
+    state = previousStates.pop().clone();
+    loadBlocks();
+    selectedTile = tiles.get(0);
+  }
+
   private void selectNextTile() {
     if (selectedTile == null) {
       // If no tile is currently selected, select the first tile
@@ -212,16 +270,45 @@ public class BoardWidget extends Actor {
       }
     } else {
       // Find the index of the currently selected tile
-      selectedBlockIndex = tiles.indexOf(selectedTile);
+      int selectedBlockIndex = tiles.indexOf(selectedTile);
 
       // Select the next tile in the list, or wrap around to the first tile
       int nextIndex = (selectedBlockIndex + 1) % tiles.size();
-      selectedBlockIndex = nextIndex;
       selectedTile = tiles.get(nextIndex);
     }
   }
 
+  public void reset() {
+    Gdx.app.log("reset", "resetting the board");
+    previousStates.clear();
+    previousStates.push(startingConfiguration.clone());
+    previousStates.push(state.clone());
+    state = startingConfiguration.clone();
+    loadBlocks();
+  }
+
   public State getState() {
     return state;
+  }
+
+  public void setState(State clone) {
+    this.state = clone.clone();
+    loadBlocks();
+  }
+
+  public void setItemHeight(float itemHeight) {
+    this.itemHeight = itemHeight;
+  }
+
+  public void setItemWidth(float itemWidth) {
+    this.itemWidth = itemWidth;
+  }
+
+  public float getItemHeight() {
+    return itemHeight;
+  }
+
+  public float getItemWidth() {
+    return itemWidth;
   }
 }

@@ -8,7 +8,7 @@ import dev.plagarizers.klotski.game.block.Block;
 
 import java.util.EnumMap;
 
-public class TileWidget extends Actor {
+public class Tile extends Actor {
   private float x;
   private float y;
   private float width;
@@ -33,6 +33,16 @@ public class TileWidget extends Actor {
     }
   };
 
+  private EnumMap<Block.BlockType, Color> colorMap = new EnumMap<Block.BlockType, Color>(Block.BlockType.class) {
+    {
+      put(Block.BlockType.UnknownBlock, Color.WHITE);
+      put(Block.BlockType.BigBlock, Color.valueOf("F9E2AF"));
+      put(Block.BlockType.VerticalBlock, Color.valueOf("009FBD"));
+      put(Block.BlockType.HorizontalBlock, Color.valueOf("210062"));
+      put(Block.BlockType.SmallBlock, Color.valueOf("77037B"));
+    }
+  };
+
 
   private EnumMap<Block.BlockType, Texture> contourMap = new EnumMap<Block.BlockType, Texture>(Block.BlockType.class) {
     {
@@ -45,15 +55,6 @@ public class TileWidget extends Actor {
   };
 
 
-  private EnumMap<Block.BlockType, Color> colorMap = new EnumMap<Block.BlockType, Color>(Block.BlockType.class) {
-    {
-      put(Block.BlockType.UnknownBlock, Color.WHITE);
-      put(Block.BlockType.BigBlock, Color.RED);
-      put(Block.BlockType.VerticalBlock, Color.BLUE);
-      put(Block.BlockType.HorizontalBlock, Color.GREEN);
-      put(Block.BlockType.SmallBlock, Color.YELLOW);
-    }
-  };
   private Block block;
 
   public float getX() {
@@ -104,13 +105,18 @@ public class TileWidget extends Actor {
     this.block = block;
   }
 
-  public TileWidget(float x, float y, float width, float height) {
+  public Tile(float x, float y, float width, float height) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
 
 
+  }
+
+  @Override
+  public Color getColor() {
+    return colorMap.get(block.getType());
   }
 
   public boolean contains(float x, float y) {

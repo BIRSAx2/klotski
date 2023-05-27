@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class State implements Cloneable {
 
-  private final HashMap<Coordinate, Block> blocks;
+  private HashMap<Coordinate, Block> blocks;
   private int moves = 0;
 
   private static SavesManager savesManager = new SavesManager();
@@ -55,8 +55,9 @@ public class State implements Cloneable {
   }
 
 
-  public boolean isSolution() {
-    return blocks.get(Coordinate.of(1, 3)).equals(new BigBlock(Coordinate.of(1, 3)));
+  public boolean isSolved() {
+    if (!blocks.containsKey(GOAL)) return false;
+    return blocks.get(GOAL).equals(new BigBlock(GOAL));
   }
 
   public void setBlocks(Block[] base) {
@@ -118,11 +119,6 @@ public class State implements Cloneable {
     return state;
   }
 
-  public static State fromLevel(Level level) {
-    State state = new State();
-    state.setBlocks(level.getBoard());
-    return state;
-  }
 
   /**
    * Checks if the given coordinate is a valid coordinate within the board boundaries.
@@ -151,11 +147,7 @@ public class State implements Cloneable {
 
   @SuppressWarnings("NewApi")
   public Block[] getBlocks() {
-
-    // add blocks to array without duplicates
-
     HashSet<Block> set = new HashSet<>(blocks.values());
-
     List<Block> list = set.stream().sorted(Comparator.comparing(Block::getWidth).thenComparing(Block::getHeight)).collect(Collectors.toList());
     Collections.reverse(list);
     return list.toArray(new Block[0]);
@@ -176,11 +168,17 @@ public class State implements Cloneable {
 
   @Override
   public State clone() {
-    try {
-      return (State) super.clone();
-    } catch (CloneNotSupportedException e) {
-      throw new AssertionError();
+    State clone = new State();
+
+    clone.moves = this.moves;
+
+    for (Map.Entry<Coordinate, Block> entry : this.blocks.entrySet()) {
+      Coordinate coordinate = entry.getKey();
+      Block block = entry.getValue();
+
+      clone.blocks.put(coordinate.clone(), block.clone());
     }
+    return clone;
   }
 
   /**
