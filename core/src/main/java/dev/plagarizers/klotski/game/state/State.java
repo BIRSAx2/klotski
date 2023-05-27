@@ -55,7 +55,7 @@ public class State implements Cloneable {
   }
 
 
-  public boolean isSolution() {
+  public boolean isSolved() {
     if (!blocks.containsKey(GOAL)) return false;
     return blocks.get(GOAL).equals(new BigBlock(GOAL));
   }

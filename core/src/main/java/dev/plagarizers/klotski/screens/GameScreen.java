@@ -126,7 +126,7 @@ public class GameScreen implements Screen {
   public void render(float delta) {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     // Check if the game is over
-    if (grid.getState().isSolution()) {
+    if (grid.getState().isSolved()) {
       game.setScreen(new GameOverScreen(game, grid.getState()));
     }
     grid.handleInput();

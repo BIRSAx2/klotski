@@ -79,7 +79,7 @@ class StateTest {
   @Test
   void testIsSolution() {
     State state = State.fromDefaultConfiguration();
-    assertFalse(state.isSolution());
+    assertFalse(state.isSolved());
   }
 }
 

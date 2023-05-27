@@ -13,11 +13,11 @@ import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Direction;
-import dev.plagarizers.klotski.screens.GameOverScreen;
 
 import java.util.*;
 
 public class Board extends Actor {
+  public static final int MIN_DRAG_DISTANCE = 10;
   private State state;
   private int rows;
   private int columns;
@@ -71,7 +71,7 @@ public class Board extends Actor {
   public void playBestMove() {
     Gdx.app.log("BoardWidget", "Playing best move");
 
-    if (state.isSolution()) return;
+    if (state.isSolved()) return;
 
     calculateSolution(); // Recalculate the solution
 
@@ -128,7 +128,6 @@ public class Board extends Actor {
   public void draw(Batch batch, float parentAlpha) {
     movesLabel.setText("Moves: " + state.getMoves());
 
-    batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
     for (Tile tile : tiles) {
       float tileX = getX() + tile.getX();
       float tileY = getY() + tile.getY();
@@ -142,6 +141,7 @@ public class Board extends Actor {
 
     movesLabel.setPosition(getX() - itemWidth, getY() - itemHeight * 4);
     movesLabel.draw(batch, parentAlpha);
+    batch.draw(boardTexture, getX() - itemWidth * 3, getY() - itemHeight * 3 - itemHeight / 2f, (columns + 2) * itemWidth, (rows + 2.5f) * itemHeight);
 
   }
 
@@ -215,12 +215,18 @@ public class Board extends Actor {
     } else if (Gdx.input.isTouched()) {
       Vector2 dragEndPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 
-      // Calculate the drag direction based on the start and end positions
-      Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
+      float dragDistance = dragEndPos.dst(dragStartPos);
 
-      if (dragDirection != null && selectedTile != null) {
-        moveBlock(selectedTile.getBlock(), dragDirection);
+      if (dragDistance >= MIN_DRAG_DISTANCE) {
+
+        // Calculate the drag direction based on the start and end positions
+        Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
+
+        if (dragDirection != null && selectedTile != null) {
+          moveBlock(selectedTile.getBlock(), dragDirection);
+        }
       }
+
     }
 
   }
