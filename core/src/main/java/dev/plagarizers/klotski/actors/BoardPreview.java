@@ -53,10 +53,10 @@ public class BoardPreview extends Actor {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
+    super.draw(batch, parentAlpha);
     levelLabel.setFillParent(true);
     levelLabel.setPosition(getX(), getY() + getHeight() - levelLabel.getHeight());
     levelLabel.draw(batch, parentAlpha);
-    super.draw(batch, parentAlpha);
 
     batch.draw(tiles.get(0).getTexture(), getX(), getY(), getWidth(), getHeight() - itemHeight);
     batch.end();
@@ -67,8 +67,11 @@ public class BoardPreview extends Actor {
     for (Tile tile : tiles) {
       shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
       shapeRenderer.setColor(tile.getColor());
-      float tileX = getWidth() * 0.40f + getX() + tile.getX();
-      float tileY = getY() + getWidth() / 2 + tile.getY();
+      // TODO: this is a temporary fix, implement better coordinates.
+      // Possible solutions: use an array where every element is a square and has a pointer to the element over it.
+      // Make the element hava a color and should be simpler to draw the preview
+      float tileX = getWidth() * 0.80f + getX() + tile.getX();
+      float tileY = getY() + getWidth() / 2 + tile.getY() + 23;
 
       shapeRenderer.rect(tileX, tileY, tile.getWidth(), tile.getHeight());
       shapeRenderer.set(ShapeRenderer.ShapeType.Line);
@@ -99,11 +102,11 @@ public class BoardPreview extends Actor {
     // need to swap x and y to convert coordinates from grid-based to screen-based
     y = rows - y - height;
 
-    float gridOffsetX = (columns * itemWidth) / 2 - itemWidth / 2; // Adjusted
-    float gridOffsetY = (rows * itemHeight) / 2 - itemHeight / 2; // Adjusted
+    //float gridOffsetX = (columns * itemWidth) / 2 - itemWidth / 2; // Adjusted
+    //float gridOffsetY = (rows * itemHeight) / 2 - itemHeight / 2; // Adjusted
 
-    float tileX = (x * itemWidth) - gridOffsetX;
-    float tileY = (y * itemHeight) - gridOffsetY;
+    float tileX = (x * itemWidth);// - gridOffsetX;
+    float tileY = (y * itemHeight);// - gridOffsetY;
     float tileWidth = width * itemWidth;
     float tileHeight = height * itemHeight;
 

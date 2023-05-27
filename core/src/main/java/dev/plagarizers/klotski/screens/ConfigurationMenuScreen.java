@@ -51,6 +51,7 @@ public class ConfigurationMenuScreen implements Screen {
     table.add(title).colspan(6).center().padBottom(20);
     table.row();
 
+    // TODO: this is a temporary fix, do not use in the final build
     Table selectableLevels = new Table();
     selectableLevels.setDebug(game.debug());
     ScrollPane levelSelector = new ScrollPane(selectableLevels, skin);
@@ -60,7 +61,7 @@ public class ConfigurationMenuScreen implements Screen {
     selectableLevels.defaults().padBottom(20).fillX().colspan(2);
     List<Level> levels = savesManager.loadLevels();
 
-    levels = levels.subList(0, 6); // TODO: remove this line once we figure out how to make the table scrollable
+    //levels = levels.subList(0, 6); // TODO: remove this line once we figure out how to make the table scrollable
 
     int i = 0;
     for (Level level : levels) {
