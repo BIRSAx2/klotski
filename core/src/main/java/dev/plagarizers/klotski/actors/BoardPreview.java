@@ -102,9 +102,6 @@ public class BoardPreview extends Actor {
     // need to swap x and y to convert coordinates from grid-based to screen-based
     y = rows - y - height;
 
-    //float gridOffsetX = (columns * itemWidth) / 2 - itemWidth / 2; // Adjusted
-    //float gridOffsetY = (rows * itemHeight) / 2 - itemHeight / 2; // Adjusted
-
     float tileX = (x * itemWidth);// - gridOffsetX;
     float tileY = (y * itemHeight);// - gridOffsetY;
     float tileWidth = width * itemWidth;

@@ -13,6 +13,7 @@ import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Direction;
+import dev.plagarizers.klotski.screens.GameOverScreen;
 
 import java.util.*;
 
@@ -94,6 +95,7 @@ public class Board extends Actor {
   }
 
   public void loadBlocks() {
+
     Gdx.app.log("BoardWidget", "Loading blocks");
     if (state == null) throw new IllegalStateException("State is null");
     tiles.clear();
@@ -138,7 +140,7 @@ public class Board extends Actor {
       }
     }
 
-    movesLabel.setPosition(getX() - itemWidth ,getY() - itemHeight * 4 );
+    movesLabel.setPosition(getX() - itemWidth, getY() - itemHeight * 4);
     movesLabel.draw(batch, parentAlpha);
 
   }

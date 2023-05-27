@@ -1,7 +1,6 @@
 package dev.plagarizers.klotski.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,8 +23,10 @@ public class MainMenuScreen implements Screen {
   public MainMenuScreen(KlotskiGame game) {
     this.game = game;
 
+
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
+
     stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
     setupLayout(game.getImageButtonStyle(), game.getSkin());
   }
@@ -117,6 +118,7 @@ public class MainMenuScreen implements Screen {
     table.add(settings).uniform().fillX().pad(5);
     table.row();
     table.add(quit).uniform().fillX().pad(5);
+
   }
 
   @Override
