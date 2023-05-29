@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -51,6 +48,13 @@ public class LoadMenuScreen implements Screen {
 
     table.add(title).width(Gdx.graphics.getWidth() / 2f);
     table.row();
+    Table savesTable = new Table();
+    ScrollPane saveSlots = new ScrollPane(savesTable, skin);
+    saveSlots.setFadeScrollBars(false);
+    saveSlots.setFlickScroll(false);
+    table.add(saveSlots).maxHeight(Gdx.graphics.getHeight() / 2f).fillX().pad(7);
+    table.row();
+
 
     ClickListener startFromSave = new ClickListener() {
       @Override
@@ -71,17 +75,18 @@ public class LoadMenuScreen implements Screen {
     };
 
     for (String save : saves) {
-      String fileName = save.substring(save.lastIndexOf("/") + 1);
+      String fileName = save.substring(save.lastIndexOf("/") + 1, save.length() - 8);
       ImageButton saveButton = new ImageButton(buttonStyle);
       Label saveName = new Label(fileName, skin, "ButtonFont", Color.GOLD);
       saveName.setAlignment(Align.left);
       saveButton.setName(fileName);
       saveButton.add(saveName);
       saveButton.addListener(startFromSave);
-      table.add(saveButton).fillX().pad(7);
+      savesTable.add(saveButton).fillX().padBottom(7).padTop(7);
       Gdx.app.log("LoadMenuScreen", "Added save button: " + fileName);
-      table.row();
+      savesTable.row();
     }
+    saveSlots.validate();
 
     ImageButton back = new ImageButton(buttonStyle);
     back.add(new Label("BACK", skin, "ButtonFont", Color.GOLD));
