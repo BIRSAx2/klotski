@@ -44,11 +44,11 @@ jobs:
         distribution: 'adopt'
         architecture: x64
     - name: Build natives with Gradle
-      run: ./gradlew desktop:dist --info
-    - name: Create debug keystore for android
-      run: keytool -genkey -v -keystore $HOME/.android/debug.keystore -storetype PKCS12 -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -noprompt -dname "CN=GdxVideo, OU=libGDX, O=libGDX, L=Unknown, ST=Unknown, C=US"
-    - name: Build whole project with gradle
-      run: ./gradlew build
+      run: ./gradlew lwjgl3:jar --info
+#    - name: Create debug keystore for android
+#      run: keytool -genkey -v -keystore $HOME/.android/debug.keystore -storetype PKCS12 -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -noprompt -dname "CN=GdxVideo, OU=libGDX, O=libGDX, L=Unknown, ST=Unknown, C=US"
+#    - name: Build whole project with gradle
+#      run: ./gradlew build
     - name: Upload all output libs
       if: ${{ always() }}
       uses: actions/upload-artifact@v2.1.4
