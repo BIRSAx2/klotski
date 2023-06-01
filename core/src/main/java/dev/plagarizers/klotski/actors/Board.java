@@ -43,7 +43,7 @@ public class Board extends Actor {
 
   public Board(State state, Skin skin) {
     this.startingConfiguration = state.clone();
-    boardTexture = new Texture(Gdx.files.internal("textures/board.png"));
+    boardTexture = new Texture(Gdx.files.internal("textures/oldTextures/board2.png"));
     this.rows = State.ROWS;
     this.columns = State.COLS;
     this.state = state.clone();
