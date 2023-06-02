@@ -1,6 +1,7 @@
 package dev.plagarizers.klotski.game.state;
 
 
+import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.block.*;
 import dev.plagarizers.klotski.game.util.Coordinate;
@@ -108,7 +109,8 @@ public class State implements Cloneable {
 
 
   public static State fromRandomConfiguration() {
-    List<Level> levels = savesManager.loadLevels();
+    List<Level> levels = savesManager.loadLevels(Gdx.files.internal("assets/levels/levels.json").path());
+
 
     Random random = new Random();
     int index = random.nextInt(levels.size());

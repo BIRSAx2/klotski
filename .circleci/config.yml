@@ -1,0 +1,49 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11-jdk
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run:
+          name: Gradle Dependencies
+          command: ./gradlew dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+
+      - run:
+          name: Build
+          command: ./gradlew core:build && ./gradlew lwjgl3:jar
+
+      - run:
+          name: Run Tests
+          command: ./gradlew core:test
+
+      - run:
+          name: Generate Version Number
+          command: echo "export RELEASE_TAG=v$(git describe --abbrev=0 --tags)" >> $BASH_ENV
+
+
+      - store_artifacts:
+          path: lwjgl3/build/libs
+          destination: jars
+
+      - run:
+          name: Install ghr
+          command: |
+            wget https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz
+            tar xvzf ghr_v0.13.0_linux_amd64.tar.gz
+            sudo mv ghr_v0.13.0_linux_amd64/ghr /usr/local/bin/
+            rm ghr_v0.13.0_linux_amd64.tar.gz
+      - run:
+          name: Upload to GitHub Releases
+          command: |
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace RELEASE lwjgl3/build/lib/

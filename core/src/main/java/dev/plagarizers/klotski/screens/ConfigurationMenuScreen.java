@@ -59,7 +59,7 @@ public class ConfigurationMenuScreen implements Screen {
     levelSelector.setFlickScroll(false);
     table.add(levelSelector).fill().colspan(6).pad(7);
     selectableLevels.defaults().padBottom(20).fillX().colspan(2);
-    List<Level> levels = savesManager.loadLevels();
+    List<Level> levels = savesManager.loadLevels(Gdx.files.internal("assets/levels/levels.json").path());
 
     //levels = levels.subList(0, 6); // TODO: remove this line once we figure out how to make the table scrollable
 
