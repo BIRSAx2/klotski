@@ -2,14 +2,30 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11-jdk
+      - image: cimg/android:api-30
+
     working_directory: ~/repo
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
     steps:
       - checkout
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
+
+      - run:
+          name: Setup Android SDK
+          command: echo y | sdkmanager "platforms;android-30" >/dev/null
+
+      - run:
+          name: Set SDK Location
+          command: echo "sdk.dir=/opt/android/sdk" > local.properties
+
       - run:
           name: Gradle Dependencies
           command: ./gradlew dependencies
@@ -21,7 +37,9 @@ jobs:
 
       - run:
           name: Build
-          command: ./gradlew core:build && ./gradlew lwjgl3:jar
+          command: |
+            ./gradlew core:build
+            ./gradlew lwjgl3:jar
 
       - run:
           name: Run Tests
@@ -31,10 +49,17 @@ jobs:
           name: Generate Version Number
           command: echo "export RELEASE_TAG=v$(git describe --abbrev=0 --tags)" >> $BASH_ENV
 
+      - run:
+          name: Build APK
+          command: ./gradlew assembleRelease
 
       - store_artifacts:
-          path: lwjgl3/build/libs
+          path: lwjgl3/build/libs/
           destination: jars
+
+      - store_artifacts:
+          path: app/build/outputs/apk/release/
+          destination: apks
 
       - run:
           name: Install ghr
@@ -43,7 +68,9 @@ jobs:
             tar xvzf ghr_v0.13.0_linux_amd64.tar.gz
             sudo mv ghr_v0.13.0_linux_amd64/ghr /usr/local/bin/
             rm ghr_v0.13.0_linux_amd64.tar.gz
+
       - run:
           name: Upload to GitHub Releases
           command: |
-            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace RELEASE lwjgl3/build/lib/
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace $RELEASE_TAG lwjgl3/build/libs/
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace $RELEASE_TAG app/build/outputs/apk/release/
