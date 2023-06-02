@@ -18,6 +18,7 @@ buildscript {
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
+  apply plugin: 'jacoco'
 }
 
 configure(subprojects - project(':android')) {
@@ -33,11 +34,46 @@ configure(subprojects - project(':android')) {
     testLogging {
       events 'passed', 'skipped', 'failed'
     }
+    finalizedBy jacocoTestReport
+  }
+
+  check {
+    dependsOn jacocoTestCoverageVerification
   }
 
   dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+  }
+
+  jacocoTestCoverageVerification {
+    violationRules {
+      rule {
+        element = 'CLASS'
+        limit {
+          counter = 'LINE'
+          value = 'COVEREDRATIO'
+          minimum = 0.0
+        }
+        excludes = [
+          'dev.plagarizers.klotski.actors',
+          'dev.plagarizers.klotski.screens',
+          'dev.plagarizers.klotski.util'
+        ]
+      }
+    }
+  }
+
+  jacocoTestReport {
+    afterEvaluate {
+      classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: [
+          'dev/plagarizers/klotski/actors/**',
+          'dev/plagarizers/klotski/screens/**',
+          'dev/plagarizers/klotski/util/**',
+        ])
+      }))
+    }
   }
 }
 
