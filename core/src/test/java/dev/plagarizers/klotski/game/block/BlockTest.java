@@ -42,7 +42,6 @@ class BlockTest {
 
   @Test
   void setWidth() {
-
     Block block = new Block(location, 1, 1);
     block.setWidth(5);
     assertEquals(5, block.getWidth());
