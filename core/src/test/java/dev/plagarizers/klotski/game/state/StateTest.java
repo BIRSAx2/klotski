@@ -81,5 +81,77 @@ class StateTest {
     State state = State.fromDefaultConfiguration();
     assertFalse(state.isSolved());
   }
+
+    @Test
+    void getMoves() {
+    }
+
+    @Test
+    void setMoves() {
+    }
+
+    @Test
+    void fromDefaultConfiguration() {
+    }
+
+    @Test
+    void isSolved() {
+    }
+
+    @Test
+    void setBlocks() {
+    }
+
+    @Test
+    void canMoveBlock() {
+    }
+
+    @Test
+    void moveBlock() {
+    }
+
+    @Test
+    void fromRandomConfiguration() {
+    }
+
+    @Test
+    void isValidCoordinate() {
+    }
+
+    @Test
+    void getBlocks() {
+    }
+
+    @Test
+    void toJson() {
+    }
+
+    @Test
+    void fromJson() {
+    }
+
+    @Test
+    void testClone() {
+    }
+
+    @Test
+    void fromBitBoard() {
+    }
+
+    @Test
+    void createBitMaskForBlock() {
+    }
+
+    @Test
+    void createBlockFromBitMask() {
+    }
+
+    @Test
+    void toBitBoard() {
+    }
+
+    @Test
+    void testEquals() {
+    }
 }
 

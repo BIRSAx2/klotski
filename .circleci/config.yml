@@ -12,7 +12,6 @@ jobs:
 
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}

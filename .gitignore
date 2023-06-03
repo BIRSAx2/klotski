@@ -144,3 +144,7 @@ Thumbs.db
 *.*#
 *#*#
 /.env
+
+
+### Game specific files ###
+saves/**

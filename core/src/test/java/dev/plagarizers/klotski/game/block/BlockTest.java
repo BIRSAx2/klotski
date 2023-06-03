@@ -18,14 +18,14 @@ class BlockTest {
   }
 
   @Test
-  void getLocation() {
+  void testGetLocation() {
 
     Block block = new Block(location, 2, 2);
     assertEquals(location, block.getLocation());
   }
 
   @Test
-  void setLocation() {
+  void testSetLocation() {
 
     Block block = new Block(location, 1, 1);
     Coordinate newLocation = new Coordinate(5, 6);
@@ -34,14 +34,14 @@ class BlockTest {
   }
 
   @Test
-  void getWidth() {
+  void testGetWidth() {
 
     Block block = new Block(location, 1, 2);
     assertEquals(2, block.getWidth());
   }
 
   @Test
-  void setWidth() {
+  void testGetWidth() {
 
     Block block = new Block(location, 1, 1);
     block.setWidth(5);
@@ -49,14 +49,14 @@ class BlockTest {
   }
 
   @Test
-  void getHeight() {
+  void testGetHeight() {
 
     Block block = new Block(location, 2, 2);
     assertEquals(2, block.getHeight());
   }
 
   @Test
-  void setHeight() {
+  void testSetHeight() {
 
     Block block = new Block(location, 1, 2);
     block.setHeight(5);
@@ -65,7 +65,7 @@ class BlockTest {
 
 
   @Test
-  void occupiedSpaces() {
+  void testOccupiedSpaces() {
     Block block = new Block(location, 2, 1);
     assertEquals(2*1, block.occupiedSpaces().size());
   }
@@ -84,10 +84,10 @@ class BlockTest {
   }
 
   @Test
-  void compareTo() {
-
+  void testCompareTo() {
     Block block = new Block(location, 2, 2);
     Block block2 = new Block(location, 2, 2);
     assertEquals(0, block.compareTo(block2));
   }
+
 }
