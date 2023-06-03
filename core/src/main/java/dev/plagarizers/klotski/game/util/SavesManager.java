@@ -88,11 +88,7 @@ public class SavesManager {
   }
 
   private String getSaveFilePath(String filename) {
-    return SAVE_DIRECTORY + File.separator + filename;
-  }
-
-  public List<Level> loadLevels() {
-    return loadLevels(LEVEL_DIRECTORY + "/levels.json");
+    return SAVE_DIRECTORY + File.separator + filename  + ".json";
   }
 
   public List<Level> loadLevels(String filePath) {

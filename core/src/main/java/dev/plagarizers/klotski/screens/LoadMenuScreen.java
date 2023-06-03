@@ -75,7 +75,7 @@ public class LoadMenuScreen implements Screen {
     };
 
     for (String save : saves) {
-      String fileName = save.substring(save.lastIndexOf("/") + 1, save.length() - 8);
+      String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
       ImageButton saveButton = new ImageButton(buttonStyle);
       Label saveName = new Label(fileName, skin, "ButtonFont", Color.GOLD);
       saveName.setAlignment(Align.left);

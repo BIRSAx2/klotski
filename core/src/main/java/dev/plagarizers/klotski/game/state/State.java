@@ -157,14 +157,25 @@ public class State implements Cloneable {
 
   public String toJson() {
     Gson gson = new Gson();
-    return gson.toJson(this.getBlocks());
+
+    HashMap<String, Object> save = new HashMap<>();
+
+    save.put("moves", this.moves);
+    save.put("blocks", this.getBlocks());
+    return gson.toJson(save);
   }
 
   public static State fromJson(String json) {
     Gson gson = new Gson();
-    Block[] blocks = gson.fromJson(json, Block[].class);
+
+    HashMap<String, Object> save = gson.fromJson(json, HashMap.class);
+    int moves = ((Double) save.get("moves")).intValue();
+    List<Block> blockList = ((ArrayList<Block>) save.get("blocks"));
     State state = new State();
+
+    Block[] blocks = gson.fromJson(gson.toJson(blockList), Block[].class);
     state.setBlocks(blocks);
+    state.setMoves(moves);
     return state;
   }
 
