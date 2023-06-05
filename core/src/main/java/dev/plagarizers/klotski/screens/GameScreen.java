@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -104,14 +105,14 @@ public class GameScreen implements Screen {
 
     Table table = new Table();
     table.setFillParent(true);
+    table.add(backButton).bottom().fillX().colspan(2).pad(10);
+    table.add(resetButton).bottom().fillX().colspan(2).pad(10);
+    table.add(saveButton).bottom().fillX().colspan(2).pad(10);
+    table.row();
     table.add(grid).expand().center().colspan(6).row();
     table.row();
     table.add(undoButton).bottom().fillX().colspan(2).pad(10);
     table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
-    table.add(saveButton).bottom().fillX().colspan(2).pad(10);
-    table.row();
-    table.add(resetButton).bottom().fillX().colspan(3).pad(10);
-    table.add(backButton).bottom().fillX().colspan(3).pad(10);
 
 
     stage.addActor(table);
