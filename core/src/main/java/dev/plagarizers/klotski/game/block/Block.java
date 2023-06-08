@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Represents a block in the Klotski puzzle.
  */
-public class Block implements Cloneable, Comparable<Block> {
+public class Block implements Cloneable {
 
   private Coordinate location;
   private int height;
@@ -88,7 +88,7 @@ public class Block implements Cloneable, Comparable<Block> {
   }
 
 
-  public List<Coordinate> getOccupiedLocations(Coordinate startLoc){
+  public List<Coordinate> getOccupiedLocations(Coordinate startLoc) {
 
     List<Coordinate> occupiedLocations = new ArrayList<>();
 
@@ -146,66 +146,6 @@ public class Block implements Cloneable, Comparable<Block> {
     this.height = height;
   }
 
-//  /**
-//   * Returns a map of the adjacent spaces of the block in each direction.
-//   *
-//   * @return the map of adjacent spaces, with directions as keys and lists of coordinates as values
-//   */
-//  public EnumMap<Direction, List<Coordinate>> adjacentSpaces() {
-//    EnumMap<Direction, List<Coordinate>> adjacentSpaces = new EnumMap<>(Direction.class);
-//    for (Direction direction : Direction.values()) {
-//      List<Coordinate> coordinates;
-//      if (direction == Direction.UP || direction == Direction.DOWN) {
-//        coordinates = new ArrayList<>(width);
-//      } else {
-//        coordinates = new ArrayList<>(height);
-//      }
-//      adjacentSpaces.put(direction, coordinates);
-//    }
-//
-//
-//    final Coordinate upperLeft = location.clone();
-//    Coordinate bottomLeft = location.add(height - 1, 0);
-//    Coordinate upperRight = location.add(0, width - 1);
-//
-//
-//    Coordinate result;
-//    for (int col = 0; col < width; col++) {
-//
-//      Coordinate upperRow = upperLeft.add(0, col);
-//      result = State.applyMoveToCoords(upperRow, Direction.UP);
-//
-//      if (result != null) {
-//        adjacentSpaces.get(Direction.UP).add(result);
-//      }
-//
-//      Coordinate bottomRow = bottomLeft.add(0, col);
-//
-//      result = State.applyMoveToCoords(bottomRow, Direction.DOWN);
-//      if (result != null) {
-//        adjacentSpaces.get(Direction.DOWN).add(result);
-//      }
-//
-//    }
-//
-//    for (int row = 0; row < height; row++) {
-//      Coordinate leftCol = upperLeft.add(row, 0);
-//      result = State.applyMoveToCoords(leftCol, Direction.LEFT);
-//      if (result != null) {
-//        adjacentSpaces.get(Direction.LEFT).add(result);
-//      }
-//
-//      Coordinate rightCol = upperRight.add(row, 0);
-//      result = State.applyMoveToCoords(rightCol, Direction.RIGHT);
-//      if (result != null) {
-//        adjacentSpaces.get(Direction.RIGHT).add(result);
-//      }
-//    }
-//
-//    return adjacentSpaces;
-//  }
-//
-
   /**
    * Returns a list of all the coordinates occupied by the block.
    *
@@ -224,20 +164,6 @@ public class Block implements Cloneable, Comparable<Block> {
 
     return spaces;
   }
-
-//  /**
-//   * Moves the block in the specified direction if possible.
-//   *
-//   * @param direction the direction in which to move the block
-//   * @return true if the block was moved successfully, false otherwise
-//   */
-//  public boolean makeMove(Direction direction) {
-//    Coordinate newCoord = State.applyMoveToCoords(location, direction);
-//    if (newCoord == null) return false;
-//
-//    location = newCoord;
-//    return true;
-//  }
 
   /**
    * Checks if the block can be moved in the specified direction.
@@ -262,46 +188,21 @@ public class Block implements Cloneable, Comparable<Block> {
 
   @Override
   public String toString() {
-    return "Piece{" + "coordinate=" + location + ", width=" + width + ", height=" + height + '}';
+    return "Block{" + "coordinate=" + location + ", width=" + width + ", height=" + height + '}';
   }
 
 
+  /**
+   * Returns the icon representation of the block based on its type.
+   *
+   * @return the icon representation of the block
+   */
   public String getIcon() {
     if (this.getType() == BlockType.BigBlock) return "B";
     if (this.getType() == BlockType.SmallBlock) return "S";
     if (this.getType() == BlockType.VerticalBlock) return "V";
     if (this.getType() == BlockType.HorizontalBlock) return "H";
     return "X";
-  }
-
-  /**
-   * Compares this block with the specified block for order.
-   *
-   * @param other the block to be compared
-   * @return a negative integer, zero, or a positive integer as this block is less than, equal to, or greater than the specified block
-   */
-  @Override
-  // not sure if we need this
-  public int compareTo(Block other) {
-
-    if (this.location.getX() < other.location.getX()) {
-      return -1;
-    } else if (this.location.getX() > other.location.getX()) {
-      return 1;
-    } else if (this.location.getY() < other.location.getY()) {
-      return -1;
-    } else if (this.location.getY() > other.location.getY()) {
-      return 1;
-    } else if (this.width < other.width) {
-      return -1;
-    } else if (this.width > other.width) {
-      return 1;
-    } else if (this.height < other.height) {
-      return -1;
-    } else if (this.height > other.height) {
-      return 1;
-    }
-    return 0;
   }
 
   public int getX() {
@@ -334,9 +235,19 @@ public class Block implements Cloneable, Comparable<Block> {
     return gson.fromJson(json, Block.class);
   }
 
-  public static enum BlockType {
+  /**
+   * Represents the types of blocks in the Klotski puzzle.
+   */
+  public enum BlockType {
     BigBlock, SmallBlock, VerticalBlock, HorizontalBlock, UnknownBlock
   }
+
+  /**
+   * Checks if the current block is equal to the specified object.
+   *
+   * @param obj the object to compare
+   * @return true if the current block is equal to the specified object, false otherwise
+   */
 
   @Override
   public boolean equals(Object obj) {
@@ -346,6 +257,11 @@ public class Block implements Cloneable, Comparable<Block> {
     return this.location.equals(other.location) && this.width == other.width && this.height == other.height;
   }
 
+  /**
+   * Returns the hash code value for the block.
+   *
+   * @return the hash code value for the block
+   */
   @Override
   public int hashCode() {
     int result = location != null ? location.hashCode() : 0;

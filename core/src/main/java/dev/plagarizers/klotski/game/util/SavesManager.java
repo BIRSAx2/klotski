@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SavesManager {
   private static final String SAVE_DIRECTORY = "saves";
-  private static final String LEVEL_DIRECTORY = "assets/levels";
+  private static final String LEVEL_DIRECTORY = "levels";
   private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
   private Gson gson;
 
@@ -91,6 +91,11 @@ public class SavesManager {
     return SAVE_DIRECTORY + File.separator + filename  + ".json";
   }
 
+
+  public List<Level> loadLevelsFromDefaultPath(){
+    return loadLevels(LEVEL_DIRECTORY + File.separator + "levels.json");
+
+  }
   public List<Level> loadLevels(String filePath) {
     try {
       BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
@@ -104,8 +109,7 @@ public class SavesManager {
       String json = stringBuilder.toString();
       return Level.fromJson(json);
     } catch (IOException e) {
-      System.err.println("Error loading levels: " + e.getMessage());
-      return null;
+      throw new RuntimeException("Error loading levels: " + e.getMessage());
     }
   }
 }
