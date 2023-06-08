@@ -1,4 +1,5 @@
-# Klotski
+# Klotski [![CircleCI](https://circleci.com/gh/BIRSAx2/klotski.svg?style=svg&circle-token=100ea9c636b6feb30e8eef41c4bfe6a144a500ad)](https://circleci.com/)
+
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
 
