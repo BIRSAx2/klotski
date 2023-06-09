@@ -82,3 +82,13 @@ jobs:
           command: |
             ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" lwjgl3/build/lib/
             ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" android/build/outputs/apk/release/
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
