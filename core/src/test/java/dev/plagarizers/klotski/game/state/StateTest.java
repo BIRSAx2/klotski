@@ -2,6 +2,7 @@ package dev.plagarizers.klotski.game.state;
 
 import dev.plagarizers.klotski.game.block.BigBlock;
 import dev.plagarizers.klotski.game.block.Block;
+import dev.plagarizers.klotski.game.block.HorizontalBlock;
 import dev.plagarizers.klotski.game.block.SmallBlock;
 import dev.plagarizers.klotski.game.util.Coordinate;
 import dev.plagarizers.klotski.game.util.Direction;
@@ -103,6 +104,19 @@ class StateTest {
     }
 
     @Test
+    void canMoveBlock_InvalidBlock_ShouldReturnFalse() {
+        // Arrange
+        Block block = new BigBlock(new Coordinate(3, 3));
+        Direction direction = Direction.LEFT;
+
+        // Act
+        boolean canMove = state.canMoveBlock(block, direction);
+
+        // Assert
+        assertFalse(canMove);
+    }
+
+    @Test
     void moveBlock_BlockCanMoveInDirection_ShouldMoveBlock() {
         // Arrange
         Block block = new SmallBlock(new Coordinate(1, 3));
@@ -142,6 +156,125 @@ class StateTest {
         // Assert
         //assertNotNull(newState.getBlocks());
         // Add assertions to check if the blocks are randomly generated
+    }
+
+
+    @Test
+    void toJson_StateObject_ReturnsJsonString() {
+        // Arrange
+        State state = State.fromDefaultConfiguration();
+
+        // Act
+        String json = state.toJson();
+
+        // Assert
+        assertNotNull(json);
+        assertTrue(json.length() > 0);
+    }
+
+    @Test
+    void fromJson_JsonString_ReturnsStateObject() {
+        // Arrange
+        String json = "{\"moves\":5,\"blocks\":[{\"location\":{\"x\":0,\"y\":2},\"height\":2,\"width\":2,\"type\":\"BigBlock\"},{\"location\":{\"x\":0,\"y\":0},\"height\":1,\"width\":2,\"type\":\"HorizontalBlock\"},{\"location\":{\"x\":2,\"y\":2},\"height\":1,\"width\":2,\"type\":\"HorizontalBlock\"},{\"location\":{\"x\":1,\"y\":0},\"height\":1,\"width\":2,\"type\":\"HorizontalBlock\"},{\"location\":{\"x\":2,\"y\":0},\"height\":1,\"width\":2,\"type\":\"HorizontalBlock\"},{\"location\":{\"x\":3,\"y\":3},\"height\":2,\"width\":1,\"type\":\"VerticalBlock\"},{\"location\":{\"x\":4,\"y\":2},\"height\":1,\"width\":1,\"type\":\"SmallBlock\"},{\"location\":{\"x\":3,\"y\":0},\"height\":1,\"width\":1,\"type\":\"SmallBlock\"},{\"location\":{\"x\":4,\"y\":0},\"height\":1,\"width\":1,\"type\":\"SmallBlock\"},{\"location\":{\"x\":3,\"y\":2},\"height\":1,\"width\":1,\"type\":\"SmallBlock\"}]}";
+
+        // Act
+        State state = State.fromJson(json);
+
+        // Assert
+        assertNotNull(state);
+        assertEquals(5, state.getMoves());
+        // Add assertions to check the block configurations in the state
+    }
+
+    @Test
+    void clone_StateObject_ReturnsClonedState() {
+        // Arrange
+        State state = State.fromDefaultConfiguration();
+
+        // Act
+        State clonedState = state.clone();
+
+        // Assert
+        assertNotNull(clonedState);
+        assertNotSame(state, clonedState);
+        assertEquals(state.getMoves(), clonedState.getMoves());
+        // Add assertions to check the block configurations in the cloned state
+    }
+
+    @Test
+    void equals_TwoEqualStates_ReturnsTrue() {
+        // Arrange
+        State state1 = State.fromDefaultConfiguration();
+        State state2 = State.fromDefaultConfiguration();
+
+        // Act
+        boolean result = state1.equals(state2);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void equals_TwoDifferentStates_ReturnsFalse() {
+        // Arrange
+        State state1 = State.fromDefaultConfiguration();
+        State state2 = State.fromDefaultConfiguration();
+        state2.moveBlock(new HorizontalBlock(new Coordinate(2, 1)), Direction.LEFT);
+        state2.setMoves(5);
+
+        // Act
+        boolean result = state1.equals(state2);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void equals_SameStateObject_ReturnsTrue() {
+        // Arrange
+        State state = State.fromDefaultConfiguration();
+
+        // Act
+        boolean result = state.equals(state);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void equals_NullStateObject_ReturnsFalse() {
+        // Arrange
+        State state = State.fromDefaultConfiguration();
+
+        // Act
+        boolean result = state.equals(null);
+
+        // Assert
+        assertFalse(result);
+    }
+
+    @Test
+    void isValidBlock_ValidCoordinate_ReturnsTrue() {
+        // Arrange
+        Coordinate coordinate = new Coordinate(0, 0);
+
+        // Act
+        boolean result = State.isValidCoordinate(coordinate);
+
+        // Assert
+        assertTrue(result);
+    }
+
+    @Test
+    void isValidBlock_InvalidCoordinate_OutsideBounds_ReturnsFalse() {
+        // Arrange
+        Coordinate coordinate = new Coordinate(-1, 0);
+
+        // Act
+        boolean result = State.isValidCoordinate(coordinate);
+
+        // Assert
+        assertFalse(result);
     }
 }
 

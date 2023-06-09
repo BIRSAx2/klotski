@@ -1,7 +1,6 @@
 package dev.plagarizers.klotski.game.state;
 
 
-import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.block.*;
 import dev.plagarizers.klotski.game.util.Coordinate;
@@ -178,7 +177,7 @@ public class State implements Cloneable {
      * @param coordinate The coordinate to check.
      * @return {@code true} if the coordinate is valid, {@code false} otherwise.
      */
-    public static boolean isValidBlock(Coordinate coordinate) {
+    public static boolean isValidCoordinate(Coordinate coordinate) {
         return coordinate.getX() >= 0 && coordinate.getX() < ROWS && coordinate.getY() >= 0 && coordinate.getY() < COLS;
     }
 
