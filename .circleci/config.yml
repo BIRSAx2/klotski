@@ -80,5 +80,5 @@ jobs:
       - run:
           name: Upload to GitHub Releases
           command: |
-            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace $RELEASE_TAG lwjgl3/build/lib/
-            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace $RELEASE_TAG android/build/outputs/apk/release/
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" lwjgl3/build/lib/
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" android/build/outputs/apk/release/

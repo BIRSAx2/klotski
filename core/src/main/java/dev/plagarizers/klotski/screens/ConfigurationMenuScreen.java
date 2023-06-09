@@ -33,7 +33,6 @@ public class ConfigurationMenuScreen implements Screen {
 
   }
 
-
   private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
 
     Table table = new Table();
@@ -60,8 +59,6 @@ public class ConfigurationMenuScreen implements Screen {
     table.add(levelSelector).fill().colspan(6).pad(7);
     selectableLevels.defaults().padBottom(20).fillX().colspan(2);
     List<Level> levels = savesManager.loadLevelsFromDefaultPath();
-
-    //levels = levels.subList(0, 6); // TODO: remove this line once we figure out how to make the table scrollable
 
     int i = 0;
     for (Level level : levels) {
@@ -126,8 +123,6 @@ public class ConfigurationMenuScreen implements Screen {
   @Override
   public void resize(int width, int height) {
     stage.getViewport().update(width, height);
-    //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-    //cam.update();
   }
 
   @Override

@@ -133,6 +133,27 @@ public class SettingsScreen implements Screen {
     stage.getViewport().update(width, height, true);
   }
 
+
+  public Stage getStage() {
+    return stage;
+  }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
+
+  public KlotskiGame getGame() {
+    return game;
+  }
+
+  public SelectBox<Resolution> getResolutions() {
+    return resolutions;
+  }
+
+  public void setResolutions(SelectBox<Resolution> resolutions) {
+    this.resolutions = resolutions;
+  }
+
   @Override
   public void pause() {
 
