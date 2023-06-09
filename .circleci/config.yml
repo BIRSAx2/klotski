@@ -50,7 +50,12 @@ jobs:
 
       - run:
           name: Generate Version Number
-          command: echo "export RELEASE_TAG=RELEASE" >> $BASH_ENV
+          command: echo "export RELEASE_TAG=$(git describe --tags --abbrev=0)" >> $BASH_ENV
+
+      - run:
+          name: Delete Existing Releases
+          command: |
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN -delete $RELEASE_TAG || true
 
       - run:
           name: Build APK
@@ -61,7 +66,7 @@ jobs:
           destination: jars
 
       - store_artifacts:
-          path: android/build/outputs/apk/release/
+          path: android/build/outputs/apk/release/android-release-unsigned.apk
           destination: apks
 
       - run:
