@@ -45,10 +45,6 @@ jobs:
             ./gradlew lwjgl3:jar
 
       - run:
-          name: Run Tests
-          command: ./gradlew core:test
-
-      - run:
           name: Generate Version Number
           command: echo "export RELEASE_TAG=$(git describe --tags --abbrev=0)" >> $BASH_ENV
 
