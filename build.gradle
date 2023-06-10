@@ -10,8 +10,6 @@ buildscript {
   }
   dependencies {
     classpath "com.android.tools.build:gradle:$androidPluginVersion"
-    classpath "com.mobidevelop.robovm:robovm-gradle-plugin:$robovmVersion"
-    classpath "org.wisepersist:gwt-gradle-plugin:$gwtPluginVersion"
   }
 }
 
@@ -23,7 +21,7 @@ allprojects {
 
 configure(subprojects - project(':android')) {
   apply plugin: 'java-library'
-  sourceCompatibility = 1.8
+  sourceCompatibility = 17
   compileJava {
     options.incremental = true
   }
@@ -39,17 +37,6 @@ configure(subprojects - project(':android')) {
 
   check {
     dependsOn jacocoTestCoverageVerification
-  }
-
-  dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    testImplementation 'org.mockito:mockito-core:5.3.+'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.3.+'
-    testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
-    testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-    testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-
   }
 
   jacocoTestCoverageVerification {
@@ -81,11 +68,16 @@ configure(subprojects - project(':android')) {
       }))
     }
   }
+
+  dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+  }
 }
 
 subprojects {
-  version = '0.1'
-  ext.appName = 'Klotski'
+  version = '0.0.1'
+  ext.appName = 'klotski'
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }
@@ -97,5 +89,4 @@ subprojects {
   }
 }
 
-
-eclipse.project.name = 'Klotski' + '-parent'
+eclipse.project.name = 'klotski' + '-parent'
