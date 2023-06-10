@@ -1,16 +1,16 @@
-# Klotski [![CircleCI](https://circleci.com/gh/BIRSAx2/klotski.svg?style=svg&circle-token=100ea9c636b6feb30e8eef41c4bfe6a144a500ad)](https://circleci.com/)
-
+# klotski
 
 A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+This project was generated with a template including simple application launchers and a main class extending `Game` that sets the first screen.
 
 ## Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
 - `lwjgl3`: Primary desktop platform using LWJGL3.
 - `android`: Android mobile platform. Needs Android SDK.
-- `ios`: iOS mobile platform using RoboVM.
+- `headless`: Desktop platform without a graphical interface.
+- `server`: A separate application without access to the `core` module.
 
 ## Gradle
 
@@ -28,17 +28,12 @@ Useful Gradle tasks and flags:
 - `cleanIdea`: removes IntelliJ project data.
 - `clean`: removes `build` folders, which store compiled classes and built archives.
 - `eclipse`: generates Eclipse project data.
+- `headless:run`: starts the headless application. Note: if headless sources were not modified - and the application still creates `ApplicationListener` from `core` project - this task might fail due to no graphics support.
 - `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/lib`.
+- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
 - `lwjgl3:run`: starts the application.
+- `server:run`: runs the server application.
 - `test`: runs unit tests (if any).
 
 Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
 For example, `core:clean` removes `build` folder only from the `core` project.
-
-### Notes
-
-Before trying to compile the project it is necessary to generate a debug keystore, which is used to sign Android apps during development, to generate it type this command on the terminal:
-```shell
-keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
-```

@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 public class SavesManager {
-  private static final String SAVE_DIRECTORY = "saves";
-  private static final String LEVEL_DIRECTORY = "levels";
+  private static final String SAVE_DIRECTORY = "game-assets/saves";
+  private static final String LEVEL_DIRECTORY = "game-assets/levels";
   private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
   private Gson gson;
 
