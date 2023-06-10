@@ -31,7 +31,7 @@ Useful Gradle tasks and flags:
 - `headless:run`: starts the headless application. Note: if headless sources were not modified - and the application still creates `ApplicationListener` from `core` project - this task might fail due to no graphics support.
 - `idea`: generates IntelliJ project data.
 - `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
+- ``: starts the application.
 - `server:run`: runs the server application.
 - `test`: runs unit tests (if any).
 
