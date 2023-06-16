@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.screens;
+package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import dev.plagarizers.klotski.KlotskiGame;
-import dev.plagarizers.klotski.util.Resolution;
+import dev.plagarizers.klotski.gui.util.Resolution;
 
 public class SettingsScreen implements Screen {
   private Stage stage;

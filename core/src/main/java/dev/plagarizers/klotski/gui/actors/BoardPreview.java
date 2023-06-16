@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.actors;
+package dev.plagarizers.klotski.gui.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

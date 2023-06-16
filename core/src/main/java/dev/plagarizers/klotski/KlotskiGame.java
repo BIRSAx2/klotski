@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import dev.plagarizers.klotski.screens.MainMenuScreen;
+import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
 
 // TODO: use assetManager class for shared resources to reduce allocation and memory consumption
 public class KlotskiGame extends Game {

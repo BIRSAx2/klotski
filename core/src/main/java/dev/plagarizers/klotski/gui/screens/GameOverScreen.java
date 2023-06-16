@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.screens;
+package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

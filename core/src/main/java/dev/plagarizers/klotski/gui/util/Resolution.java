@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.util;
+package dev.plagarizers.klotski.gui.util;
 
 public class Resolution {
   private int width;

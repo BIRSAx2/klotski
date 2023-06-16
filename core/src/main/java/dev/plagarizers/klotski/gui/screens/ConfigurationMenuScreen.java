@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.screens;
+package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
-import dev.plagarizers.klotski.actors.BoardPreview;
+import dev.plagarizers.klotski.gui.actors.BoardPreview;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 
