@@ -1,16 +1,19 @@
-# klotski
+# Klotski
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
+## Installation Instructions
+1. Install JDK 17 from [Oracle](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://openjdk.java.net/).
+2. Download and install [Android Sdk](https://developer.android.com/tools/releases/platform-tools).
+3. Clone this repository
 
-This project was generated with a template including simple application launchers and a main class extending `Game` that sets the first screen.
+Edit the `local.properties` file in the root directory of the project to add the path to your Android SDK installation. For example, on Windows, the path might look like this:
+
+
 
 ## Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
 - `lwjgl3`: Primary desktop platform using LWJGL3.
 - `android`: Android mobile platform. Needs Android SDK.
-- `headless`: Desktop platform without a graphical interface.
-- `server`: A separate application without access to the `core` module.
 
 ## Gradle
 

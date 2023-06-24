@@ -5,4 +5,8 @@ has_children: true
 nav_order: 2
 ---
 
-Manual
+Clone this repository:
+
+```bash
+git clone https://github.com/BIRSAx2/klotski.git
+```
