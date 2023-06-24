@@ -2,17 +2,11 @@ package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
@@ -29,8 +23,12 @@ public class MainMenuScreen implements Screen {
         float screenHeight = Gdx.graphics.getHeight();
 
         stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
+//        stage = new Stage();
+//        Gdx.input.setInputProcessor(stage);
+
         setupLayout(game.getImageButtonStyle(), game.getSkin());
     }
+
 
     private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
         Table table = new Table();
@@ -41,13 +39,12 @@ public class MainMenuScreen implements Screen {
         Label title = new Label("KLOTSKI", skin);
         title.setFontScale(2.5f);
 
-        Button newGame = new Button( skin);
+        Button newGame = new Button(skin);
         newGame.add(new Label("NEW GAME", skin));
         TextButton loadGame = new TextButton("LOAD GAME", skin);
         TextButton settings = new TextButton("SETTINGS", skin);
         TextButton quit = new TextButton("QUIT", skin);
         TextButton configuration = new TextButton("CHOOSE CONFIGURATION", skin);
-
 
 
         configuration.addListener(new ChangeListener() {

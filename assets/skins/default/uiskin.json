@@ -94,6 +94,10 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		imageUp: button_stone
 		imageDown: button_stone_pressed
 	}
+	back: {
+		imageUp: back_button
+		imageDown: back_button_pressed
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {

@@ -42,7 +42,9 @@ public class SettingsScreen implements Screen {
     makeSettings(table, skin);
 
     TextButton back = new TextButton("BACK", skin);
-    table.add(back).space(7).colspan(2);
+
+//    ImageButton back = new ImageButton(skin, "back");
+    table.add(back).space(7).colspan(2).fillX();
 
     back.addListener(new ChangeListener() {
       @Override
@@ -88,13 +90,7 @@ public class SettingsScreen implements Screen {
 
     // TODO: fix the spacing between the resolution and aspect ratio
     Label resolution = new Label("Resolution ", skin);
-    List.ListStyle listStyle = game.getSkin().get(List.ListStyle.class);
-    listStyle.font = game.getFont("SpectralRCRegular");
-    listStyle.fontColorSelected = Color.GOLD;
-    SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle(game.getFont("SpectralRCRegular"), Color.GOLD,
-      game.getSkin().getDrawable("default-select"), game.getSkin().get(ScrollPane.ScrollPaneStyle.class),
-      listStyle);
-    resolutions = new SelectBox<>(style);
+    resolutions = new SelectBox<>(skin);
     resolutions.setItems(
       new Resolution(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()),
       new Resolution(1920, 1080),

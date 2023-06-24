@@ -4,16 +4,23 @@ size: 1024, 1024
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
-logo
+SpectralRCBoldTitle
   rotate: false
-  xy: 803, 984
-  size: 148, 38
-  orig: 148, 38
+  xy: 1, 55
+  size: 506, 166
+  orig: 506, 166
+  offset: 0, 0
+  index: -1
+SpectralRCRegular
+  rotate: false
+  xy: 509, 164
+  size: 506, 57
+  orig: 506, 57
   offset: 0, 0
   index: -1
 bg
   rotate: false
-  xy: 1, 222
+  xy: 1, 223
   size: 800, 800
   split: 0, 0, 0, 0
   orig: 800, 800
@@ -21,7 +28,7 @@ bg
   index: -1
 button_stone_pressed
   rotate: false
-  xy: 803, 946
+  xy: 765, 126
   size: 36, 36
   split: 10, 10, 10, 10
   orig: 36, 36
@@ -29,14 +36,14 @@ button_stone_pressed
   index: -1
 check-off
   rotate: false
-  xy: 295, 147
+  xy: 151, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 textfield
   rotate: false
-  xy: 295, 147
+  xy: 151, 1
   size: 14, 14
   split: 3, 3, 3, 3
   orig: 14, 14
@@ -44,14 +51,14 @@ textfield
   index: -1
 check-on
   rotate: false
-  xy: 803, 930
+  xy: 167, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 279, 120
+  xy: 803, 137
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -59,14 +66,14 @@ cursor
   index: -1
 default
   rotate: false
-  xy: 1, 84
+  xy: 509, 85
   size: 254, 77
   orig: 254, 77
   offset: 0, 0
   index: -1
 default-pane
   rotate: false
-  xy: 43, 57
+  xy: 509, 58
   size: 5, 3
   split: 1, 1, 1, 1
   orig: 5, 3
@@ -74,7 +81,7 @@ default-pane
   index: -1
 default-rect-pad
   rotate: false
-  xy: 43, 57
+  xy: 509, 58
   size: 5, 3
   split: 1, 1, 1, 1
   orig: 5, 3
@@ -82,7 +89,7 @@ default-rect-pad
   index: -1
 default-pane-noborder
   rotate: false
-  xy: 857, 981
+  xy: 841, 980
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
@@ -90,7 +97,7 @@ default-pane-noborder
   index: -1
 default-rect
   rotate: false
-  xy: 295, 142
+  xy: 825, 159
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -98,7 +105,7 @@ default-rect
   index: -1
 default-rect-down
   rotate: false
-  xy: 311, 158
+  xy: 211, 50
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -106,7 +113,7 @@ default-rect-down
   index: -1
 default-round
   rotate: false
-  xy: 982, 1002
+  xy: 803, 923
   size: 12, 20
   split: 5, 5, 5, 4
   pad: 4, 4, 1, 1
@@ -115,7 +122,7 @@ default-round
   index: -1
 default-round-down
   rotate: false
-  xy: 65, 62
+  xy: 883, 1003
   size: 12, 20
   split: 5, 5, 5, 4
   pad: 4, 4, 1, 1
@@ -124,7 +131,7 @@ default-round-down
   index: -1
 default-round-large
   rotate: false
-  xy: 43, 62
+  xy: 803, 142
   size: 20, 20
   split: 5, 5, 5, 4
   orig: 20, 20
@@ -132,7 +139,7 @@ default-round-large
   index: -1
 default-scroll
   rotate: false
-  xy: 257, 103
+  xy: 189, 33
   size: 20, 20
   split: 2, 2, 2, 2
   orig: 20, 20
@@ -140,7 +147,7 @@ default-scroll
   index: -1
 default-select
   rotate: false
-  xy: 953, 1002
+  xy: 509, 63
   size: 27, 20
   split: 4, 14, 4, 4
   orig: 27, 20
@@ -148,7 +155,7 @@ default-select
   index: -1
 default-select-selection
   rotate: false
-  xy: 803, 925
+  xy: 1, 10
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -156,7 +163,7 @@ default-select-selection
   index: -1
 default-slider
   rotate: false
-  xy: 1, 1
+  xy: 765, 85
   size: 8, 8
   split: 2, 2, 2, 2
   orig: 8, 8
@@ -164,14 +171,14 @@ default-slider
   index: -1
 default-slider-knob
   rotate: false
-  xy: 30, 22
+  xy: 538, 65
   size: 9, 18
   orig: 9, 18
   offset: 0, 0
   index: -1
 default-splitpane
   rotate: false
-  xy: 257, 98
+  xy: 794, 121
   size: 5, 3
   split: 0, 5, 0, 0
   orig: 5, 3
@@ -179,7 +186,7 @@ default-splitpane
   index: -1
 default-splitpane-vertical
   rotate: false
-  xy: 819, 939
+  xy: 199, 10
   size: 3, 5
   split: 0, 0, 0, 5
   orig: 3, 5
@@ -187,22 +194,29 @@ default-splitpane-vertical
   index: -1
 default-window
   rotate: false
-  xy: 1, 11
+  xy: 765, 95
   size: 27, 29
   split: 4, 3, 20, 3
   orig: 27, 29
   offset: 0, 0
   index: -1
+logo
+  rotate: false
+  xy: 1, 15
+  size: 148, 38
+  orig: 148, 38
+  offset: 0, 0
+  index: -1
 selection
   rotate: false
-  xy: 969, 999
+  xy: 845, 984
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 stone
   rotate: false
-  xy: 257, 125
+  xy: 151, 17
   size: 36, 36
   split: 10, 12, 3, 7
   pad: 0, 0, 0, 0
@@ -211,7 +225,7 @@ stone
   index: -1
 button_stone
   rotate: false
-  xy: 257, 125
+  xy: 151, 17
   size: 36, 36
   split: 10, 10, 10, 10
   orig: 36, 36
@@ -219,7 +233,7 @@ button_stone
   index: -1
 stone_pressed
   rotate: false
-  xy: 1, 42
+  xy: 803, 983
   size: 40, 40
   split: 12, 10, 6, 13
   pad: 0, 0, 0, 0
@@ -228,43 +242,40 @@ stone_pressed
   index: -1
 tree-minus
   rotate: false
-  xy: 841, 968
+  xy: 183, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 tree-plus
   rotate: false
-  xy: 953, 986
+  xy: 189, 17
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 841, 963
+  xy: 205, 28
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
-white
+back_button
   rotate: false
-  xy: 841, 963
-  size: 3, 3
-  orig: 3, 3
+  xy: 803, 945
+  size: 36, 36
+  split: 7, 7, 7, 10
+  pad: 0, 7, 7, 7
+  orig: 36, 36
   offset: 0, 0
   index: -1
-SpectralRCBoldTitle
+back_button_pressed
   rotate: false
-  xy: 509, 54
-  size: 506, 166
-  orig: 506, 166
-  offset: 0, 0
-  index: -1
-SpectralRCRegular
-  rotate: false
-  xy: 1, 163
-  size: 506, 57
-  orig: 506, 57
+  xy: 845, 987
+  size: 36, 36
+  split: 7, 7, 7, 10
+  pad: 7, 7, 7, 7
+  orig: 36, 36
   offset: 0, 0
   index: -1
