@@ -1,0 +1,18 @@
+title: Klotski Game
+description: A Klotski Game made by The Plagiarizers for the course of Software Engineering.
+theme: just-the-docs
+
+url: https://BIRSAx2.github.io/klotski
+
+aux_links:
+  Project Repository: https://github.com/BIRSAx2/Klotski
+
+color_scheme: dark
+
+logo: "/assets/images/klotski.png"
+favicon_ico: "/assets/images/klotski.ico"
+
+mermaid:
+  version: "10.2.3"
+
+footer_content: "© 2023 The Plagiarizers"
