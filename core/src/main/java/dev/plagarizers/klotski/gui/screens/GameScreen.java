@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -40,12 +37,11 @@ public class GameScreen implements Screen {
     float screenHeight = Gdx.graphics.getHeight();
 
     stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
-    setupLayout(game.getImageButtonStyle(), game.getSkin());
+    setupLayout(null, game.getSkin());
   }
 
-  private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
-    ImageButton backButton = new ImageButton(buttonStyle);
-    backButton.add(new Label("Back", skin, "ButtonFont", Color.GOLD)); // Add the button text label
+  private void setupLayout(TextButton.TextButtonStyle buttonStyle, Skin skin) {
+    TextButton backButton = new TextButton("Back", skin);
 
     backButton.addListener(new ClickListener() {
       @Override
@@ -55,8 +51,7 @@ public class GameScreen implements Screen {
       }
     });
 
-    ImageButton nextMoveButton = new ImageButton(buttonStyle);
-    nextMoveButton.add(new Label("Next Move", skin, "ButtonFont", Color.GOLD));
+    TextButton nextMoveButton = new TextButton("Next Move", skin);
 
     nextMoveButton.addListener(new ClickListener() {
       @Override
@@ -66,8 +61,7 @@ public class GameScreen implements Screen {
       }
     });
 
-    ImageButton saveButton = new ImageButton(buttonStyle);
-    saveButton.add(new Label("Save", skin, "ButtonFont", Color.GOLD));
+    TextButton saveButton = new TextButton("Save", skin);
 
     saveButton.addListener(new ClickListener() {
       @Override
@@ -78,8 +72,7 @@ public class GameScreen implements Screen {
     });
 
 
-    ImageButton resetButton = new ImageButton(buttonStyle);
-    resetButton.add(new Label("Reset", skin, "ButtonFont", Color.GOLD));
+    TextButton resetButton = new TextButton("Reset", skin);
 
     resetButton.addListener(new ClickListener() {
       @Override
@@ -90,8 +83,7 @@ public class GameScreen implements Screen {
       }
     });
 
-    ImageButton undoButton = new ImageButton(buttonStyle);
-    undoButton.add(new Label("Undo", skin, "ButtonFont", Color.GOLD));
+    TextButton undoButton = new TextButton("Undo", skin);
 
     undoButton.addListener(new ClickListener() {
       @Override

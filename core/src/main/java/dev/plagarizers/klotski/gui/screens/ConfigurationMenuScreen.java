@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
+import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.actors.BoardPreview;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
@@ -43,7 +44,7 @@ public class ConfigurationMenuScreen implements Screen {
     table.setDebug(game.debug());
 
 
-    Label title = new Label("SELECT A CONFIGURATION", skin, "MenuTitleFont", Color.GOLD);
+    Label title = new Label("SELECT A CONFIGURATION", skin);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
 
@@ -75,7 +76,7 @@ public class ConfigurationMenuScreen implements Screen {
           game.setScreen(new GameScreen(game, level.toState()));
         }
       });
-      selectableLevels.add(board).pad(10).fillX();
+      selectableLevels.add(board).pad(10);
       //table.add(board);
 
       i++;
@@ -85,7 +86,7 @@ public class ConfigurationMenuScreen implements Screen {
 
 
     ImageButton backButton = new ImageButton(buttonStyle);
-    backButton.add(new Label("Back", skin, "ButtonFont", Color.GOLD)); // Add the button text label
+    backButton.add(new Label("Back", skin)); // Add the button text label
 
     backButton.addListener(new ChangeListener() {
       @Override

@@ -37,20 +37,20 @@ public class GameOverScreen implements Screen {
     table.setFillParent(true);
     table.setDebug(game.debug());
 
-    Label title = new Label("Game Over", skin, "MenuTitleFont", Color.GOLD);
+    Label title = new Label("Game Over", skin);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
 
     table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
     table.row();
 
-    Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", skin, "ButtonFont", Color.GREEN);
+    Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", skin);
     score.setAlignment(Align.center);
     score.setFontScale(1.2f);
     table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
     ImageButton backButton = new ImageButton(buttonStyle);
-    backButton.add(new Label("Back", skin, "ButtonFont", Color.GOLD)); // Add the button text label
+    backButton.add(new Label("Back", skin)); // Add the button text label
 
     backButton.addListener(new ChangeListener() {
       @Override

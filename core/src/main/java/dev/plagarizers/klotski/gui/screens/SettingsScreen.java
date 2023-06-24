@@ -31,7 +31,7 @@ public class SettingsScreen implements Screen {
 
     table.setDebug(game.debug());
 
-    Label title = new Label("SETTINGS", skin, "MenuTitleFont", Color.GOLD);
+    Label title = new Label("SETTINGS", skin);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
     table.defaults().space(7);
@@ -41,8 +41,7 @@ public class SettingsScreen implements Screen {
 
     makeSettings(table, skin);
 
-    ImageButton back = new ImageButton(buttonStyle);
-    back.add(new Label("BACK", skin, "ButtonFont", Color.GOLD));
+    TextButton back = new TextButton("BACK", skin);
     table.add(back).space(7).colspan(2);
 
     back.addListener(new ChangeListener() {
@@ -56,7 +55,7 @@ public class SettingsScreen implements Screen {
   }
 
   private void makeSettings(Table table, Skin skin) {
-    Label musicVolume = new Label("Music Volume", skin, "ButtonFont", Color.GOLD);
+    Label musicVolume = new Label("Music Volume", skin);
     musicVolume.setAlignment(Align.left);
     Slider musicVolumeSlider = new Slider(0, 100, 1, false, skin);
     musicVolumeSlider.setValue(game.getMusicVolume() * 100);
@@ -72,7 +71,7 @@ public class SettingsScreen implements Screen {
     table.add(musicVolumeSlider).fillX();
     table.row();
 
-    Label effectsVolume = new Label("Effects Volume", skin, "ButtonFont", Color.GOLD);
+    Label effectsVolume = new Label("Effects Volume", skin);
     effectsVolume.setAlignment(Align.left);
     Slider effectsVolumeSlider = new Slider(0, 100, 1, false, skin);
     effectsVolumeSlider.setValue(game.getEffectsVolume() * 100);
@@ -88,11 +87,11 @@ public class SettingsScreen implements Screen {
     table.row();
 
     // TODO: fix the spacing between the resolution and aspect ratio
-    Label resolution = new Label("Resolution ", skin, "ButtonFont", Color.GOLD);
+    Label resolution = new Label("Resolution ", skin);
     List.ListStyle listStyle = game.getSkin().get(List.ListStyle.class);
-    listStyle.font = game.getFont("SelectBoxFont");
+    listStyle.font = game.getFont("SpectralRCRegular");
     listStyle.fontColorSelected = Color.GOLD;
-    SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle(game.getFont("SelectBoxFont"), Color.GOLD,
+    SelectBox.SelectBoxStyle style = new SelectBox.SelectBoxStyle(game.getFont("SpectralRCRegular"), Color.GOLD,
       game.getSkin().getDrawable("default-select"), game.getSkin().get(ScrollPane.ScrollPaneStyle.class),
       listStyle);
     resolutions = new SelectBox<>(style);

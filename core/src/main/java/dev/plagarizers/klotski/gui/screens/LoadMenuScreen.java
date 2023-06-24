@@ -40,7 +40,7 @@ public class LoadMenuScreen implements Screen {
 
     table.setDebug(game.debug());
 
-    Label title = new Label("SELECT A SAVE SLOT", skin, "MenuTitleFont", Color.GOLD);
+    Label title = new Label("SELECT A SAVE SLOT", skin);
     title.setAlignment(Align.center);
     title.setFontScale(1.5f);
 
@@ -77,7 +77,7 @@ public class LoadMenuScreen implements Screen {
     for (String save : saves) {
       String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
       ImageButton saveButton = new ImageButton(buttonStyle);
-      Label saveName = new Label(fileName, skin, "ButtonFont", Color.GOLD);
+      Label saveName = new Label(fileName, skin);
       saveName.setAlignment(Align.left);
       saveButton.setName(fileName);
       saveButton.add(saveName);
@@ -89,7 +89,7 @@ public class LoadMenuScreen implements Screen {
     saveSlots.validate();
 
     ImageButton back = new ImageButton(buttonStyle);
-    back.add(new Label("BACK", skin, "ButtonFont", Color.GOLD));
+    back.add(new Label("BACK", skin));
     back.addListener(new ChangeListener() {
       @Override
       public void changed(ChangeEvent event, Actor actor) {
