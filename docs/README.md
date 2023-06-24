@@ -1,3 +1,18 @@
+# TODO List:
+- [ ] Manual
+- [ ] Design Model
+- [ ] Tests
+- [ ] Sequence Diagrams
+- [ ] Class Diagrams
+- [ ] Use Case Diagrams
+- [ ] Deployment Diagrams
+- [ ] Documentation (JavaDoc)
+- [ ] Domain Model Diagrams
+- [ ] Continuous Integration (CircleCI, Github Actions)
+- [ ] Code Coverage (Jacoco)
+- [ ] ADD MORE
+
+
 ## Building and previewing site locally
 
 ### Installation Instructions for Ruby, Jekyll, and Bundler
