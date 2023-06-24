@@ -5,7 +5,7 @@
 2. Download and install [Android Sdk](https://developer.android.com/tools/releases/platform-tools).
 3. Clone this repository
 
-Edit the `local.properties` file in the root directory of the project to add the path to your Android SDK installation. For example, on Windows, the path might look like this:
+Rename the `local.properties.example` file to `local.properties` and add the path to your Android SDK installation. For example, on Windows, the path might look like this:
 
 
 
