@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
+import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
+import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
 
 import java.util.List;
 
@@ -32,12 +34,13 @@ public class LoadMenuScreen implements Screen {
         Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
     }
 
+
     private void createUI(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("SELECT A SAVE SLOT", skin);
         title.setAlignment(Align.center);
@@ -59,28 +62,11 @@ public class LoadMenuScreen implements Screen {
             String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
 
             TextButton saveButton = new TextButton(fileName, skin);
-            saveButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-                    game.buttonPressedPlay();
-                    State saveState = savesManager.loadStateByName(fileName);
-                    Gdx.app.log("LoadMenuScreen", "Loaded state from save: " + fileName);
-                    game.setScreen(new GameScreen(game, saveState));
-                }
-            });
+            saveButton.addListener(new StartFromSaveClickListener(fileName, game));
             savesTable.add(saveButton).fillX().pad(7);
 
             TextButton deleteButton = new TextButton("DELETE", skin);
-            deleteButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-                    game.buttonPressedPlay();
-                    savesManager.deleteSave(fileName);
-                    Gdx.app.log("LoadMenuScreen", "Deleted save: " + fileName);
-                }
-            });
+            deleteButton.addListener(new DeleteSaveClickListener(fileName, game));
             savesTable.add(deleteButton).fillX().pad(7);
             savesTable.row();
 

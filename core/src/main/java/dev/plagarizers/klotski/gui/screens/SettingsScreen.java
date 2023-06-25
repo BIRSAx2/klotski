@@ -30,7 +30,7 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("SETTINGS", skin);
         title.setAlignment(Align.center);
@@ -71,7 +71,7 @@ public class SettingsScreen implements Screen {
         Label effectsVolume = new Label("Effects Volume", skin);
         effectsVolume.setAlignment(Align.left);
         Slider effectsVolumeSlider = new Slider(0, 100, 1, false, skin);
-        effectsVolumeSlider.setValue(game.getEffectsVolume() * 100);
+        effectsVolumeSlider.setValue(game.getMusicVolume() * 100);
         effectsVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

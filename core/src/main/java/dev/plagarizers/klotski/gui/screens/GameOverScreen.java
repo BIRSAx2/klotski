@@ -36,7 +36,7 @@ public class GameOverScreen implements Screen {
     private void setupLayout(Skin skin) {
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("Game Over", skin);
         title.setAlignment(Align.center);

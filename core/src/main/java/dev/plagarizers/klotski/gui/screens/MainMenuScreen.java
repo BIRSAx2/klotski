@@ -26,7 +26,7 @@ public class MainMenuScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("KLOTSKI", skin);
         title.setFontScale(2.5f);
