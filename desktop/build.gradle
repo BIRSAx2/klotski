@@ -18,8 +18,8 @@ else {
 }
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
-mainClassName = 'dev.plagarizers.klotski.lwjgl3.Lwjgl3Launcher'
-eclipse.project.name = appName + '-lwjgl3'
+mainClassName = 'dev.plagarizers.klotski.desktop.DesktopLauncher'
+eclipse.project.name = appName + '-desktop'
 sourceCompatibility = 17
 
 dependencies {

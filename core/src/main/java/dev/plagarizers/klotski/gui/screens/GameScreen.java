@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
 
   public GameScreen(KlotskiGame game, State state) {
     this.game = game;
-    savesManager = new SavesManager();
+    savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
     State currentState = state;
 
     if (currentState == null) currentState = State.fromRandomConfiguration();

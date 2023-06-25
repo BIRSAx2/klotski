@@ -1,4 +1,4 @@
-package dev.plagarizers.klotski.lwjgl3;
+package dev.plagarizers.klotski.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -7,7 +7,7 @@ import dev.plagarizers.klotski.KlotskiGame;
 /**
  * Launches the desktop (LWJGL3) application.
  */
-public class Lwjgl3Launcher {
+public class DesktopLauncher {
     public static void main(String[] args) {
         createApplication();
     }

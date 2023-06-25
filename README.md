@@ -12,7 +12,7 @@ Rename the `local.properties.example` file to `local.properties` and add the pat
 ## Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3.
+- `desktop`: Primary desktop platform using LWJGL3.
 - `android`: Android mobile platform. Needs Android SDK.
 
 ## Gradle
@@ -33,8 +33,8 @@ Useful Gradle tasks and flags:
 - `eclipse`: generates Eclipse project data.
 - `headless:run`: starts the headless application. Note: if headless sources were not modified - and the application still creates `ApplicationListener` from `core` project - this task might fail due to no graphics support.
 - `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- ``: starts the application.
+- `desktop:jar`: builds application's runnable jar, which can be found at `desktop/build/libs`.
+- `desktop:run`: starts the application.
 - `server:run`: runs the server application.
 - `test`: runs unit tests (if any).
 
