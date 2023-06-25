@@ -11,6 +11,12 @@ To start playing Klotski, you have multiple options to choose from. Whether you 
 file, building the game from source using Java and Gradle, or importing it into your favorite IDE, we've got you
 covered. Follow the instructions below to get started with Klotski on your preferred platform.
 
+## Platforms
+
+- `core`: Main module with the application logic shared by all platforms.
+- `desktop`: Primary desktop platform using LWJGL3.
+- `android`: Android mobile platform. Needs Android SDK.
+
 ## Option 1: Download the pre-built JAR file
 
 1. Visit the official [GitHub repository](https://github.com/BIRSAx2/klotski/releases) for Klotski.
@@ -26,10 +32,12 @@ covered. Follow the instructions below to get started with Klotski on your prefe
   extract it.
 - Ensure that you have Java Development Kit (JDK) (17 LTS) and Gradle installed on your system.
 - Open a terminal or command prompt and navigate to the root directory of the Klotski project.
-- Run the following command to build and runthe game:
+- Run the following command to build and run the game:
   ```bash
     gradle desktop:run
   ```
+- Note: In order to build the project, you will need to install the Android SDK. You can follow
+  the instructions [here](https://libgdx.com/wiki/start/import-and-running#command-line)
 
 ## Option 3: Import the project into your IDE
 
@@ -43,9 +51,32 @@ covered. Follow the instructions below to get started with Klotski on your prefe
 - Note: You may need to set up the run configuration in your IDE to specify the main class.
     - For IntelliJ IDEA/ Eclipse, you can follow the
       instructions [here](https://libgdx.com/wiki/start/import-and-running).
-    - Please note that in order to build the project using IntelliJ IDEA, you will need to create a `local.properties`
+    - Please note that in order to build the project, you will need to create a `local.properties`
       file in the root directory of the project and specify the path to your Android SDK installation. You can follow
       the instructions [here](https://libgdx.com/wiki/start/import-and-running#command-line)
 - The game should start running, and you can start playing Klotski within the IDE's game window.
 
 Please refer to the game's documentation for more detailed instructions and information on how to play the game.
+
+
+# Gradle
+
+This project uses [Gradle](http://gradle.org/) to manage dependencies.
+The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
+Useful Gradle tasks and flags:
+
+- `--continue`: when using this flag, errors will not stop the tasks from running.
+- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
+- `--offline`: when using this flag, cached dependency archives will be used.
+- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
+- `android:lint`: performs Android project validation.
+- `build`: builds sources and archives of every project.
+- `cleanEclipse`: removes Eclipse project data.
+- `cleanIdea`: removes IntelliJ project data.
+- `clean`: removes `build` folders, which store compiled classes and built archives.
+- `eclipse`: generates Eclipse project data.
+- `idea`: generates IntelliJ project data.
+- `desktop:jar`: builds application's runnable jar, which can be found at `desktop/build/libs`.
+- `desktop:run`: starts the application.
+- `server:run`: runs the server application.
+- `test`: runs unit tests (if any).
