@@ -14,6 +14,7 @@ import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 
 public class GameScreen implements Screen {
 
@@ -44,13 +45,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton nextMoveButton = new TextButton("Next Move", skin);
-        nextMoveButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
-                grid.playBestMove();
-            }
-        });
+        nextMoveButton.addListener(new BackToMainMenuClickListener(game));
 
         TextButton saveButton = new TextButton("Save", skin);
         saveButton.addListener(new ClickListener() {

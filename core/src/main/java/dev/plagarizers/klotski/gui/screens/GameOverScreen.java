@@ -3,18 +3,17 @@ package dev.plagarizers.klotski.gui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 
 public class GameOverScreen implements Screen {
     private Stage stage;
@@ -36,7 +35,7 @@ public class GameOverScreen implements Screen {
     private void setupLayout(Skin skin) {
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("Game Over", skin);
         title.setAlignment(Align.center);
@@ -53,13 +52,7 @@ public class GameOverScreen implements Screen {
         ImageButton backButton = new ImageButton(game.getImageButtonStyle());
         backButton.add(new Label("Back", skin)); // Add the button text label
 
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
-                game.setScreen(new MainMenuScreen(game));
-            }
-        });
+        backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7).row();
 
         stage.addActor(table);

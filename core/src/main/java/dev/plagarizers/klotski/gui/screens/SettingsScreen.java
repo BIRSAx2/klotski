@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 import dev.plagarizers.klotski.gui.util.Resolution;
 
 public class SettingsScreen implements Screen {
@@ -30,7 +31,7 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("SETTINGS", skin);
         title.setAlignment(Align.center);
@@ -71,7 +72,7 @@ public class SettingsScreen implements Screen {
         Label effectsVolume = new Label("Effects Volume", skin);
         effectsVolume.setAlignment(Align.left);
         Slider effectsVolumeSlider = new Slider(0, 100, 1, false, skin);
-        effectsVolumeSlider.setValue(game.getEffectsVolume() * 100);
+        effectsVolumeSlider.setValue(game.getMusicVolume() * 100);
         effectsVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -93,14 +94,8 @@ public class SettingsScreen implements Screen {
 
     private void makeBackButton(Table table, Skin skin) {
         TextButton back = new TextButton("BACK", skin);
-        back.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
-                game.setScreen(new MainMenuScreen(game));
-            }
-        });
 
+        back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).colspan(2).fillX();
     }
 

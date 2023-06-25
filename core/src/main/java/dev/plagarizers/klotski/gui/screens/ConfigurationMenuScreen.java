@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -16,6 +17,7 @@ import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.BoardPreview;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 
 import java.util.List;
 
@@ -30,21 +32,23 @@ public class ConfigurationMenuScreen implements Screen {
         this.stage.addActor(game.getBackground());
     }
 
-    private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
+    private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
-        Label title = new Label("SELECT A CONFIGURATION", skin);
+        ImageButton.ImageButtonStyle buttonStyle = game.getImageButtonStyle();
+
+        Label title = new Label("SELECT A CONFIGURATION", game.getSkin());
         title.setAlignment(Align.center);
         title.setFontScale(1.5f);
         table.add(title).colspan(6).center().padBottom(20);
         table.row();
 
         Table selectableLevels = new Table();
-        selectableLevels.setDebug(game.debug());
-        ScrollPane levelSelector = new ScrollPane(selectableLevels, skin);
+        selectableLevels.setDebug(game.isDebug());
+        ScrollPane levelSelector = new ScrollPane(selectableLevels, game.getSkin());
         levelSelector.setFadeScrollBars(false);
         levelSelector.setFlickScroll(false);
         table.add(levelSelector).fill().colspan(6).pad(7);
@@ -57,7 +61,7 @@ public class ConfigurationMenuScreen implements Screen {
                 selectableLevels.row();
             }
 
-            BoardPreview board = new BoardPreview(level, skin);
+            BoardPreview board = new BoardPreview(level, game.getSkin());
             board.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -73,14 +77,8 @@ public class ConfigurationMenuScreen implements Screen {
         table.row();
 
         ImageButton backButton = new ImageButton(buttonStyle);
-        backButton.add(new Label("Back", skin));
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
-                game.setScreen(new MainMenuScreen(game));
-            }
-        });
+        backButton.add(new Label("Back", game.getSkin()));
+        backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7);
 
         stage.addActor(table);
@@ -88,7 +86,7 @@ public class ConfigurationMenuScreen implements Screen {
 
     @Override
     public void show() {
-        setupLayout(game.getImageButtonStyle(), game.getSkin());
+        setupLayout();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -100,7 +98,6 @@ public class ConfigurationMenuScreen implements Screen {
             dispose();
             Gdx.app.exit();
         }
-
         stage.act(Math.min(delta, 1 / 60f));
         stage.draw();
     }

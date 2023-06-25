@@ -3,15 +3,15 @@ package dev.plagarizers.klotski.gui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
-import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
+import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
 
 import java.util.List;
 
@@ -32,12 +32,13 @@ public class LoadMenuScreen implements Screen {
         Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
     }
 
+
     private void createUI(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.debug());
+        table.setDebug(game.isDebug());
 
         Label title = new Label("SELECT A SAVE SLOT", skin);
         title.setAlignment(Align.center);
@@ -59,28 +60,11 @@ public class LoadMenuScreen implements Screen {
             String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
 
             TextButton saveButton = new TextButton(fileName, skin);
-            saveButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-                    game.buttonPressedPlay();
-                    State saveState = savesManager.loadStateByName(fileName);
-                    Gdx.app.log("LoadMenuScreen", "Loaded state from save: " + fileName);
-                    game.setScreen(new GameScreen(game, saveState));
-                }
-            });
+            saveButton.addListener(new StartFromSaveClickListener(fileName, game));
             savesTable.add(saveButton).fillX().pad(7);
 
             TextButton deleteButton = new TextButton("DELETE", skin);
-            deleteButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-                    game.buttonPressedPlay();
-                    savesManager.deleteSave(fileName);
-                    Gdx.app.log("LoadMenuScreen", "Deleted save: " + fileName);
-                }
-            });
+            deleteButton.addListener(new DeleteSaveClickListener(fileName, game));
             savesTable.add(deleteButton).fillX().pad(7);
             savesTable.row();
 
@@ -95,16 +79,8 @@ public class LoadMenuScreen implements Screen {
 
         saveSlots.validate();
 
-        ImageButton back = new ImageButton(buttonStyle);
-        back.add(new Label("BACK", skin));
-        back.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-                game.buttonPressedPlay();
-                game.setScreen(new MainMenuScreen(game));
-            }
-        });
+        TextButton back = new TextButton("BACK", skin);
+        back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).fill().pad(7);
         Gdx.app.log("LoadMenuScreen", "Added back button");
     }
