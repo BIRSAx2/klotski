@@ -11,11 +11,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
@@ -88,10 +90,11 @@ public class KlotskiGame extends Game {
     stage.setViewport(viewport);
 
     Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
+    TiledDrawable tiledDrawable = getSkin().getTiledDrawable("bg_tiled_drawable");
     background.setScaling(Scaling.fill);
     background.setZIndex(0);
-    stage.addActor(background);
-
+//    stage.addActor(background);
+    stage.addActor(new Image(tiledDrawable));
     return stage;
   }
 

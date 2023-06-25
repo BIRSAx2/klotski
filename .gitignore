@@ -5,7 +5,7 @@ gradle-app.setting
 /android/build/
 /core/build/
 /lwjgl2/build/
-/lwjgl3/build/
+/desktop/build/
 /html/build/
 /ios/build/
 /ios-moe/build/
@@ -65,7 +65,7 @@ www-test/
 /android/bin/
 /core/bin/
 /lwjgl2/bin/
-/lwjgl3/bin/
+/desktop/bin/
 /html/bin/
 /ios/bin/
 /ios-moe/bin/
@@ -88,7 +88,7 @@ www-test/
 /android/nbproject/private/
 /core/nbproject/private/
 /lwjgl2/nbproject/private/
-/lwjgl3/nbproject/private/
+/desktop/nbproject/private/
 /html/nbproject/private/
 /ios/nbproject/private/
 /ios-moe/nbproject/private/
@@ -100,7 +100,7 @@ www-test/
 /android/nbbuild/
 /core/nbbuild/
 /lwjgl2/nbbuild/
-/lwjgl3/nbbuild/
+/desktop/nbbuild/
 /html/nbbuild/
 /ios/nbbuild/
 /ios-moe/nbbuild/
@@ -112,7 +112,7 @@ www-test/
 /android/dist/
 /core/dist/
 /lwjgl2/dist/
-/lwjgl3/dist/
+/desktop/dist/
 /html/dist/
 /ios/dist/
 /ios-moe/dist/
@@ -124,7 +124,7 @@ www-test/
 /android/nbdist/
 /core/nbdist/
 /lwjgl2/nbdist/
-/lwjgl3/nbdist/
+/desktop/nbdist/
 /html/nbdist/
 /ios/nbdist/
 /ios-moe/nbdist/

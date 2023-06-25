@@ -2,7 +2,6 @@ package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,132 +14,128 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
+import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
+import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
 
 import java.util.List;
 
 public class LoadMenuScreen implements Screen {
-  private Stage stage;
-  private final KlotskiGame game;
+    private Stage stage;
+    private final KlotskiGame game;
 
-  private final SavesManager savesManager = new SavesManager();
+    private final SavesManager savesManager;
 
-  public LoadMenuScreen(KlotskiGame game) {
-    this.game = game;
-    float screenWidth = Gdx.graphics.getWidth();
-    float screenHeight = Gdx.graphics.getHeight();
-    stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
-    setupLayout(game.getImageButtonStyle(), game.getSkin());
-    Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
-  }
+    public LoadMenuScreen(KlotskiGame game) {
+        savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
 
-  private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
-    Table table = new Table();
-    table.setFillParent(true);
-    stage.addActor(table);
+        this.game = game;
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
+        setupLayout(game.getImageButtonStyle(), game.getSkin());
+        Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
+    }
 
-    table.setDebug(game.debug());
+    private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
 
-    Label title = new Label("SELECT A SAVE SLOT", skin, "MenuTitleFont", Color.GOLD);
-    title.setAlignment(Align.center);
-    title.setFontScale(1.5f);
+        table.setDebug(game.debug());
 
-    List<String> saves = savesManager.getSavedStatePaths();
+        Label title = new Label("SELECT A SAVE SLOT", skin);
+        title.setAlignment(Align.center);
+        title.setFontScale(1.5f);
 
-    table.add(title).width(Gdx.graphics.getWidth() / 2f);
-    table.row();
-    Table savesTable = new Table();
-    ScrollPane saveSlots = new ScrollPane(savesTable, skin);
-    saveSlots.setFadeScrollBars(false);
-    saveSlots.setFlickScroll(false);
-    table.add(saveSlots).maxHeight(Gdx.graphics.getHeight() / 2f).fillX().pad(7);
-    table.row();
+        List<String> saves = savesManager.getSavedStatePaths();
+
+        table.add(title).width(Gdx.graphics.getWidth() / 2f);
+        table.row();
+        Table savesTable = new Table();
+        ScrollPane saveSlots = new ScrollPane(savesTable, skin);
+        saveSlots.setFadeScrollBars(false);
+        saveSlots.setFlickScroll(false);
+        table.add(saveSlots).maxHeight(Gdx.graphics.getHeight() / 2f).fillX().pad(7);
+        table.row();
 
 
-    ClickListener startFromSave = new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-        game.buttonPressedPlay();
-        String saveName = "";
-        if (event.getTarget() instanceof Label) {
-          saveName = ((Label) event.getTarget()).getText().toString();
-        } else {
-          saveName = event.getTarget().getName();
+        for (String save : saves) {
+
+            String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
+            TextButton saveButton = new TextButton(fileName, skin);
+            saveButton.addListener(new StartFromSaveClickListener(fileName, game));
+            savesTable.add(saveButton).fillX().padBottom(7).padTop(7).padRight(10);
+
+
+            TextButton deleteButton = new TextButton("DELETE", skin);
+            deleteButton.addListener(new DeleteSaveClickListener(fileName, game));
+            savesTable.add(deleteButton).fillX().padBottom(7).padTop(7);
+
+
+            savesTable.row();
+            Gdx.app.log("LoadMenuScreen", "Added save button: " + fileName);
         }
 
-        State save = savesManager.loadStateByName(saveName);
-        Gdx.app.log("LoadMenuScreen", "Loaded state from save: " + saveName);
-        game.setScreen(new GameScreen(game, save));
-      }
-    };
+        if (saves.size() == 0) {
+            Label noSaves = new Label("No saves found", skin);
+            savesTable.add(noSaves).fillX().padBottom(7).padTop(7);
+            savesTable.row();
+        }
 
-    for (String save : saves) {
-      String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
-      ImageButton saveButton = new ImageButton(buttonStyle);
-      Label saveName = new Label(fileName, skin, "ButtonFont", Color.GOLD);
-      saveName.setAlignment(Align.left);
-      saveButton.setName(fileName);
-      saveButton.add(saveName);
-      saveButton.addListener(startFromSave);
-      savesTable.add(saveButton).fillX().padBottom(7).padTop(7);
-      Gdx.app.log("LoadMenuScreen", "Added save button: " + fileName);
-      savesTable.row();
+        saveSlots.validate();
+
+        ImageButton back = new ImageButton(buttonStyle);
+        back.add(new Label("BACK", skin));
+        back.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.buttonPressedPlay();
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+        table.add(back).fill().pad(7);
+        Gdx.app.log("LoadMenuScreen", "Added back button");
     }
-    saveSlots.validate();
 
-    ImageButton back = new ImageButton(buttonStyle);
-    back.add(new Label("BACK", skin, "ButtonFont", Color.GOLD));
-    back.addListener(new ChangeListener() {
-      @Override
-      public void changed(ChangeEvent event, Actor actor) {
-        game.buttonPressedPlay();
-        game.setScreen(new MainMenuScreen(game));
-      }
-    });
-    table.add(back).fill().pad(7);
-    Gdx.app.log("LoadMenuScreen", "Added back button");
-  }
+    // TODO: implement getMoves from file
+    private int getMoves() {
+        return 42;
+    }
 
-  // TODO: implement getMoves from file
-  private int getMoves() {
-    return 42;
-  }
+    @Override
+    public void show() {
 
-  @Override
-  public void show() {
+    }
 
-  }
+    @Override
+    public void render(float delta) {
+        float deltaT = Gdx.graphics.getDeltaTime();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(Math.min(deltaT, 1 / 60f));
+        stage.draw();
+    }
 
-  @Override
-  public void render(float delta) {
-    float deltaT = Gdx.graphics.getDeltaTime();
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height);
+    }
 
-    stage.act(Math.min(deltaT, 1 / 60f));
-    stage.draw();
-  }
+    @Override
+    public void pause() {
 
-  @Override
-  public void resize(int width, int height) {
-    stage.getViewport().update(width, height);
-  }
+    }
 
-  @Override
-  public void pause() {
+    @Override
+    public void resume() {
 
-  }
+    }
 
-  @Override
-  public void resume() {
+    @Override
+    public void hide() {
 
-  }
+    }
 
-  @Override
-  public void hide() {
-
-  }
-
-  @Override
-  public void dispose() {
-  }
+    @Override
+    public void dispose() {
+    }
 }

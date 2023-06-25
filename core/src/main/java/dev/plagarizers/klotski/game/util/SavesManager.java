@@ -1,6 +1,5 @@
 package dev.plagarizers.klotski.game.util;
 
-import com.google.gson.Gson;
 import dev.plagarizers.klotski.game.state.State;
 
 import java.io.*;
@@ -10,21 +9,26 @@ import java.util.Date;
 import java.util.List;
 
 public class SavesManager {
-    private static final String SAVE_DIRECTORY = "saves";
+
+    private String externalStoragePath;
     private static final String LEVEL_DIRECTORY = "levels";
     private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
-    private Gson gson;
 
     public SavesManager() {
-        gson = new Gson();
+        this.externalStoragePath = "~/klotski/saves/";
+    }
+
+    public SavesManager(String externalStoragePath) {
+        this.externalStoragePath = externalStoragePath + "klotski/saves/";
     }
 
     public void saveState(State state) {
         try {
             String json = state.toJson();
-
             createSaveDirectoryIfNotExists();
             String filename = generateFilename();
+            System.out.println("Filename: " + filename);
+            System.out.println("Saving to: " + getSaveFilePath(filename));
             FileWriter fileWriter = new FileWriter(getSaveFilePath(filename));
             fileWriter.write(json);
             fileWriter.close();
@@ -36,7 +40,9 @@ public class SavesManager {
 
     public List<String> getSavedStatePaths() {
         List<String> savedStatePaths = new ArrayList<>();
-        File saveDirectory = new File(SAVE_DIRECTORY);
+        System.out.println(externalStoragePath == null);
+        File saveDirectory = new File(externalStoragePath);
+        System.out.println(externalStoragePath);
         if (saveDirectory.exists() && saveDirectory.isDirectory()) {
             File[] saveFiles = saveDirectory.listFiles();
             if (saveFiles != null) {
@@ -55,14 +61,14 @@ public class SavesManager {
 
     public State loadStateByPath(String filePath) {
         try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
             bufferedReader.close();
+
 
             String json = stringBuilder.toString();
             return State.fromJson(json);
@@ -73,11 +79,11 @@ public class SavesManager {
     }
 
     private void createSaveDirectoryIfNotExists() {
-        File saveDirectory = new File(SAVE_DIRECTORY);
+        File saveDirectory = new File(externalStoragePath);
         if (!saveDirectory.exists() || !saveDirectory.isDirectory()) {
             boolean created = saveDirectory.mkdirs();
             if (!created) {
-                System.err.println("Failed to create save directory: " + SAVE_DIRECTORY);
+                System.err.println("Failed to create save directory: " + externalStoragePath);
             }
         }
     }
@@ -85,11 +91,11 @@ public class SavesManager {
     private String generateFilename() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String timestamp = dateFormat.format(new Date());
-        return "save_" + timestamp + ".json";
+        return "save_" + timestamp;
     }
 
     private String getSaveFilePath(String filename) {
-        return SAVE_DIRECTORY + File.separator + filename + ".json";
+        return externalStoragePath + filename + ".json";
     }
 
 
@@ -116,5 +122,19 @@ public class SavesManager {
         } catch (IOException e) {
             throw new RuntimeException("Error loading levels: " + e.getMessage());
         }
+    }
+
+    public void deleteSave(String saveName) {
+
+        String path = getSaveFilePath(saveName);
+
+        System.out.println("Deleting save: " + path);
+
+        File file = new File(path);
+        System.out.println(file.exists());
+        if (file.exists()) {
+            file.delete();
+        }
+
     }
 }

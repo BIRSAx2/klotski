@@ -42,7 +42,7 @@ jobs:
           name: Build
           command: |
             ./gradlew core:build
-            ./gradlew lwjgl3:jar
+            ./gradlew desktop:jar
 
       - run:
           name: Generate Version Number
@@ -58,7 +58,7 @@ jobs:
           command: ./gradlew assembleRelease
 
       - store_artifacts:
-          path: lwjgl3/build/lib/
+          path: desktop/build/lib/
           destination: jars
 
       - store_artifacts:
@@ -76,8 +76,8 @@ jobs:
       - run:
           name: Upload to GitHub Releases
           command: |
-            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" lwjgl3/build/lib/
-            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" android/build/outputs/apk/release/
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" desktop/build/lib/
+            ghr --username $GITHUB_USERNAME --token $GITHUB_TOKEN --replace "$RELEASE_TAG" android/build/outputs/apk/release/android-release-unsigned.apk
 
 
 workflows:

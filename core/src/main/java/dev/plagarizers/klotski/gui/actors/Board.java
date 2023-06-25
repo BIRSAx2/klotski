@@ -56,7 +56,7 @@ public class Board extends Actor {
     loadBlocks();
     selectedTile = tiles.get(0);
 
-    movesLabel = new Label("Moves: ", skin, "ButtonFont", Color.GOLD);
+    movesLabel = new Label("Moves: ", skin);
     movesLabel.setFontScale(1.5f);
   }
 
