@@ -5,6 +5,6 @@ has_children: true
 nav_order: 7
 ---
 
-# Java doc
+# [Javadoc](/klotski/assets/javadoc/index.html)
 
 # This manual
