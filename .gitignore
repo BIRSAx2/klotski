@@ -163,3 +163,7 @@ docs/vendor/
 
 # Ruby
 Gemfile.lock
+
+
+# Test results
+docs/assets/reports/*

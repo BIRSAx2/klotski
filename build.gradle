@@ -1,92 +1,91 @@
 buildscript {
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    mavenLocal()
-    google()
-    gradlePluginPortal()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-  }
-  dependencies {
-    classpath "com.android.tools.build:gradle:$androidPluginVersion"
-  }
+    repositories {
+        mavenCentral()
+        maven { url 'https://s01.oss.sonatype.org' }
+        mavenLocal()
+        google()
+        gradlePluginPortal()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$androidPluginVersion"
+    }
 }
 
 allprojects {
-  apply plugin: 'eclipse'
-  apply plugin: 'idea'
-  apply plugin: 'jacoco'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'jacoco'
 }
 
 configure(subprojects - project(':android')) {
-  apply plugin: 'java-library'
-  sourceCompatibility = 17
-  compileJava {
-    options.incremental = true
-  }
-  test {
-    useJUnitPlatform()
-    dependsOn 'cleanTest'
-
-    testLogging {
-      events 'passed', 'skipped', 'failed'
+    apply plugin: 'java-library'
+    sourceCompatibility = 17
+    compileJava {
+        options.incremental = true
     }
-    finalizedBy jacocoTestReport
-  }
+    test {
+        useJUnitPlatform()
+        dependsOn 'cleanTest'
 
-  check {
-    dependsOn jacocoTestCoverageVerification
-  }
-
-  jacocoTestCoverageVerification {
-    violationRules {
-      rule {
-        element = 'CLASS'
-        limit {
-          counter = 'LINE'
-          value = 'COVEREDRATIO'
-          minimum = 0.0
+        testLogging {
+            events 'passed', 'skipped', 'failed'
         }
-        excludes = [
-          'dev.plagarizers.klotski.actors',
-          'dev.plagarizers.klotski.screens',
-          'dev.plagarizers.klotski.util'
-        ]
-      }
+        finalizedBy jacocoTestReport
     }
-  }
 
-  jacocoTestReport {
-    afterEvaluate {
-      classDirectories.setFrom(files(classDirectories.files.collect {
-        fileTree(dir: it, exclude: [
-          'dev/plagarizers/klotski/actors/**',
-          'dev/plagarizers/klotski/screens/**',
-          'dev/plagarizers/klotski/util/**',
-        ])
-      }))
+    check {
+        dependsOn jacocoTestCoverageVerification
     }
-  }
 
-  dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-  }
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                element = 'CLASS'
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.0
+                }
+                excludes = [
+                    'dev.plagarizers.klotski.actors',
+                    'dev.plagarizers.klotski.screens',
+                    'dev.plagarizers.klotski.util'
+                ]
+            }
+        }
+    }
+
+    jacocoTestReport {
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                    'dev/plagarizers/klotski/gui/**',
+                    'dev/plagarizers/klotski/KlotskiGame.java',
+                ])
+            }))
+        }
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    }
 }
 
 subprojects {
-  version = '0.0.1'
-  ext.appName = 'klotski'
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    mavenLocal()
-    gradlePluginPortal()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://jitpack.io' }
-  }
+    version = '0.0.1'
+    ext.appName = 'klotski'
+    repositories {
+        mavenCentral()
+        maven { url 'https://s01.oss.sonatype.org' }
+        mavenLocal()
+        gradlePluginPortal()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 eclipse.project.name = 'klotski' + '-parent'
