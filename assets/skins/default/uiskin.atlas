@@ -18,6 +18,24 @@ SpectralRCRegular
   orig: 506, 57
   offset: 0, 0
   index: -1
+back_button
+  rotate: false
+  xy: 803, 945
+  size: 36, 36
+  split: 7, 7, 7, 10
+  pad: 0, 7, 7, 7
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
+back_button_pressed
+  rotate: false
+  xy: 845, 987
+  size: 36, 36
+  split: 7, 7, 7, 10
+  pad: 7, 7, 7, 7
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
 bg
   rotate: false
   xy: 1, 223
@@ -259,23 +277,5 @@ white
   xy: 205, 28
   size: 3, 3
   orig: 3, 3
-  offset: 0, 0
-  index: -1
-back_button
-  rotate: false
-  xy: 803, 945
-  size: 36, 36
-  split: 7, 7, 7, 10
-  pad: 0, 7, 7, 7
-  orig: 36, 36
-  offset: 0, 0
-  index: -1
-back_button_pressed
-  rotate: false
-  xy: 845, 987
-  size: 36, 36
-  split: 7, 7, 7, 10
-  pad: 7, 7, 7, 7
-  orig: 36, 36
   offset: 0, 0
   index: -1
