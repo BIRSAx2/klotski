@@ -20,54 +20,41 @@ import dev.plagarizers.klotski.gui.actors.BoardPreview;
 import java.util.List;
 
 public class ConfigurationMenuScreen implements Screen {
-    private Stage stage;
     private final KlotskiGame game;
+    private final Stage stage;
     private final SavesManager savesManager = new SavesManager();
 
     public ConfigurationMenuScreen(KlotskiGame game) {
         this.game = game;
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
-
+        this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        this.stage.addActor(game.getBackground());
     }
 
     private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
-
         Table table = new Table();
-        table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         table.setFillParent(true);
         stage.addActor(table);
         table.setDebug(game.debug());
 
-
         Label title = new Label("SELECT A CONFIGURATION", skin);
         title.setAlignment(Align.center);
         title.setFontScale(1.5f);
-
         table.add(title).colspan(6).center().padBottom(20);
         table.row();
 
-        // TODO: this is a temporary fix, do not use in the final build
         Table selectableLevels = new Table();
         selectableLevels.setDebug(game.debug());
         ScrollPane levelSelector = new ScrollPane(selectableLevels, skin);
         levelSelector.setFadeScrollBars(false);
         levelSelector.setFlickScroll(false);
-
-
         table.add(levelSelector).fill().colspan(6).pad(7);
         selectableLevels.defaults().padBottom(20).fillX().colspan(2);
 
-
         List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").path());
-
         int i = 0;
         for (Level level : levels) {
             if (i % 3 == 0) {
                 selectableLevels.row();
-                //table.row();
             }
 
             BoardPreview board = new BoardPreview(level, skin);
@@ -79,17 +66,14 @@ public class ConfigurationMenuScreen implements Screen {
                 }
             });
             selectableLevels.add(board).pad(10);
-            //table.add(board);
 
             i++;
         }
         levelSelector.validate();
         table.row();
 
-
         ImageButton backButton = new ImageButton(buttonStyle);
-        backButton.add(new Label("Back", skin)); // Add the button text label
-
+        backButton.add(new Label("Back", skin));
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -102,7 +86,6 @@ public class ConfigurationMenuScreen implements Screen {
         stage.addActor(table);
     }
 
-
     @Override
     public void show() {
         setupLayout(game.getImageButtonStyle(), game.getSkin());
@@ -111,7 +94,6 @@ public class ConfigurationMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        float deltaT = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
@@ -119,7 +101,7 @@ public class ConfigurationMenuScreen implements Screen {
             Gdx.app.exit();
         }
 
-        stage.act(Math.min(deltaT, 1 / 60f));
+        stage.act(Math.min(delta, 1 / 60f));
         stage.draw();
     }
 
@@ -130,21 +112,18 @@ public class ConfigurationMenuScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

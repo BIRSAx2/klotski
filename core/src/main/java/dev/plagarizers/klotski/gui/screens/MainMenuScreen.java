@@ -18,17 +18,8 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(KlotskiGame game) {
         this.game = game;
 
-
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
-//        stage = new Stage();
-//        Gdx.input.setInputProcessor(stage);
-
-        setupLayout(game.getImageButtonStyle(), game.getSkin());
+        stage = game.getStage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
     }
-
 
     private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
         Table table = new Table();
@@ -36,16 +27,15 @@ public class MainMenuScreen implements Screen {
         stage.addActor(table);
 
         table.setDebug(game.debug());
+
         Label title = new Label("KLOTSKI", skin);
         title.setFontScale(2.5f);
 
-        Button newGame = new Button(skin);
-        newGame.add(new Label("NEW GAME", skin));
+        TextButton newGame = new TextButton("NEW GAME", skin);
+        TextButton configuration = new TextButton("CHOOSE CONFIGURATION", skin);
         TextButton loadGame = new TextButton("LOAD GAME", skin);
         TextButton settings = new TextButton("SETTINGS", skin);
         TextButton quit = new TextButton("QUIT", skin);
-        TextButton configuration = new TextButton("CHOOSE CONFIGURATION", skin);
-
 
         configuration.addListener(new ChangeListener() {
             @Override
@@ -54,6 +44,7 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new ConfigurationMenuScreen(game));
             }
         });
+
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -82,60 +73,51 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.dispose();
-                System.exit(0);
+                Gdx.app.exit();
             }
         });
-        table.add(title).center().padBottom(5);
-        table.row();
-        table.add(newGame).uniform().fillX().pad(5);
-        table.row();
-        table.add(configuration).uniform().fillX().pad(5);
-        table.row();
-        table.add(loadGame).uniform().fillX().pad(5);
-        table.row();
-        table.add(settings).uniform().fillX().pad(5);
-        table.row();
-        table.add(quit).uniform().fillX().pad(5);
 
+        table.add(title).center().padBottom(5).row();
+        table.add(newGame).uniform().fillX().pad(5).row();
+        table.add(configuration).uniform().fillX().pad(5).row();
+        table.add(loadGame).uniform().fillX().pad(5).row();
+        table.add(settings).uniform().fillX().pad(5).row();
+        table.add(quit).uniform().fillX().pad(5);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
+        setupLayout(game.getImageButtonStyle(), game.getSkin());
     }
 
     @Override
     public void render(float delta) {
-        float deltaT = Gdx.graphics.getDeltaTime();
+        float deltaT = Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        stage.act(Math.min(deltaT, 1 / 60f));
+        stage.act(deltaT);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height);
-        //cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        //cam.update();
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
+        stage.dispose();
     }
 }

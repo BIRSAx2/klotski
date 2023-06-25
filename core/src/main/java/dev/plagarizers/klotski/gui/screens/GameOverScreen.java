@@ -2,7 +2,6 @@ package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,89 +17,87 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 
 public class GameOverScreen implements Screen {
-  private Stage stage;
-  private final KlotskiGame game;
-  private final SavesManager savesManager = new SavesManager();
+    private Stage stage;
+    private final KlotskiGame game;
+    private final SavesManager savesManager = new SavesManager();
 
-  private final State state;
+    private final State state;
 
-  public GameOverScreen(KlotskiGame game, State state) {
-    this.state = state;
-    this.game = game;
-    float screenWidth = Gdx.graphics.getWidth();
-    float screenHeight = Gdx.graphics.getHeight();
-    stage = game.getStage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
-  }
+    public GameOverScreen(KlotskiGame game, State state) {
+        this.state = state;
+        this.game = game;
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        stage = new Stage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
 
-  private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
-    Table table = new Table();
-    table.setFillParent(true);
-    table.setDebug(game.debug());
+        stage.addActor(game.getBackground());
+    }
 
-    Label title = new Label("Game Over", skin);
-    title.setAlignment(Align.center);
-    title.setFontScale(1.5f);
+    private void setupLayout(Skin skin) {
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(game.debug());
 
-    table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
-    table.row();
+        Label title = new Label("Game Over", skin);
+        title.setAlignment(Align.center);
+        title.setFontScale(1.5f);
 
-    Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", skin);
-    score.setAlignment(Align.center);
-    score.setFontScale(1.2f);
-    table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
+        table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
+        table.row();
 
-    ImageButton backButton = new ImageButton(buttonStyle);
-    backButton.add(new Label("Back", skin)); // Add the button text label
+        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", skin);
+        score.setAlignment(Align.center);
+        score.setFontScale(1.2f);
+        table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
-    backButton.addListener(new ChangeListener() {
-      @Override
-      public void changed(ChangeEvent event, Actor actor) {
-        game.buttonPressedPlay();
-        game.setScreen(new MainMenuScreen(game));
-      }
-    });
-    table.add(backButton).fill().colspan(6).pad(7).row();
+        ImageButton backButton = new ImageButton(game.getImageButtonStyle());
+        backButton.add(new Label("Back", skin)); // Add the button text label
 
-    stage.addActor(table);
-  }
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.buttonPressedPlay();
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+        table.add(backButton).fill().colspan(6).pad(7).row();
 
-  @Override
-  public void show() {
-    setupLayout(game.getImageButtonStyle(), game.getSkin());
-    Gdx.input.setInputProcessor(stage);
-  }
+        stage.addActor(table);
+    }
 
-  @Override
-  public void render(float delta) {
-    float deltaT = Gdx.graphics.getDeltaTime();
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    stage.act(Math.min(deltaT, 1 / 60f));
-    stage.draw();
-  }
+    @Override
+    public void show() {
+        setupLayout(game.getSkin());
+        Gdx.input.setInputProcessor(stage);
+    }
 
-  @Override
-  public void resize(int width, int height) {
-    stage.getViewport().update(width, height);
+    @Override
+    public void render(float delta) {
+        float deltaT = Gdx.graphics.getDeltaTime();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(Math.min(deltaT, 1 / 60f));
+        stage.draw();
+    }
 
-  }
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height);
+    }
 
-  @Override
-  public void pause() {
+    @Override
+    public void pause() {
+    }
 
-  }
+    @Override
+    public void resume() {
+    }
 
-  @Override
-  public void resume() {
+    @Override
+    public void hide() {
+    }
 
-  }
-
-  @Override
-  public void hide() {
-
-  }
-
-  @Override
-  public void dispose() {
-
-  }
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 }
