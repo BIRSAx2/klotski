@@ -27,8 +27,6 @@ public class SavesManager {
             String json = state.toJson();
             createSaveDirectoryIfNotExists();
             String filename = generateFilename();
-            System.out.println("Filename: " + filename);
-            System.out.println("Saving to: " + getSaveFilePath(filename));
             FileWriter fileWriter = new FileWriter(getSaveFilePath(filename));
             fileWriter.write(json);
             fileWriter.close();
@@ -40,9 +38,7 @@ public class SavesManager {
 
     public List<String> getSavedStatePaths() {
         List<String> savedStatePaths = new ArrayList<>();
-        System.out.println(externalStoragePath == null);
         File saveDirectory = new File(externalStoragePath);
-        System.out.println(externalStoragePath);
         if (saveDirectory.exists() && saveDirectory.isDirectory()) {
             File[] saveFiles = saveDirectory.listFiles();
             if (saveFiles != null) {
@@ -128,10 +124,7 @@ public class SavesManager {
 
         String path = getSaveFilePath(saveName);
 
-        System.out.println("Deleting save: " + path);
-
         File file = new File(path);
-        System.out.println(file.exists());
         if (file.exists()) {
             file.delete();
         }
