@@ -36,6 +36,19 @@ public class SavesManager {
         }
     }
 
+    public void saveState(State state, String saveName) {
+        try {
+            String json = state.toJson();
+            createSaveDirectoryIfNotExists();
+            FileWriter fileWriter = new FileWriter(getSaveFilePath(saveName));
+            fileWriter.write(json);
+            fileWriter.close();
+
+        } catch (IOException e) {
+            System.err.println("Error saving state: " + e.getMessage());
+        }
+    }
+
     public List<String> getSavedStatePaths() {
         List<String> savedStatePaths = new ArrayList<>();
         File saveDirectory = new File(externalStoragePath);

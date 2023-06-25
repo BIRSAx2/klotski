@@ -2,13 +2,15 @@ package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
@@ -52,7 +54,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                savesManager.saveState(grid.getState());
+                setupSaveInput();
             }
         });
 
@@ -88,6 +90,63 @@ public class GameScreen implements Screen {
         table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
 
         stage.addActor(table);
+    }
+
+    private void setupSaveInput() {
+        Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.fillRectangle(0, 0, 1, 1);
+        Texture background = new Texture(pixmap);
+        pixmap.dispose();
+
+        Image backgroundTransparent = new Image(background);
+        backgroundTransparent.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        backgroundTransparent.getColor().a = .6f;
+        stage.addActor(backgroundTransparent);
+        Table saveInput = new Table();
+        saveInput.setFillParent(true);
+        saveInput.setDebug(game.isDebug());
+        saveInput.defaults().space(10);
+        Label message = new Label("Please insert a name for the save", game.getSkin());
+        message.setVisible(false);
+        message.setAlignment(Align.center);
+        message.setColor(Color.RED);
+        Label saveTag = new Label("Insert the save name:", game.getSkin());
+        TextField saveName = new TextField("", game.getSkin());
+
+        TextButton save = new TextButton("SAVE", game.getSkin());
+        save.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.buttonPressedPlay();
+                if(saveName.getText().equals("") || saveName.getText() == null) {
+                    message.setVisible(true);
+                } else {
+                    savesManager.saveState(grid.getState(), saveName.getText());
+                    backgroundTransparent.setVisible(false);
+                    saveInput.setVisible(false);
+                }
+            }
+        });
+
+        TextButton cancel = new TextButton("CANCEL", game.getSkin());
+        cancel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.buttonPressedPlay();
+                backgroundTransparent.setVisible(false);
+                saveInput.setVisible(false);
+            }
+        });
+
+        saveInput.add(message).center().fillX().colspan(2);
+        saveInput.row();
+        saveInput.add(saveTag).center().width(Gdx.graphics.getWidth()/4f).spaceRight(5);
+        saveInput.add(saveName).center().width(Gdx.graphics.getWidth()/4f).spaceLeft(5);
+        saveInput.row();
+        saveInput.add(save).center().width(Gdx.graphics.getWidth() / 6f).spaceRight(5);
+        saveInput.add(cancel).center().width(Gdx.graphics.getWidth() / 6f).spaceLeft(5);
+        stage.addActor(saveInput);
     }
 
     @Override
