@@ -3,15 +3,13 @@ package dev.plagarizers.klotski.gui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import dev.plagarizers.klotski.KlotskiGame;
-import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
 import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
 
@@ -81,16 +79,8 @@ public class LoadMenuScreen implements Screen {
 
         saveSlots.validate();
 
-        ImageButton back = new ImageButton(buttonStyle);
-        back.add(new Label("BACK", skin));
-        back.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
-                game.buttonPressedPlay();
-                game.setScreen(new MainMenuScreen(game));
-            }
-        });
+        TextButton back = new TextButton("BACK", skin);
+        back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).fill().pad(7);
         Gdx.app.log("LoadMenuScreen", "Added back button");
     }
