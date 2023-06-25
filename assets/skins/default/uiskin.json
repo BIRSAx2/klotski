@@ -125,7 +125,6 @@ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 	default: {
-		background: default-rect
 		hScroll: default-scroll
 		hScrollKnob: default-round-large
 		vScroll: default-scroll

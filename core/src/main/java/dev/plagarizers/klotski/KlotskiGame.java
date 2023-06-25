@@ -90,11 +90,11 @@ public class KlotskiGame extends Game {
     stage.setViewport(viewport);
 
     Image background = new Image(new Texture(Gdx.files.internal("textures/background.png")));
-    TiledDrawable tiledDrawable = getSkin().getTiledDrawable("bg_tiled_drawable");
+//    TiledDrawable tiledDrawable = getSkin().getTiledDrawable("bg_tiled_drawable");
     background.setScaling(Scaling.fill);
     background.setZIndex(0);
 //    stage.addActor(background);
-    stage.addActor(new Image(tiledDrawable));
+    stage.addActor(background);
     return stage;
   }
 
