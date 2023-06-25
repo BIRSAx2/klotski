@@ -159,8 +159,6 @@ public class State implements Cloneable {
         // TODO: Move the levels folder to the root of the project and load it from there
         List<Level> levels = savesManager.loadLevelsFromDefaultPath();
 
-        System.out.println("Loaded " + levels.size() + " levels");
-
         Random random = new Random();
         int index = random.nextInt(levels.size());
         Level level = levels.get(index);
