@@ -176,6 +176,14 @@ public class Board extends Actor {
       undoMove();
     }
 
+    if (Gdx.input.isKeyJustPressed(Input.Keys.R) && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+      reset();
+    }
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+      playBestMove();
+    }
+
     for (Map.Entry<Integer, Direction> entry : mappings.entrySet()) {
       if (Gdx.input.isKeyJustPressed(entry.getKey())) {
         boolean result = moveBlock(selectedTile.getBlock(), entry.getValue());
