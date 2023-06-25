@@ -13,7 +13,9 @@ import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
 import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoadMenuScreen implements Screen {
     private Stage stage;
@@ -44,7 +46,7 @@ public class LoadMenuScreen implements Screen {
         title.setAlignment(Align.center);
         title.setFontScale(1.5f);
 
-        List<String> saves = savesManager.getSavedStatePaths();
+        HashMap<String, Integer> saves = savesManager.getSavedStatePaths();
 
         table.add(title).width(stage.getWidth() / 2f);
         table.row();
@@ -56,10 +58,13 @@ public class LoadMenuScreen implements Screen {
         table.add(saveSlots).maxHeight(stage.getHeight() / 2f).fillX().pad(7);
         table.row();
 
-        for (String save : saves) {
-            String fileName = save.substring(save.lastIndexOf("/") + 1).replace(".json", "");
+        for(Map.Entry<String, Integer> save : saves.entrySet()) {
+            String key = save.getKey();
+            String fileName = key.substring(key.lastIndexOf("/") + 1).replace(".json", "");
 
-            TextButton saveButton = new TextButton(fileName, skin);
+            String saveButtonLabel = fileName + "\nMoves: " + save.getValue();
+            TextButton saveButton = new TextButton(saveButtonLabel, skin);
+            saveButton.getLabel().setAlignment(Align.left);
             saveButton.addListener(new StartFromSaveClickListener(fileName, game));
             savesTable.add(saveButton).fillX().pad(7);
 

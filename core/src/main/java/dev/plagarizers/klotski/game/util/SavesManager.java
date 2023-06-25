@@ -6,6 +6,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class SavesManager {
@@ -49,20 +50,42 @@ public class SavesManager {
         }
     }
 
-    public List<String> getSavedStatePaths() {
-        List<String> savedStatePaths = new ArrayList<>();
+    public HashMap<String, Integer> getSavedStatePaths() {
+        HashMap<String, Integer> savedStatePaths = new HashMap<>();
         File saveDirectory = new File(externalStoragePath);
         if (saveDirectory.exists() && saveDirectory.isDirectory()) {
             File[] saveFiles = saveDirectory.listFiles();
             if (saveFiles != null) {
                 for (File saveFile : saveFiles) {
-                    savedStatePaths.add(saveFile.getAbsolutePath());
+                    String path = saveFile.getAbsolutePath();
+                    int moves = getMoves(path);
+                    if (moves < 0) {
+                        moves = 0;
+                    }
+                    savedStatePaths.put(path, moves);
                 }
             }
         }
         return savedStatePaths;
     }
 
+    public int getMoves(String filePath) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            bufferedReader.close();
+            String json = stringBuilder.toString();
+
+            return State.fromJson(json).getMoves();
+        } catch (IOException e) {
+            System.err.println("Error getting moves: " + e.getMessage());
+            return -1;
+        }
+    }
 
     public State loadStateByName(String name) {
         return loadStateByPath(getSaveFilePath(name));
