@@ -1,0 +1,167 @@
+@startuml
+
+!include https://raw.githubusercontent.com/patrik-csak/one-dark-plantuml-theme/v1.0.1/theme.puml
+top to bottom direction
+skinparam linetype ortho
+
+class BackToMainMenuClickListener {
+  + BackToMainMenuClickListener(KlotskiGame):
+  + clicked(InputEvent, float, float): void
+}
+class Board {
+  + Board(State, Skin):
+  - itemWidth: float
+  - state: State
+  - itemHeight: float
+  + loadBlocks(): void
+  - moveBlock(Block, Direction): boolean
+  + reset(): void
+  + draw(Batch, float): void
+  + playBestMove(): void
+  + handleInput(): void
+  - calculateSolution(): void
+  + addTile(Block): void
+  + undoMove(): void
+  - calculateDragDirection(Vector2, Vector2): Direction
+  - selectNextTile(): void
+   state: State
+   itemHeight: float
+   itemWidth: float
+}
+class BoardPreview {
+  + BoardPreview(Level, Skin):
+  + draw(Batch, float): void
+}
+class ConfigurationMenuScreen {
+  + ConfigurationMenuScreen(KlotskiGame):
+  + pause(): void
+  + resume(): void
+  + render(float): void
+  + dispose(): void
+  + hide(): void
+  - setupLayout(): void
+  + resize(int, int): void
+  + show(): void
+}
+class DeleteSaveClickListener {
+  + DeleteSaveClickListener(String, KlotskiGame):
+  + clicked(InputEvent, float, float): void
+}
+class GameOverScreen {
+  + GameOverScreen(KlotskiGame, State):
+  + dispose(): void
+  + pause(): void
+  + resize(int, int): void
+  + hide(): void
+  + show(): void
+  - setupLayout(Skin): void
+  + resume(): void
+  + render(float): void
+}
+class GameScreen {
+  + GameScreen(KlotskiGame, State):
+  - setupSaveInput(): void
+  + dispose(): void
+  + resize(int, int): void
+  + resume(): void
+  + pause(): void
+  - setupLayout(Skin): void
+  + hide(): void
+  + show(): void
+  + render(float): void
+}
+class LoadMenuScreen {
+  + LoadMenuScreen(KlotskiGame):
+  + resume(): void
+  + hide(): void
+  - createUI(ImageButtonStyle, Skin): void
+  + dispose(): void
+  + pause(): void
+  + show(): void
+  + render(float): void
+  + resize(int, int): void
+}
+class MainMenuScreen {
+  + MainMenuScreen(KlotskiGame):
+  + resume(): void
+  + dispose(): void
+  + show(): void
+  + pause(): void
+  - setupLayout(ImageButtonStyle, Skin): void
+  + hide(): void
+  + render(float): void
+  + resize(int, int): void
+}
+class Resolution {
+  + Resolution(int, int):
+  - width: int
+  - height: int
+  - gcd(int, int): int
+  + toString(): String
+   width: int
+   aspectRatio: String
+   height: int
+}
+class SettingsScreen {
+  + SettingsScreen(KlotskiGame):
+  - setupLayout(Skin): void
+  - makeBackButton(Table, Skin): void
+  - makeEffectsVolumeSettings(Table, Skin): void
+  - makeMusicVolumeSettings(Table, Skin): void
+  + pause(): void
+  + resume(): void
+  + hide(): void
+  + dispose(): void
+  + render(float): void
+  + resize(int, int): void
+  + show(): void
+  - makeResolutionSettings(Table, Skin): void
+}
+class StartFromSaveClickListener {
+  + StartFromSaveClickListener(String, KlotskiGame):
+  + clicked(InputEvent, float, float): void
+}
+class Tile {
+  + Tile(float, float, float, float):
+  - x: float
+  - width: float
+  - height: float
+  - y: float
+  - block: Block
+  + contains(float, float): boolean
+  + draw(Batch, float): void
+   height: float
+   color: Color
+   width: float
+   texture: Texture
+   block: Block
+   x: float
+   y: float
+   contourTexture: Texture
+}
+
+BackToMainMenuClickListener  -[#595959,dashed]->  MainMenuScreen              : "«create»"
+Board                       "1" *-[#595959,plain]-> "tiles\n*" Tile
+Board                        -[#595959,dashed]->  Tile                        : "«create»"
+BoardPreview                "1" *-[#595959,plain]-> "tiles\n*" Tile
+ConfigurationMenuScreen      -[#595959,dashed]->  BackToMainMenuClickListener : "«create»"
+ConfigurationMenuScreen      -[#595959,dashed]->  BoardPreview                : "«create»"
+ConfigurationMenuScreen      -[#595959,dashed]->  GameScreen                  : "«create»"
+DeleteSaveClickListener      -[#595959,dashed]->  LoadMenuScreen              : "«create»"
+GameOverScreen               -[#595959,dashed]->  BackToMainMenuClickListener : "«create»"
+GameScreen                   -[#595959,dashed]->  BackToMainMenuClickListener : "«create»"
+GameScreen                   -[#595959,dashed]->  Board                       : "«create»"
+GameScreen                  "1" *-[#595959,plain]-> "grid\n1" Board
+GameScreen                   -[#595959,dashed]->  GameOverScreen              : "«create»"
+GameScreen                   -[#595959,dashed]->  MainMenuScreen              : "«create»"
+LoadMenuScreen               -[#595959,dashed]->  BackToMainMenuClickListener : "«create»"
+LoadMenuScreen               -[#595959,dashed]->  DeleteSaveClickListener     : "«create»"
+LoadMenuScreen               -[#595959,dashed]->  StartFromSaveClickListener  : "«create»"
+MainMenuScreen               -[#595959,dashed]->  ConfigurationMenuScreen     : "«create»"
+MainMenuScreen               -[#595959,dashed]->  GameScreen                  : "«create»"
+MainMenuScreen               -[#595959,dashed]->  LoadMenuScreen              : "«create»"
+MainMenuScreen               -[#595959,dashed]->  SettingsScreen              : "«create»"
+SettingsScreen               -[#595959,dashed]->  BackToMainMenuClickListener : "«create»"
+SettingsScreen               -[#595959,dashed]->  Resolution                  : "«create»"
+StartFromSaveClickListener   -[#595959,dashed]->  GameScreen                  : "«create»"
+@enduml
