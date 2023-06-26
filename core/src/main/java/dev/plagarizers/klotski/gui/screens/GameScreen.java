@@ -17,23 +17,23 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.listeners.BoardListener;
 
 public class GameScreen implements Screen {
 
     private final KlotskiGame game;
     private final Stage stage;
-    private final Board grid;
+    private final Board gameBoard;
     private final SavesManager savesManager;
 
     public GameScreen(KlotskiGame game, State state) {
         this.game = game;
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
         State currentState = state != null ? state : State.fromRandomConfiguration();
-        this.grid = new Board(currentState, game.getSkin());
+        this.gameBoard = new Board(currentState, game.getSkin());
         this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
         stage.addActor(game.getBackground());
 
+        stage.addListener(gameBoard.getBoardListener());
         setupLayout(game.getSkin());
     }
 
@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton nextMoveButton = new TextButton("Next Move", skin);
-        nextMoveButton.addListener(new BackToMainMenuClickListener(game));
+        nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
         TextButton saveButton = new TextButton("Save", skin);
         saveButton.addListener(new ClickListener() {
@@ -64,7 +64,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                grid.reset();
+                gameBoard.getGameState().reset();
                 Gdx.app.log("Reset", "Resetting board");
             }
         });
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                grid.undoMove();
+                gameBoard.getGameState().undoMove();
                 Gdx.app.log("Undo", "Undoing move");
             }
         });
@@ -85,24 +85,24 @@ public class GameScreen implements Screen {
         table.add(resetButton).bottom().fillX().colspan(2).pad(10);
         table.add(saveButton).bottom().fillX().colspan(2).pad(10);
         table.row();
-        table.add(grid).expand().center().colspan(6).row();
+        table.add(gameBoard).expand().center().colspan(6).row();
         table.row();
         table.add(undoButton).bottom().fillX().colspan(2).pad(10);
         table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
 
-        stage.addListener(new BoardListener(grid));
+//        stage.addListener(new BoardListener(grid));
         stage.addActor(table);
     }
 
     private void setupSaveInput() {
-        Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
         pixmap.fillRectangle(0, 0, 1, 1);
         Texture background = new Texture(pixmap);
         pixmap.dispose();
 
         Image backgroundTransparent = new Image(background);
-        backgroundTransparent.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        backgroundTransparent.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         backgroundTransparent.getColor().a = .6f;
         stage.addActor(backgroundTransparent);
         Table saveInput = new Table();
@@ -121,10 +121,10 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                if(saveName.getText().equals("") || saveName.getText() == null) {
+                if (saveName.getText().equals("") || saveName.getText() == null) {
                     message.setVisible(true);
                 } else {
-                    savesManager.saveState(grid.getState(), saveName.getText());
+                    savesManager.saveState(gameBoard.getState(), saveName.getText());
                     backgroundTransparent.setVisible(false);
                     saveInput.setVisible(false);
                 }
@@ -143,8 +143,8 @@ public class GameScreen implements Screen {
 
         saveInput.add(message).center().fillX().colspan(2);
         saveInput.row();
-        saveInput.add(saveTag).center().width(Gdx.graphics.getWidth()/4f).spaceRight(5);
-        saveInput.add(saveName).center().width(Gdx.graphics.getWidth()/4f).spaceLeft(5);
+        saveInput.add(saveTag).center().width(Gdx.graphics.getWidth() / 4f).spaceRight(5);
+        saveInput.add(saveName).center().width(Gdx.graphics.getWidth() / 4f).spaceLeft(5);
         saveInput.row();
         saveInput.add(save).center().width(Gdx.graphics.getWidth() / 6f).spaceRight(5);
         saveInput.add(cancel).center().width(Gdx.graphics.getWidth() / 6f).spaceLeft(5);
@@ -160,8 +160,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (grid.getState().isSolved()) {
-            game.setScreen(new GameOverScreen(game, grid.getState()));
+        if (gameBoard.getState().isSolved()) {
+            game.setScreen(new GameOverScreen(game, gameBoard.getState()));
         }
 
 //        grid.handleInput();

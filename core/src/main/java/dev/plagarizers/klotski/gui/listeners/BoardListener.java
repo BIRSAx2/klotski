@@ -3,11 +3,14 @@ package dev.plagarizers.klotski.gui.listeners;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import dev.plagarizers.klotski.game.util.Direction;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.actors.Tile;
+import dev.plagarizers.klotski.gui.state.GameState;
 
 public class BoardListener extends InputListener {
 
@@ -15,30 +18,32 @@ public class BoardListener extends InputListener {
 
     private Board board;
     private Vector2 dragStartPos = null;
+    private GameState gameState;
 
-    public BoardListener(Board board) {
+    public BoardListener(Board board, GameState gameState) {
         this.board = board;
+        this.gameState = gameState;
     }
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
         System.out.println("Key pressed: " + keycode);
         if (keycode == Input.Keys.TAB) {
-            board.selectNextTile();
+            gameState.selectNextTile();
         } else if (keycode == Input.Keys.Z && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            board.undoMove();
+            gameState.undoMove();
         } else if (keycode == Input.Keys.R && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            board.reset();
+            gameState.reset();
         } else if (keycode == Input.Keys.SPACE) {
-            board.playBestMove();
+            gameState.playBestMove();
         } else if (keycode == Input.Keys.UP) {
-            board.moveBlock(board.getSelectedTile().getBlock(), Direction.UP);
+            gameState.moveBlock(gameState.getSelectedTile().getBlock(), Direction.UP);
         } else if (keycode == Input.Keys.DOWN) {
-            board.moveBlock(board.getSelectedTile().getBlock(), Direction.DOWN);
+            gameState.moveBlock(gameState.getSelectedTile().getBlock(), Direction.DOWN);
         } else if (keycode == Input.Keys.LEFT) {
-            board.moveBlock(board.getSelectedTile().getBlock(), Direction.LEFT);
+            gameState.moveBlock(gameState.getSelectedTile().getBlock(), Direction.LEFT);
         } else if (keycode == Input.Keys.RIGHT) {
-            board.moveBlock(board.getSelectedTile().getBlock(), Direction.RIGHT);
+            gameState.moveBlock(gameState.getSelectedTile().getBlock(), Direction.RIGHT);
         }
         return true;
     }
@@ -55,7 +60,7 @@ public class BoardListener extends InputListener {
         for (int i = 0; i < board.getTiles().size(); i++) {
             Tile tile = board.getTiles().get(i);
             if (tile.contains(localX, localY)) {
-                board.setSelectedTile(tile);
+                gameState.setSelectedTile(tile);
                 break;
             }
         }
@@ -74,8 +79,8 @@ public class BoardListener extends InputListener {
             // Calculate the drag direction based on the start and end positions
             Direction dragDirection = calculateDragDirection(dragStartPos, dragEndPos);
 
-            if (dragDirection != null && board.getSelectedTile() != null) {
-                board.moveBlock(board.getSelectedTile().getBlock(), dragDirection);
+            if (dragDirection != null && gameState.getSelectedTile() != null) {
+                gameState.moveBlock(gameState.getSelectedTile().getBlock(), dragDirection);
             }
         }
     }
@@ -98,5 +103,16 @@ public class BoardListener extends InputListener {
             }
         }
     }
+
+    public EventListener getNextMoveListener() {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Next move button pressed");
+                gameState.playBestMove();
+            }
+        };
+    }
 }
+
 
