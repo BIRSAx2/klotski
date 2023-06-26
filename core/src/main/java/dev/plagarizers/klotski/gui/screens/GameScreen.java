@@ -17,6 +17,7 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.listeners.BoardListener;
 
 public class GameScreen implements Screen {
 
@@ -89,6 +90,7 @@ public class GameScreen implements Screen {
         table.add(undoButton).bottom().fillX().colspan(2).pad(10);
         table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
 
+        stage.addListener(new BoardListener(grid));
         stage.addActor(table);
     }
 
@@ -162,7 +164,7 @@ public class GameScreen implements Screen {
             game.setScreen(new GameOverScreen(game, grid.getState()));
         }
 
-        grid.handleInput();
+//        grid.handleInput();
         stage.act(delta);
         stage.draw();
     }
