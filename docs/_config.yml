@@ -3,6 +3,7 @@ description: A Klotski Game made by The Plagiarizers for the course of Software 
 theme: just-the-docs
 
 url: https://BIRSAx2.github.io/klotski
+baseurl: /klotski
 
 aux_links:
   Project Repository: https://github.com/BIRSAx2/Klotski

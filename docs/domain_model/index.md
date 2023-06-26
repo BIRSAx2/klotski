@@ -7,6 +7,6 @@ nav_order: 3
 
 Domain Model
 
-![Full](/assets/klotski_full.png)
-![Game Package](/assets/package_game.png)
-![Gui Package](/assets/package_gui.png)
+![Full]({{site.baseurl}}/assets/klotski_full.png)
+![Game Package]({{site.baseurl}}/assets/package_game.png)
+![Gui Package]({{site.baseurl}}/assets/package_gui.png)

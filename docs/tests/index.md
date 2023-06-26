@@ -14,7 +14,7 @@ relevant outputs. Lastly, the Assert phase verifies the expected results against
 incorporated Jacoco, a code coverage tool, to generate comprehensive test reports. Jacoco provides insights into the
 extent of code coverage achieved by the unit tests, highlighting areas that may require further testing.
 
-### [JUnit Test Report](/klotski/assets/reports/tests/test/index.html)
+### [JUnit Test Report]({{site.baseurl}}/assets/reports/tests/test/index.html)
 
-### [Jacoco Test Coverage Report](/klotski/assets/reports/jacoco/test/html/index.html)
+### [Jacoco Test Coverage Report]({{site.baseurl}}/assets/reports/jacoco/test/html/index.html)
 
