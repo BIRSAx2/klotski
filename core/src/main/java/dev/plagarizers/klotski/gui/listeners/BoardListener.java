@@ -27,7 +27,7 @@ public class BoardListener extends InputListener {
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
-        System.out.println("Key pressed: " + keycode);
+
         if (keycode == Input.Keys.TAB) {
             gameState.selectNextTile();
         } else if (keycode == Input.Keys.Z && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {

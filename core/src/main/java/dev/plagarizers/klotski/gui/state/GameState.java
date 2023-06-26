@@ -66,14 +66,15 @@ public class GameState {
 
     public void decrementMoves() {
         moves--;
+        if (moves < 0) moves = 0;
     }
 
     public boolean moveBlock(Block block, Direction direction) {
         boolean result = state.moveBlock(block, direction);
 
         if (result) {
-            previousStates.push(state.clone());
             updateTiles();
+            previousStates.push(state.clone());
             incrementMoves();
         }
 
@@ -82,14 +83,10 @@ public class GameState {
     }
 
     public void undoMove() {
-
+        // TODO: Check why after refactoring this is buggy
         if (previousStates.isEmpty()) return;
-
         state = previousStates.pop().clone();
         decrementMoves();
-
-        // FIXME
-//        selectedTile = tiles.get(0);
         updateTiles();
     }
 
@@ -180,11 +177,7 @@ public class GameState {
     }
 
     private void calculatePathToSolution() {
-        System.out.println("Calculating path to solution");
-        System.out.println("Current state: ");
-        System.out.println(state);
         KlotskiSolver solver = new KlotskiSolver(state.clone());
-        System.out.println(solver.getPathToSolution().size() + " moves");
         pathToSolution.clear();
         pathToSolution.addAll(solver.getPathToSolution());
     }
