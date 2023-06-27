@@ -20,7 +20,6 @@ public class GameState {
 
     private Stack<State> previousStates;
     private List<State> pathToSolution;
-    private int moves;
 
 
     public GameState(State state) {
@@ -32,7 +31,6 @@ public class GameState {
         previousStates.push(state.clone());
 
         pathToSolution = new ArrayList<>();
-        moves = 0;
         updateTiles();
     }
 
@@ -57,25 +55,20 @@ public class GameState {
     }
 
     public int getMoves() {
-        return moves;
-    }
-
-    public void incrementMoves() {
-        moves++;
-    }
-
-    public void decrementMoves() {
-        moves--;
-        if (moves < 0) moves = 0;
+        return state.getMoves();
     }
 
     public boolean moveBlock(Block block, Direction direction) {
+
+        previousStates.push(state.clone());
+
         boolean result = state.moveBlock(block, direction);
+
+        if (!result) previousStates.pop();
+
 
         if (result) {
             updateTiles();
-            previousStates.push(state.clone());
-            incrementMoves();
         }
 
 
@@ -84,9 +77,10 @@ public class GameState {
 
     public void undoMove() {
         // TODO: Check why after refactoring this is buggy
-        if (previousStates.isEmpty()) return;
+        System.out.println("Undoing move");
+        System.out.println("Previous states: " + previousStates.size());
+        if (previousStates.size() <= 1) return;
         state = previousStates.pop().clone();
-        decrementMoves();
         updateTiles();
     }
 
@@ -117,7 +111,7 @@ public class GameState {
     }
 
     public void resetMoves() {
-        moves = 0;
+        state.setMoves(0);
     }
 
     public void updateTiles() {
@@ -162,17 +156,8 @@ public class GameState {
         previousStates.push(state.clone());
         State next = pathToSolution.remove(0);
         next.setMoves(state.getMoves() + 1);
-
         state = next.clone();
         selectedTile = null;
-
-        incrementMoves();
-        updateTiles();
-
-        // TODO: Find an efficient way to check which block moved
-        selectedTile = null;
-
-        incrementMoves();
         updateTiles();
     }
 

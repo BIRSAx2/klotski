@@ -388,4 +388,15 @@ public class State implements Cloneable {
         }
         return false;
     }
+
+    public void incrementMoves() {
+        this.moves++;
+    }
+
+    public void decrementMoves() {
+        this.moves--;
+        if (this.moves < 0) {
+            this.moves = 0;
+        }
+    }
 }
