@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
@@ -20,7 +21,7 @@ public class SettingsScreen implements Screen {
 
     public SettingsScreen(KlotskiGame game) {
         this.game = game;
-        this.stage = new Stage(new ScreenViewport());
+        this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
         this.stage.addActor(game.getBackground());
 
         setupLayout(game.getSkin());
@@ -111,6 +112,7 @@ public class SettingsScreen implements Screen {
         Resolution selected = resolutions.getSelected();
         if (selected.getWidth() != Gdx.graphics.getWidth() || selected.getHeight() != Gdx.graphics.getHeight()) {
             resize(selected.getWidth(), selected.getHeight());
+            stage.getViewport().apply();
         }
 
         stage.act(Math.min(delta, 1 / 60f));

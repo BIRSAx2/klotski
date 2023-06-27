@@ -18,7 +18,8 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(KlotskiGame game) {
         this.game = game;
 
-        stage = game.getStage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        this.stage.addActor(game.getBackground());
     }
 
     private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
@@ -41,7 +42,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(new ConfigurationMenuScreen(game));
+                game.setScreen(game.getScreen(ScreenType.LoadConfig));
             }
         });
 
@@ -49,7 +50,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(new GameScreen(game, State.fromRandomConfiguration()));
+                game.setScreen(game.getScreen(ScreenType.Game));
             }
         });
 
@@ -57,7 +58,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(new LoadMenuScreen(game));
+                game.setScreen(game.getScreen(ScreenType.LoadSave));
             }
         });
 
@@ -65,7 +66,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(new SettingsScreen(game));
+                game.setScreen(game.getScreen(ScreenType.Settings));
             }
         });
 
