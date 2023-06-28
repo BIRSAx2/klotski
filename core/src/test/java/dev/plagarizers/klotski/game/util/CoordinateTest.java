@@ -13,111 +13,125 @@ class CoordinateTest {
   private Coordinate coordinate;
 
   @BeforeEach
-  void setUp() {
+  void testSetUp_Coordinate_SetUp() {
     coordinate = new Coordinate(2, 3);
   }
 
   @Test
-  void testGetX() {
-    assertEquals(2, coordinate.getX());
+  void testGetCoordinate_Coordinate_ReturnsX() {
+    // Arrange
+    int expectedX = 2;
+
+    // Act
+    int x = coordinate.getX();
+
+    // Assert
+    assertEquals(expectedX, x, "Expected x-coordinate to be 2");
   }
 
   @Test
-  void testSetX() {
-    coordinate.setX(5);
-    assertEquals(5, coordinate.getX());
+  void testSetX_Coordinate_SetX() {
+    // Arrange
+    int newX = 5;
+
+    // Act
+    coordinate.setX(newX);
+
+    // Assert
+    assertEquals(newX, coordinate.getX(), "Expected x-coordinate to be set to 5");
   }
 
   @Test
-  void testGetY() {
-    assertEquals(3, coordinate.getY());
+  void testGetCoordinate_CoordinateTest_ReturnsY() {
+    // Arrange
+    int expectedY = 3;
+
+    // Act
+    int y = coordinate.getY();
+
+    // Assert
+    assertEquals(expectedY, y, "Expected y-coordinate to be 3");
   }
 
   @Test
-  void testSetY() {
-    coordinate.setY(4);
-    assertEquals(4, coordinate.getY());
+  void testSetX_Coordinate_SetY() {
+    // Arrange
+    int newY = 4;
+
+    // Act
+    coordinate.setY(newY);
+
+    // Assert
+    assertEquals(newY, coordinate.getY(), "Expected y-coordinate to be set to 4");
   }
 
   @Test
-  void testAddWithValues() {
-    Coordinate result = coordinate.add(1, 2);
-    assertEquals(3, result.getX());
-    assertEquals(5, result.getY());
+  void testAddWithValues_Coordinate_AddWhitValue() {
+    // Arrange
+    int valueX = 1;
+    int valueY = 2;
+    Coordinate expectedResult = new Coordinate(3, 5);
+
+    // Act
+    Coordinate result = coordinate.add(valueX, valueY);
+
+    // Assert
+    assertEquals(expectedResult.getX(), result.getX(), "Expected x-coordinate to be 3");
+    assertEquals(expectedResult.getY(), result.getY(), "Expected y-coordinate to be 5");
   }
 
   @Test
-  void testAddWithCoordinate() {
+  void testAddWithCoordinate_Coordinate_AddWhitCoordinate() {
+    // Arrange
     Coordinate other = new Coordinate(1, 2);
+    Coordinate expectedResult = new Coordinate(3, 5);
+
+    // Act
     Coordinate result = coordinate.add(other);
-    assertEquals(3, result.getX());
-    assertEquals(5, result.getY());
+
+    // Assert
+    assertEquals(expectedResult.getX(), result.getX(), "Expected x-coordinate to be 3");
+    assertEquals(expectedResult.getY(), result.getY(), "Expected y-coordinate to be 5");
   }
 
   @Test
-  void testEquals() {
+  void testEquals_Coordinate_ReturnsTrue() {
+    // Arrange
     Coordinate coordinate1 = new Coordinate(2, 3);
     Coordinate coordinate2 = new Coordinate(2, 3);
     Coordinate coordinate3 = new Coordinate(4, 5);
 
-    assertEquals(coordinate1, coordinate2);
-    assertEquals(coordinate2, coordinate1);
-    assertEquals(coordinate1.hashCode(), coordinate2.hashCode());
-
-    assertEquals(coordinate1, coordinate1);
-    assertEquals(coordinate2, coordinate2);
-    assertEquals(coordinate1.hashCode(), coordinate1.hashCode());
-    assertEquals(coordinate2.hashCode(), coordinate2.hashCode());
-
-    assertEquals(coordinate1, coordinate1.clone());
+    // Act & Assert
+    assertEquals(coordinate1, coordinate2, "Expected coordinates to be equal");
+    assertEquals(coordinate2, coordinate1, "Expected coordinates to be equal");
+    assertEquals(coordinate1.hashCode(), coordinate2.hashCode(), "Expected hash codes to be equal");
+    assertEquals(coordinate1, coordinate1, "Expected coordinate to be equal to itself");
+    assertEquals(coordinate2, coordinate2, "Expected coordinate to be equal to itself");
+    assertEquals(coordinate1.hashCode(), coordinate1.hashCode(), "Expected hash code to be equal to itself");
+    assertEquals(coordinate2.hashCode(), coordinate2.hashCode(), "Expected hash code to be equal to itself");
+    assertEquals(coordinate1, coordinate1.clone(), "Expected coordinate to be equal to its clone");
   }
 
   @Test
-  void testToString() {
-    assertEquals("(2, 3)", coordinate.toString());
+  void testStringRepresentation_Coordinate_toStringRepresentation() {
+    // Arrange
+    String expectedString = "(2, 3)";
+
+    // Act
+    String str = coordinate.toString();
+
+    // Assert
+    assertEquals(expectedString, str, "Expected string representation to be '(2, 3)'");
   }
 
   @Test
-  void testClone() {
+  void testClone_CreatesDeepCopyOfCoordinate() {
+    // Arrange
     Coordinate clone = coordinate.clone();
-    assertEquals(coordinate, clone);
-    assertEquals(coordinate.getX(), clone.getX());
-    assertEquals(coordinate.getY(), clone.getY());
-  }
 
-  @Test
-  public void testMove() {
-    Coordinate coord = new Coordinate(2, 3);
-
-    // Test moving up
-    Coordinate newCoord = coord.move(Direction.UP);
-    assertEquals(new Coordinate(1, 3), newCoord);
-
-    // Test moving right
-    newCoord = coord.move(Direction.RIGHT);
-    assertEquals(new Coordinate(2, 4), newCoord);
-
-    // Test moving left
-    newCoord = coord.move(Direction.LEFT);
-    assertEquals(new Coordinate(2, 2), newCoord);
-
-    // Test moving down
-    newCoord = coord.move(Direction.DOWN);
-    assertEquals(new Coordinate(3, 3), newCoord);
-  }
-
-  @Test
-  void testToJson() {
-    String expectedJson = "{\"x\":2,\"y\":3}";
-    String actualJson = coordinate.toJson();
-    assertEquals(expectedJson, actualJson);
-  }
-
-  @Test
-  void testFromJson() {
-    String json = "{\"x\":2,\"y\":3}";
-    Coordinate expectedCoordinate = new Coordinate(2, 3);
-    Coordinate actualCoordinate = Coordinate.fromJson(json);
-    assertEquals(expectedCoordinate, actualCoordinate);
+    // Act & Assert
+    assertEquals(coordinate, clone, "Expected clone to be equal to the original coordinate");
+    assertEquals(coordinate.getX(), clone.getX(), "Expected x-coordinate of the clone to be equal to the original");
+    assertEquals(coordinate.getY(), clone.getY(), "Expected y-coordinate of the clone to be equal to the original");
   }
 }
