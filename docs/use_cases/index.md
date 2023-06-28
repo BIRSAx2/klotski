@@ -73,14 +73,14 @@ nav_order: 3
 | Response      | The counter move will be updated                                                |
 | Comments      | The counter can't be a negtaive number                                          |
 
-| Use case Name | Next best action                                                                                                |
-|---------------|-----------------------------------------------------------------------------------------------------------------|
-| Actors        | User, database                                                                                                  |
-| Description   | This functionality will simplify the puzzle to the user moving a determined block                               |
-| Data          | Response from the database                                                                                      |
-| Stimulus      | The "NEXT MOVE" button is pressed during the game                                                               |
-| Response      | With the information given by the database, a block will be moved in order to facilitate the puzzle to the user |
-| Comments      | When always clicking the "NEXT MOVE" button the puzzle will be solved                                           |
+| Use case Name | Next best action                                                                                                        |
+|---------------|-------------------------------------------------------------------------------------------------------------------------|
+| Actors        | User                                                                                                                    |
+| Description   | This functionality will simplify the puzzle to the user moving a determined block                                       |
+| Data          | None                                                                                                                    |
+| Stimulus      | The "NEXT MOVE" button is pressed during the game                                                                       |
+| Response      | An algorithm will process the state of the game and a block will be moved in order to facilitate the puzzle to the user |
+| Comments      | When always clicking the "NEXT MOVE" button the puzzle will be solved                                                   |
 
 | Use case Name | Undo action                                                                         |
 |---------------|-------------------------------------------------------------------------------------|
