@@ -22,8 +22,7 @@ covered. Follow the instructions below to get started with Klotski on your prefe
 1. Visit the official [GitHub repository](https://github.com/BIRSAx2/klotski/releases) for Klotski.
 2. Navigate to the "Releases" section.
 3. Download the latest release of the game, which will be available as a JAR file.
-4. Once the download is complete, you can run the game by executing the JAR file using the Java Runtime Environment (
-   JRE).
+4. Once the download is complete, you can run the game by executing the JAR file using the Java Runtime Environment (JRE).
 
 ## Option 2: Build the game from source
 
