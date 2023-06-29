@@ -51,7 +51,8 @@ configure(subprojects - project(':android')) {
                 excludes = [
                     'dev.plagarizers.klotski.actors',
                     'dev.plagarizers.klotski.screens',
-                    'dev.plagarizers.klotski.util'
+                    'dev.plagarizers.klotski.util',
+                    'dev/plagarizers/klotski/KlotskiGame.java',
                 ]
             }
         }
@@ -75,7 +76,7 @@ configure(subprojects - project(':android')) {
 }
 
 subprojects {
-    version = '0.0.1'
+    version = '0.4'
     ext.appName = 'klotski'
     repositories {
         mavenCentral()
