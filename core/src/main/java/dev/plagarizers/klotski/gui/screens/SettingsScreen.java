@@ -50,7 +50,7 @@ public class SettingsScreen implements Screen {
         Label musicVolume = new Label("Music Volume", game.getSkin());
         musicVolume.setAlignment(Align.left);
         Slider musicVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
-        musicVolumeSlider.setValue(game.getMusicVolume() * 100);
+        musicVolumeSlider.setValue(game.getMusicVolume());
 
 
         musicVolumeSlider.addListener(new ChangeListener() {
@@ -58,8 +58,6 @@ public class SettingsScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 float volume = ((Slider) actor).getValue();
                 game.setMusicVolume(volume);
-                ((Slider) actor).setValue(volume);
-
             }
         });
 
@@ -72,7 +70,8 @@ public class SettingsScreen implements Screen {
         Label effectsVolume = new Label("Effects Volume", game.getSkin());
         effectsVolume.setAlignment(Align.left);
         Slider effectsVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
-        effectsVolumeSlider.setValue(game.getMusicVolume() * 100);
+        effectsVolumeSlider.setValue(game.getEffectsVolume());
+
         effectsVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

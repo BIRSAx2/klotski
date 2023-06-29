@@ -17,6 +17,7 @@ import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 
 public class GameScreen implements Screen {
 
@@ -40,13 +41,7 @@ public class GameScreen implements Screen {
 
     private void setupLayout() {
         TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
-                game.setScreen(game.getScreen(ScreenType.MainMenu));
-            }
-        });
+        backButton.addListener(new BackToMainMenuClickListener(game));
 
         TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());

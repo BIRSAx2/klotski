@@ -17,6 +17,6 @@ public class BackToMainMenuClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         game.buttonPressedPlay();
-        game.setScreen(game.getScreen(ScreenType.MainMenu));
+        game.setScreen(new MainMenuScreen(game));
     }
 }

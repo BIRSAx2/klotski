@@ -36,14 +36,14 @@ public class KlotskiGame extends Game {
     private ImageButton.ImageButtonStyle buttonStyle;
     private Sound buttonPressedSound;
     private Music backgroundMusic;
-    private HashMap<ScreenType, Screen> screens;
+    private float effectsVolume;
 
     @Override
     public void create() {
-        screens = new HashMap<>();
         debug = false;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        effectsVolume = 0.5f;
 
         assetManager = new AssetManager();
         assetManager.load(musicPath, Music.class);
@@ -54,6 +54,7 @@ public class KlotskiGame extends Game {
         backgroundMusic = assetManager.get(musicPath, Music.class);
         backgroundMusic.setLooping(true);
         backgroundMusic.setVolume(0.5f);
+        backgroundMusic.play();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -65,29 +66,12 @@ public class KlotskiGame extends Game {
         buttonStyle = new ImageButton.ImageButtonStyle();
         buttonStyle.up = buttonBackground;
         buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
-        makeScreens();
 
-        this.setScreen(screens.get(ScreenType.MainMenu));
-    }
-
-    private void makeScreens() {
-        screens.put(ScreenType.MainMenu, new MainMenuScreen(this));
-        screens.put(ScreenType.Game, new GameScreen(this, State.fromRandomConfiguration()));
-        screens.put(ScreenType.LoadSave, new LoadMenuScreen(this));
-        screens.put(ScreenType.LoadConfig, new ConfigurationMenuScreen(this));
-        screens.put(ScreenType.Settings, new SettingsScreen(this));
-    }
-
-    public Screen getScreen(ScreenType type) {
-        return screens.get(type);
+        this.setScreen(new MainMenuScreen(this));
     }
 
     public boolean isDebug() {
         return debug;
-    }
-
-    public void toggleDebug() {
-        debug = !debug;
     }
 
     public ImageButton.ImageButtonStyle getImageButtonStyle() {
@@ -106,20 +90,9 @@ public class KlotskiGame extends Game {
         return camera;
     }
 
-    public Stage getStage(Viewport viewport) {
-        stage.clear();
-        stage.setViewport(viewport);
-
-        Image background = new Image(new Texture(Gdx.files.internal(backgroundTexturePath)));
-        background.setScaling(Scaling.fill);
-        background.setZIndex(0);
-        stage.addActor(background);
-        return stage;
-    }
-
     public void buttonPressedPlay() {
         buttonPressedSound = assetManager.get(buttonPressedSoundPath, Sound.class);
-        buttonPressedSound.play(0.5f);
+        buttonPressedSound.play(effectsVolume);
     }
 
     public void setMusicVolume(float musicVolume) {
@@ -131,11 +104,11 @@ public class KlotskiGame extends Game {
     }
 
     public void setEffectsVolume(float effectsVolume) {
-        // Not implemented in the provided code, you can add your implementation here
+        this.effectsVolume = effectsVolume / 100;
     }
 
-    public AssetManager getAssetManager() {
-        return assetManager;
+    public  float getEffectsVolume() {
+        return effectsVolume * 100;
     }
 
     public Skin getSkin() {
@@ -145,9 +118,5 @@ public class KlotskiGame extends Game {
     @Override
     public void dispose() {
         assetManager.dispose();
-        for(Map.Entry<ScreenType, Screen> entry : screens.entrySet()) {
-            entry.getValue().dispose();
-        }
     }
-
 }
