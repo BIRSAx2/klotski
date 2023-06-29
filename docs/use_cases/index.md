@@ -346,35 +346,3 @@ nav_order: 3
     </tr>
     <tr>
 </table>
-
-[//]: # (
-    <table>
-    <tr>
-        <th colspan="2"> NAME </th>
-    </tr>
-    <tr>
-        <td>Actors</td>
-        <td>  </td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td>  </td>
-    </tr>
-    <tr>
-        <td>Data</td>
-        <td>  </td>
-    </tr>
-    <tr>
-        <td>Stimulus</td>
-        <td>  </td>
-    </tr>
-    <tr>
-        <td>Response</td>
-        <td>  </td>
-    </tr>
-    <tr>
-        <td>Comments</td>
-        <td>  </td>
-    </tr>
-</table>
-)
