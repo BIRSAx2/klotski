@@ -21,7 +21,7 @@ classDiagrams {
     exclude classes().outsideOfProject()
     exclude classes().withParentClass()
     writeTo file('build/generated/diagrams/full_package.puml')
-    renderTo file('build/generated/diagrams/full_package.png')
+    renderTo file('build/generated/diagrams/full_package.svg')
   }
 
   diagram {
@@ -33,7 +33,7 @@ classDiagrams {
     exclude classes().withParentClass()
     include classes().withNameLike("*.KlotskiGame")
     writeTo file('build/generated/diagrams/gui_package.puml')
-    renderTo file('build/generated/diagrams/gui_package.png')
+    renderTo file('build/generated/diagrams/gui_package.svg')
   }
   diagram {
     // Note how this exact configuration behaves differently depending on which project you put it
@@ -43,6 +43,6 @@ classDiagrams {
     exclude classes().outsideOfProject()
     exclude classes().withParentClass()
     writeTo file('build/generated/diagrams/game_package.puml')
-    renderTo file('build/generated/diagrams/game_package.png')
+    renderTo file('build/generated/diagrams/game_package.svg')
   }
 }
