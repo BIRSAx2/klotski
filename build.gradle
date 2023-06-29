@@ -1,92 +1,97 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven { url 'https://s01.oss.sonatype.org' }
-        mavenLocal()
-        google()
-        gradlePluginPortal()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:$androidPluginVersion"
-    }
+  repositories {
+    mavenCentral()
+    maven { url 'https://s01.oss.sonatype.org' }
+    mavenLocal()
+    google()
+    gradlePluginPortal()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://plugins.gradle.org/m2/' }
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:$androidPluginVersion"
+    classpath("io.gitlab.plunts:plantuml-gradle-plugin:2.0.3")
+  }
 }
 
 allprojects {
-    apply plugin: 'eclipse'
-    apply plugin: 'idea'
-    apply plugin: 'jacoco'
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+  apply plugin: 'jacoco'
+  apply plugin: "io.gitlab.plunts.plantuml"
 }
 
 configure(subprojects - project(':android')) {
-    apply plugin: 'java-library'
-    sourceCompatibility = 17
-    compileJava {
-        options.incremental = true
-    }
-    test {
-        useJUnitPlatform()
-        dependsOn 'cleanTest'
+  apply plugin: 'java-library'
+  sourceCompatibility = 17
+  compileJava {
+    options.incremental = true
+  }
+  test {
+    useJUnitPlatform()
+    dependsOn 'cleanTest'
 
-        testLogging {
-            events 'passed', 'skipped', 'failed'
+    testLogging {
+      events 'passed', 'skipped', 'failed'
+    }
+    finalizedBy jacocoTestReport
+  }
+
+  check {
+    dependsOn jacocoTestCoverageVerification
+  }
+
+  jacocoTestCoverageVerification {
+    violationRules {
+      rule {
+        element = 'CLASS'
+        limit {
+          counter = 'LINE'
+          value = 'COVEREDRATIO'
+          minimum = 0.0
         }
-        finalizedBy jacocoTestReport
+        excludes = [
+          'dev.plagarizers.klotski.actors',
+          'dev.plagarizers.klotski.screens',
+          'dev.plagarizers.klotski.util',
+          'dev/plagarizers/klotski/KlotskiGame.java',
+        ]
+      }
     }
+  }
 
-    check {
-        dependsOn jacocoTestCoverageVerification
+  jacocoTestReport {
+    afterEvaluate {
+      classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: [
+          'dev/plagarizers/klotski/gui/**',
+          'dev/plagarizers/klotski/KlotskiGame.java',
+        ])
+      }))
     }
+  }
 
-    jacocoTestCoverageVerification {
-        violationRules {
-            rule {
-                element = 'CLASS'
-                limit {
-                    counter = 'LINE'
-                    value = 'COVEREDRATIO'
-                    minimum = 0.0
-                }
-                excludes = [
-                    'dev.plagarizers.klotski.actors',
-                    'dev.plagarizers.klotski.screens',
-                    'dev.plagarizers.klotski.util',
-                    'dev/plagarizers/klotski/KlotskiGame.java',
-                ]
-            }
-        }
-    }
 
-    jacocoTestReport {
-        afterEvaluate {
-            classDirectories.setFrom(files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                    'dev/plagarizers/klotski/gui/**',
-                    'dev/plagarizers/klotski/KlotskiGame.java',
-                ])
-            }))
-        }
-    }
-
-    dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    }
+  dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+  }
 }
 
 subprojects {
-    version = '0.4'
-    ext.appName = 'klotski'
-    repositories {
-        mavenCentral()
-        maven { url 'https://s01.oss.sonatype.org' }
-        mavenLocal()
-        gradlePluginPortal()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-        maven { url 'https://jitpack.io' }
-    }
+  version = '0.4'
+  ext.appName = 'klotski'
+  repositories {
+    mavenCentral()
+    maven { url 'https://s01.oss.sonatype.org' }
+    mavenLocal()
+    gradlePluginPortal()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://plugins.gradle.org/m2/' }
+  }
 }
 
 eclipse.project.name = 'klotski' + '-parent'
