@@ -1,7 +1,6 @@
 package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.Level;
@@ -29,7 +27,7 @@ public class ConfigurationMenuScreen implements Screen {
 
     public ConfigurationMenuScreen(KlotskiGame game) {
         this.game = game;
-        this.stage = new Stage(new ScreenViewport( game.getCamera()));
+        this.stage = new Stage(new ScreenViewport(game.getCamera()));
         this.stage.addActor(game.getBackground());
     }
 
@@ -55,7 +53,7 @@ public class ConfigurationMenuScreen implements Screen {
         table.add(levelSelector).fill().colspan(6).pad(7);
         selectableLevels.defaults().padBottom(20).fillX().colspan(2);
 
-        List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").path());
+        List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").reader());
         int i = 0;
         for (Level level : levels) {
             if (i % 3 == 0) {
