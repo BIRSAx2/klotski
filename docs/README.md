@@ -2,12 +2,13 @@
 - [ ] Manual
 - [ ] Design Model
 - [ ] Tests
-- [ ] Sequence Diagrams
+- [ ] System Sequence Diagrams
+- [ ] Internal Sequence Diagrams
 - [ ] Class Diagrams
-- [ ] Use Case Diagrams
+- [x] Use Case Diagrams
 - [ ] Deployment Diagrams
 - [ ] Documentation (JavaDoc)
-- [ ] Domain Model Diagrams
+- [x] Domain Model Diagram
 - [ ] Continuous Integration (CircleCI, Github Actions)
 - [ ] Code Coverage (Jacoco)
 - [ ] ADD MORE
