@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
@@ -104,8 +105,10 @@ public class GameScreen implements Screen {
         pixmap.dispose();
 
         Image backgroundTransparent = new Image(background);
+        backgroundTransparent.setFillParent(true);
+        backgroundTransparent.setScaling(Scaling.fill);
         backgroundTransparent.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundTransparent.getColor().a = .6f;
+        backgroundTransparent.getColor().a = .8f;
         stage.addActor(backgroundTransparent);
         Table saveInput = new Table();
         saveInput.setFillParent(true);
@@ -115,7 +118,7 @@ public class GameScreen implements Screen {
         message.setVisible(false);
         message.setAlignment(Align.center);
         message.setColor(Color.RED);
-        Label saveTag = new Label("Insert the save name:", game.getSkin());
+        Label saveTag = new Label("Name:", game.getSkin());
         TextField saveName = new TextField("", game.getSkin());
 
         TextButton save = new TextButton("SAVE", game.getSkin());
@@ -145,11 +148,11 @@ public class GameScreen implements Screen {
 
         saveInput.add(message).center().fillX().colspan(2);
         saveInput.row();
-        saveInput.add(saveTag).center().width(Gdx.graphics.getWidth() / 4f).spaceRight(5);
-        saveInput.add(saveName).center().width(Gdx.graphics.getWidth() / 4f).spaceLeft(5);
+        saveInput.add(saveTag).center().spaceRight(5);
+        saveInput.add(saveName).center().spaceLeft(5);
         saveInput.row();
-        saveInput.add(save).center().width(Gdx.graphics.getWidth() / 6f).spaceRight(5);
-        saveInput.add(cancel).center().width(Gdx.graphics.getWidth() / 6f).spaceLeft(5);
+        saveInput.add(save).center().fill().spaceRight(5);
+        saveInput.add(cancel).center().fill().spaceLeft(5);
         stage.addActor(saveInput);
     }
 
