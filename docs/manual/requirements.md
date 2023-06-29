@@ -22,11 +22,12 @@ The functional requirements are the ones which represents a functionality in the
 ### Non-functional requirements
 The non-functional requirements are more abstract and do not represent an actual functionality of the system; they usually represent a property ora a constraint of the system. There are three types of non-functional requirements: **product** requirement (i.e. performance, security), **organizational** requirements (i.e. the programming language used) and **external** requirements (i.e. ethical code or law). In the KLOTSKI project, the non-functional requirements are:
 * System requirements:
-  * 
+  * User-friendly UI
 * Organizational requirements:
-  * The programming language used is Java
-  * The software utilized for the project tests is JUnit
-  * The editor used is IntelliJ
+  * The project has to be implemented using Java 17
+  * The tests will be conducted using JUnit
+  * Utilize Grandle tool to build the system
+  * Android SDK has to be installed and set
 * External requirements:
   * The project has to be submitted before July 5th
 
