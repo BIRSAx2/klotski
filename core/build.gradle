@@ -6,3 +6,43 @@ dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   implementation 'com.google.code.gson:gson:2.10.1'
 }
+
+
+classDiagrams {
+  // this server is the default, so skip this if you don't mind your diagrams being sent there
+  plantumlServer = 'https://www.plantuml.com/plantuml'
+
+
+  diagram {
+    // Note how this exact configuration behaves differently depending on which project you put it
+    // This one only shows the classes actually defined here, while the parent shows also the ones of sibling projects
+    name "Visualise Package"
+    include packages().withName("dev.plagarizers.klotski")
+    exclude classes().outsideOfProject()
+    exclude classes().withParentClass()
+    writeTo file('build/generated/diagrams/full_package.puml')
+    renderTo file('build/generated/diagrams/full_package.svg')
+  }
+
+  diagram {
+    // Note how this exact configuration behaves differently depending on which project you put it
+    // This one only shows the classes actually defined here, while the parent shows also the ones of sibling projects
+    name "Visualise Gui Package"
+    include packages().withName("dev.plagarizers.klotski.gui")
+    exclude packages().withName("dev.plagiarizers.klotski.game")
+    exclude classes().withParentClass()
+    include classes().withNameLike("*.KlotskiGame")
+    writeTo file('build/generated/diagrams/gui_package.puml')
+    renderTo file('build/generated/diagrams/gui_package.svg')
+  }
+  diagram {
+    // Note how this exact configuration behaves differently depending on which project you put it
+    // This one only shows the classes actually defined here, while the parent shows also the ones of sibling projects
+    name "Visualise Model Package"
+    include packages().withName("dev.plagarizers.klotski.game")
+    exclude classes().outsideOfProject()
+    exclude classes().withParentClass()
+    writeTo file('build/generated/diagrams/game_package.puml')
+    renderTo file('build/generated/diagrams/game_package.svg')
+  }
+}

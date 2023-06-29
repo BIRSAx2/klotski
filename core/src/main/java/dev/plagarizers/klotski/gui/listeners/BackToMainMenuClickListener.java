@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
+import dev.plagarizers.klotski.gui.screens.ScreenType;
 
 public class BackToMainMenuClickListener extends ClickListener {
 
@@ -16,6 +17,6 @@ public class BackToMainMenuClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         game.buttonPressedPlay();
-        game.setScreen(new MainMenuScreen(game));
+        game.setScreen(game.getScreen(ScreenType.MainMenu));
     }
 }
