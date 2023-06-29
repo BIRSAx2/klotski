@@ -26,6 +26,7 @@ public class StartFromSaveClickListener extends ClickListener {
         game.buttonPressedPlay();
         State save = savesManager.loadStateByName(saveName);
         Gdx.app.log("LoadMenuScreen", "Loaded state from save: " + saveName);
+        game.getScreen().dispose();
         game.setScreen(new GameScreen(game, save));
     }
 }

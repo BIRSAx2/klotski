@@ -45,6 +45,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
+                game.getScreen().dispose();
                 game.setScreen(new ConfigurationMenuScreen(game));
             }
         });
@@ -53,6 +54,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
+                game.getScreen().dispose();
                 game.setScreen(new GameScreen(game, State.fromRandomConfiguration()));
             }
         });
@@ -61,6 +63,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
+                game.getScreen().dispose();
                 game.setScreen(new LoadMenuScreen(game));
             }
         });
@@ -69,6 +72,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
+                game.getScreen().dispose();
                 game.setScreen(new SettingsScreen(game));
             }
         });

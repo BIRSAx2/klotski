@@ -100,19 +100,23 @@ public class GameScreen implements Screen {
         pixmap.dispose();
 
         Image backgroundTransparent = new Image(background);
+        background.dispose();
         backgroundTransparent.setFillParent(true);
         backgroundTransparent.setScaling(Scaling.fill);
         backgroundTransparent.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         backgroundTransparent.getColor().a = .8f;
         stage.addActor(backgroundTransparent);
+
         Table saveInput = new Table();
         saveInput.setFillParent(true);
         saveInput.setDebug(game.isDebug());
         saveInput.defaults().space(10);
+
         Label message = new Label("Please insert a name for the save", game.getSkin());
         message.setVisible(false);
         message.setAlignment(Align.center);
         message.setColor(Color.RED);
+
         Label saveTag = new Label("Name:", game.getSkin());
         TextField saveName = new TextField("", game.getSkin());
 

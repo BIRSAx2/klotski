@@ -65,6 +65,7 @@ public class ConfigurationMenuScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     game.buttonPressedPlay();
+                    game.getScreen().dispose();
                     game.setScreen(new GameScreen(game, level.toState()));
                 }
             });
