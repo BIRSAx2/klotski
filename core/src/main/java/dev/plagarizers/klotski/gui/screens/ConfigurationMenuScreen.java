@@ -94,18 +94,13 @@ public class ConfigurationMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            dispose();
-            Gdx.app.exit();
-        }
         stage.act(Math.min(delta, 1 / 60f));
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

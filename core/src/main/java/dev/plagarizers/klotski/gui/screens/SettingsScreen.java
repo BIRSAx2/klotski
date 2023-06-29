@@ -5,50 +5,51 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.util.Resolution;
 
 public class SettingsScreen implements Screen {
     private final KlotskiGame game;
     private final Stage stage;
-    private SelectBox<Resolution> resolutions;
 
     public SettingsScreen(KlotskiGame game) {
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
         this.stage.addActor(game.getBackground());
 
-        setupLayout(game.getSkin());
+        setupLayout();
     }
 
-    private void setupLayout(Skin skin) {
+    private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SETTINGS", skin);
+        Label title = new Label("SETTINGS", game.getSkin());
         title.setAlignment(Align.center);
         title.setFontScale(1.5f);
         table.defaults().space(7);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).colspan(2).row();
 
-        makeMusicVolumeSettings(table, skin);
-        makeEffectsVolumeSettings(table, skin);
-        makeBackButton(table, skin);
+        makeMusicVolumeSettings(table);
+        makeEffectsVolumeSettings(table);
+        makeBackButton(table);
     }
 
-    private void makeMusicVolumeSettings(Table table, Skin skin) {
-        Label musicVolume = new Label("Music Volume", skin);
+    private void makeMusicVolumeSettings(Table table) {
+        Label musicVolume = new Label("Music Volume", game.getSkin());
         musicVolume.setAlignment(Align.left);
-        Slider musicVolumeSlider = new Slider(0, 100, 1, false, skin);
+        Slider musicVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
         musicVolumeSlider.setValue(game.getMusicVolume() * 100);
 
 
@@ -67,10 +68,10 @@ public class SettingsScreen implements Screen {
         table.add(musicVolumeSlider).fillX().row();
     }
 
-    private void makeEffectsVolumeSettings(Table table, Skin skin) {
-        Label effectsVolume = new Label("Effects Volume", skin);
+    private void makeEffectsVolumeSettings(Table table) {
+        Label effectsVolume = new Label("Effects Volume", game.getSkin());
         effectsVolume.setAlignment(Align.left);
-        Slider effectsVolumeSlider = new Slider(0, 100, 1, false, skin);
+        Slider effectsVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
         effectsVolumeSlider.setValue(game.getMusicVolume() * 100);
         effectsVolumeSlider.addListener(new ChangeListener() {
             @Override
@@ -84,8 +85,8 @@ public class SettingsScreen implements Screen {
     }
 
 
-    private void makeBackButton(Table table, Skin skin) {
-        TextButton back = new TextButton("BACK", skin);
+    private void makeBackButton(Table table) {
+        TextButton back = new TextButton("BACK", game.getSkin());
 
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).colspan(2).fillX();

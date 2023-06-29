@@ -26,32 +26,30 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(KlotskiGame game, State state) {
         this.state = state;
         this.game = game;
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
         stage = new Stage(new ScreenViewport(game.getCamera()));
 
         stage.addActor(game.getBackground());
     }
 
-    private void setupLayout(Skin skin) {
+    private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("Game Over", skin);
+        Label title = new Label("Game Over", game.getSkin());
         title.setAlignment(Align.center);
         title.setFontScale(1.5f);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
         table.row();
 
-        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", skin);
+        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", game.getSkin());
         score.setAlignment(Align.center);
         score.setFontScale(1.2f);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
         ImageButton backButton = new ImageButton(game.getImageButtonStyle());
-        backButton.add(new Label("Back", skin)); // Add the button text label
+        backButton.add(new Label("Back", game.getSkin())); // Add the button text label
 
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7).row();
@@ -61,7 +59,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
-        setupLayout(game.getSkin());
+        setupLayout();
         Gdx.input.setInputProcessor(stage);
     }
 

@@ -34,11 +34,11 @@ public class GameScreen implements Screen {
         stage.addActor(game.getBackground());
 
         stage.addListener(gameBoard.getBoardListener());
-        setupLayout(game.getSkin());
+        setupLayout();
     }
 
-    private void setupLayout(Skin skin) {
-        TextButton backButton = new TextButton("Back", skin);
+    private void setupLayout() {
+        TextButton backButton = new TextButton("Back", game.getSkin());
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -47,10 +47,10 @@ public class GameScreen implements Screen {
             }
         });
 
-        TextButton nextMoveButton = new TextButton("Next Move", skin);
+        TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
-        TextButton saveButton = new TextButton("Save", skin);
+        TextButton saveButton = new TextButton("Save", game.getSkin());
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
             }
         });
 
-        TextButton resetButton = new TextButton("Reset", skin);
+        TextButton resetButton = new TextButton("Reset", game.getSkin());
         resetButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
             }
         });
 
-        TextButton undoButton = new TextButton("Undo", skin);
+        TextButton undoButton = new TextButton("Undo", game.getSkin());
         undoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,16 +81,18 @@ public class GameScreen implements Screen {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(backButton).bottom().fillX().colspan(2).pad(10);
-        table.add(resetButton).bottom().fillX().colspan(2).pad(10);
-        table.add(saveButton).bottom().fillX().colspan(2).pad(10);
-        table.row();
-        table.add(gameBoard).expand().center().colspan(6).row();
-        table.row();
-        table.add(undoButton).bottom().fillX().colspan(2).pad(10);
-        table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
 
-//        stage.addListener(new BoardListener(grid));
+        table.add(backButton).colspan(2).bottom().fill().pad(10);
+        table.add(resetButton).colspan(2).bottom().fill().pad(10);
+        table.add(saveButton).colspan(2).bottom().fill().pad(10);
+        table.row();
+        table.add(gameBoard).colspan(6).expand().center();
+        table.row();
+        table.add(undoButton).colspan(3).fill().pad(10);
+        table.add(nextMoveButton).colspan(3).fill().pad(10);
+        table.row();
+
+        System.out.println(table.getColumns());
         stage.addActor(table);
     }
 
@@ -164,7 +166,6 @@ public class GameScreen implements Screen {
             game.setScreen(new GameOverScreen(game, gameBoard.getState()));
         }
 
-//        grid.handleInput();
         stage.act(delta);
         stage.draw();
     }

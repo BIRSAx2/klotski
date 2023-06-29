@@ -75,7 +75,11 @@ public class KlotskiGame extends Game {
     }
 
     public Image getBackground() {
-        return new Image(new Texture(Gdx.files.internal(backgroundTexturePath)));
+
+        Image background = new Image(new Texture(Gdx.files.internal(backgroundTexturePath)));
+        background.setFillParent(true);
+        background.setScaling(Scaling.fill);
+        return background;
     }
 
     public OrthographicCamera getCamera() {
