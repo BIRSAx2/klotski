@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
@@ -27,7 +28,7 @@ public class GameOverScreen implements Screen {
         this.game = game;
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        stage = new Stage(new FitViewport(screenWidth, screenHeight, game.getCamera()));
+        stage = new Stage(new ScreenViewport(game.getCamera()));
 
         stage.addActor(game.getBackground());
     }

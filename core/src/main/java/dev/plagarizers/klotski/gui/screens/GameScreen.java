@@ -11,12 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
-import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 
 public class GameScreen implements Screen {
 
@@ -30,7 +29,8 @@ public class GameScreen implements Screen {
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
         State currentState = state != null ? state : State.fromRandomConfiguration();
         this.gameBoard = new Board(currentState, game.getSkin());
-        this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+
+        this.stage = new Stage(new ScreenViewport(game.getCamera()));
         stage.addActor(game.getBackground());
 
         stage.addListener(gameBoard.getBoardListener());

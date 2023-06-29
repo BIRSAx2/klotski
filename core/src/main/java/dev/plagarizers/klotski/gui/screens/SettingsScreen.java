@@ -42,7 +42,6 @@ public class SettingsScreen implements Screen {
 
         makeMusicVolumeSettings(table, skin);
         makeEffectsVolumeSettings(table, skin);
-        makeResolutionSettings(table, skin);
         makeBackButton(table, skin);
     }
 
@@ -84,13 +83,6 @@ public class SettingsScreen implements Screen {
         table.add(effectsVolumeSlider).fillX().row();
     }
 
-    private void makeResolutionSettings(Table table, Skin skin) {
-        Label resolution = new Label("Resolution", skin);
-        resolutions = new SelectBox<>(skin);
-        resolutions.setItems(new Resolution(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), new Resolution(1920, 1080), new Resolution(1280, 720), new Resolution(640, 480));
-        table.add(resolution).left();
-        table.add(resolutions).fillX().row();
-    }
 
     private void makeBackButton(Table table, Skin skin) {
         TextButton back = new TextButton("BACK", skin);
@@ -108,18 +100,12 @@ public class SettingsScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        Resolution selected = resolutions.getSelected();
-        if (selected.getWidth() != Gdx.graphics.getWidth() || selected.getHeight() != Gdx.graphics.getHeight()) {
-            resize(selected.getWidth(), selected.getHeight());
-        }
-
         stage.act(Math.min(delta, 1 / 60f));
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.graphics.setWindowedMode(width, height);
         stage.getViewport().update(width, height, true);
     }
 

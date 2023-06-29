@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
@@ -28,7 +29,7 @@ public class ConfigurationMenuScreen implements Screen {
 
     public ConfigurationMenuScreen(KlotskiGame game) {
         this.game = game;
-        this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        this.stage = new Stage(new ScreenViewport( game.getCamera()));
         this.stage.addActor(game.getBackground());
     }
 

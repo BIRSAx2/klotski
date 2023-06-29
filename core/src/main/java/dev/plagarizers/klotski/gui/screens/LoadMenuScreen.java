@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
@@ -14,7 +14,6 @@ import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
 import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LoadMenuScreen implements Screen {
@@ -26,7 +25,7 @@ public class LoadMenuScreen implements Screen {
         this.game = game;
         savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
 
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        stage = new Stage(new ScreenViewport(game.getCamera()));
         Gdx.input.setInputProcessor(stage);
         stage.addActor(game.getBackground());
 
@@ -58,7 +57,7 @@ public class LoadMenuScreen implements Screen {
         table.add(saveSlots).maxHeight(stage.getHeight() / 2f).fillX().pad(7);
         table.row();
 
-        for(Map.Entry<String, Integer> save : saves.entrySet()) {
+        for (Map.Entry<String, Integer> save : saves.entrySet()) {
             String key = save.getKey();
             String fileName = key.substring(key.lastIndexOf("/") + 1).replace(".json", "");
 

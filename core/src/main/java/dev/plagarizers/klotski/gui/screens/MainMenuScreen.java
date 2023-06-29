@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 
@@ -18,7 +18,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(KlotskiGame game) {
         this.game = game;
 
-        stage = game.getStage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        stage = game.getStage(new ScreenViewport(game.getCamera()));
     }
 
     private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
