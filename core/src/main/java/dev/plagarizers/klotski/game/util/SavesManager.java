@@ -1,10 +1,10 @@
 package dev.plagarizers.klotski.game.util;
 
+import com.badlogic.gdx.Gdx;
 import dev.plagarizers.klotski.game.state.State;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -132,16 +132,15 @@ public class SavesManager {
 
 
     public List<Level> loadLevelsFromDefaultPath() {
-        return loadLevels(LEVEL_DIRECTORY + File.separator + "levels.json");
+        return loadLevels(Gdx.files.internal(LEVEL_DIRECTORY + File.separator + "levels.json").reader());
 
     }
 
-    public List<Level> loadLevels(String filePath) {
+
+    public List<Level> loadLevels(Reader levelsReader) {
 
         try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = new BufferedReader(levelsReader);
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -155,6 +154,7 @@ public class SavesManager {
             throw new RuntimeException("Error loading levels: " + e.getMessage());
         }
     }
+
 
     public void deleteSave(String saveName) {
 

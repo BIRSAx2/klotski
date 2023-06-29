@@ -28,8 +28,6 @@ public class Board extends Actor {
         movesLabel = new Label("Moves: ", skin);
         movesLabel.setFontScale(1.5f);
 
-        this.addListener(boardListener);
-
     }
 
 

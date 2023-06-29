@@ -1,7 +1,6 @@
 package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
@@ -28,7 +27,7 @@ public class ConfigurationMenuScreen implements Screen {
 
     public ConfigurationMenuScreen(KlotskiGame game) {
         this.game = game;
-        this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+        this.stage = new Stage(new ScreenViewport(game.getCamera()));
         this.stage.addActor(game.getBackground());
     }
 
@@ -54,7 +53,7 @@ public class ConfigurationMenuScreen implements Screen {
         table.add(levelSelector).fill().colspan(6).pad(7);
         selectableLevels.defaults().padBottom(20).fillX().colspan(2);
 
-        List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").path());
+        List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").reader());
         int i = 0;
         for (Level level : levels) {
             if (i % 3 == 0) {
@@ -93,18 +92,13 @@ public class ConfigurationMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            dispose();
-            Gdx.app.exit();
-        }
         stage.act(Math.min(delta, 1 / 60f));
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

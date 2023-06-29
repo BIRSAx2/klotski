@@ -11,12 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
-import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 
 public class GameScreen implements Screen {
 
@@ -30,27 +30,28 @@ public class GameScreen implements Screen {
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
         State currentState = state != null ? state : State.fromRandomConfiguration();
         this.gameBoard = new Board(currentState, game.getSkin());
-        this.stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
+
+        this.stage = new Stage(new ScreenViewport(game.getCamera()));
         stage.addActor(game.getBackground());
 
         stage.addListener(gameBoard.getBoardListener());
-        setupLayout(game.getSkin());
+        setupLayout();
     }
 
-    private void setupLayout(Skin skin) {
-        TextButton backButton = new TextButton("Back", skin);
+    private void setupLayout() {
+        TextButton backButton = new TextButton("Back", game.getSkin());
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(game.getScreen(ScreenType.MainMenu));
             }
         });
 
-        TextButton nextMoveButton = new TextButton("Next Move", skin);
+        TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
-        TextButton saveButton = new TextButton("Save", skin);
+        TextButton saveButton = new TextButton("Save", game.getSkin());
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -59,7 +60,7 @@ public class GameScreen implements Screen {
             }
         });
 
-        TextButton resetButton = new TextButton("Reset", skin);
+        TextButton resetButton = new TextButton("Reset", game.getSkin());
         resetButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,7 +70,7 @@ public class GameScreen implements Screen {
             }
         });
 
-        TextButton undoButton = new TextButton("Undo", skin);
+        TextButton undoButton = new TextButton("Undo", game.getSkin());
         undoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,16 +82,18 @@ public class GameScreen implements Screen {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.add(backButton).bottom().fillX().colspan(2).pad(10);
-        table.add(resetButton).bottom().fillX().colspan(2).pad(10);
-        table.add(saveButton).bottom().fillX().colspan(2).pad(10);
-        table.row();
-        table.add(gameBoard).expand().center().colspan(6).row();
-        table.row();
-        table.add(undoButton).bottom().fillX().colspan(2).pad(10);
-        table.add(nextMoveButton).bottom().fillX().colspan(2).pad(10);
 
-//        stage.addListener(new BoardListener(grid));
+        table.add(backButton).colspan(2).bottom().fill().pad(10);
+        table.add(resetButton).colspan(2).bottom().fill().pad(10);
+        table.add(saveButton).colspan(2).bottom().fill().pad(10);
+        table.row();
+        table.add(gameBoard).colspan(6).expand().center();
+        table.row();
+        table.add(undoButton).colspan(3).fill().pad(10);
+        table.add(nextMoveButton).colspan(3).fill().pad(10);
+        table.row();
+
+        System.out.println(table.getColumns());
         stage.addActor(table);
     }
 
@@ -102,8 +105,10 @@ public class GameScreen implements Screen {
         pixmap.dispose();
 
         Image backgroundTransparent = new Image(background);
+        backgroundTransparent.setFillParent(true);
+        backgroundTransparent.setScaling(Scaling.fill);
         backgroundTransparent.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundTransparent.getColor().a = .6f;
+        backgroundTransparent.getColor().a = .8f;
         stage.addActor(backgroundTransparent);
         Table saveInput = new Table();
         saveInput.setFillParent(true);
@@ -113,7 +118,7 @@ public class GameScreen implements Screen {
         message.setVisible(false);
         message.setAlignment(Align.center);
         message.setColor(Color.RED);
-        Label saveTag = new Label("Insert the save name:", game.getSkin());
+        Label saveTag = new Label("Name:", game.getSkin());
         TextField saveName = new TextField("", game.getSkin());
 
         TextButton save = new TextButton("SAVE", game.getSkin());
@@ -143,11 +148,11 @@ public class GameScreen implements Screen {
 
         saveInput.add(message).center().fillX().colspan(2);
         saveInput.row();
-        saveInput.add(saveTag).center().width(Gdx.graphics.getWidth() / 4f).spaceRight(5);
-        saveInput.add(saveName).center().width(Gdx.graphics.getWidth() / 4f).spaceLeft(5);
+        saveInput.add(saveTag).center().spaceRight(5);
+        saveInput.add(saveName).center().spaceLeft(5);
         saveInput.row();
-        saveInput.add(save).center().width(Gdx.graphics.getWidth() / 6f).spaceRight(5);
-        saveInput.add(cancel).center().width(Gdx.graphics.getWidth() / 6f).spaceLeft(5);
+        saveInput.add(save).center().fill().spaceRight(5);
+        saveInput.add(cancel).center().fill().spaceLeft(5);
         stage.addActor(saveInput);
     }
 
@@ -164,7 +169,6 @@ public class GameScreen implements Screen {
             game.setScreen(new GameOverScreen(game, gameBoard.getState()));
         }
 
-//        grid.handleInput();
         stage.act(delta);
         stage.draw();
     }
