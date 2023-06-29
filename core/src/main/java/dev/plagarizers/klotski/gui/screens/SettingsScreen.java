@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -61,6 +63,12 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        musicVolumeSlider.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.buttonPressedPlay();
+            }
+        });
 
         table.add(musicVolume).left();
         table.add(musicVolumeSlider).fillX().row();
@@ -79,6 +87,14 @@ public class SettingsScreen implements Screen {
                 game.setEffectsVolume(volume);
             }
         });
+
+        effectsVolumeSlider.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.buttonPressedPlay();
+            }
+        });
+
         table.add(effectsVolume).left();
         table.add(effectsVolumeSlider).fillX().row();
     }
