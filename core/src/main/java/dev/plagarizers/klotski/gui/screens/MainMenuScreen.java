@@ -5,9 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 
@@ -18,31 +20,32 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(KlotskiGame game) {
         this.game = game;
 
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), game.getCamera()));
-        this.stage.addActor(game.getBackground());
+        stage = new Stage(new ScreenViewport(game.getCamera()));
+        stage.addActor(game.getBackground());
+
     }
 
-    private void setupLayout(ImageButton.ImageButtonStyle buttonStyle, Skin skin) {
+    private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("KLOTSKI", skin);
+        Label title = new Label("KLOTSKI", game.getSkin());
         title.setFontScale(2.5f);
 
-        TextButton newGame = new TextButton("NEW GAME", skin);
-        TextButton configuration = new TextButton("CHOOSE CONFIGURATION", skin);
-        TextButton loadGame = new TextButton("LOAD GAME", skin);
-        TextButton settings = new TextButton("SETTINGS", skin);
-        TextButton quit = new TextButton("QUIT", skin);
+        TextButton newGame = new TextButton("NEW GAME", game.getSkin());
+        TextButton configuration = new TextButton("CHOOSE CONFIGURATION", game.getSkin());
+        TextButton loadGame = new TextButton("LOAD GAME", game.getSkin());
+        TextButton settings = new TextButton("SETTINGS", game.getSkin());
+        TextButton quit = new TextButton("QUIT", game.getSkin());
 
         configuration.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(game.getScreen(ScreenType.LoadConfig));
+                game.setScreen(new ConfigurationMenuScreen(game));
             }
         });
 
@@ -50,7 +53,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(game.getScreen(ScreenType.Game));
+                game.setScreen(new GameScreen(game, State.fromRandomConfiguration()));
             }
         });
 
@@ -58,7 +61,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(game.getScreen(ScreenType.LoadSave));
+                game.setScreen(new LoadMenuScreen(game));
             }
         });
 
@@ -66,7 +69,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.buttonPressedPlay();
-                game.setScreen(game.getScreen(ScreenType.Settings));
+                game.setScreen(new SettingsScreen(game));
             }
         });
 
@@ -89,7 +92,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        setupLayout(game.getImageButtonStyle(), game.getSkin());
+        setupLayout();
     }
 
     @Override
