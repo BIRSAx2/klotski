@@ -2,13 +2,16 @@ package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.SavesManager;
@@ -23,6 +26,8 @@ public class LoadMenuScreen implements Screen {
     private Stage stage;
     private final KlotskiGame game;
     private final SavesManager savesManager;
+    private Image backgroundImage;
+    private Table confirmTable;
 
     public LoadMenuScreen(KlotskiGame game) {
         this.game = game;
@@ -33,6 +38,8 @@ public class LoadMenuScreen implements Screen {
         stage.addActor(game.getBackground());
 
         setupLayout();
+        setupConfirmDialog();
+        setConfirmDialogVisible(false);
         Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
     }
 
@@ -71,7 +78,14 @@ public class LoadMenuScreen implements Screen {
             savesTable.add(saveButton).fillX().pad(7);
 
             TextButton deleteButton = new TextButton("DELETE", game.getSkin());
-            deleteButton.addListener(new DeleteSaveClickListener(fileName, game));
+            deleteButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.buttonPressedPlay();
+                    setConfirmDialogVisible(true);
+                    setDeletedFile(fileName);
+                }
+            });
             savesTable.add(deleteButton).fillX().pad(7);
             savesTable.row();
 
@@ -90,6 +104,64 @@ public class LoadMenuScreen implements Screen {
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).fill().pad(7);
         Gdx.app.log("LoadMenuScreen", "Added back button");
+    }
+
+    private void setupConfirmDialog() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.fillRectangle(0, 0, 1, 1);
+        Texture background = new Texture(pixmap);
+        pixmap.dispose();
+
+        backgroundImage = new Image(background);
+        background.dispose();
+        backgroundImage.setFillParent(true);
+        backgroundImage.setScaling(Scaling.fill);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        backgroundImage.getColor().a = .8f;
+        stage.addActor(backgroundImage);
+
+        confirmTable = new Table();
+        confirmTable.setFillParent(true);
+        confirmTable.setDebug(game.isDebug());
+        confirmTable.defaults().space(10);
+
+        Label message = new Label("This action is irreversible, are you sure you want to continue?", game.getSkin());
+        message.setAlignment(Align.center);
+        message.setColor(Color.RED);
+
+        TextButton confirm = new TextButton("CONFIRM", game.getSkin());
+
+        TextButton cancel = new TextButton("CANCEL", game.getSkin());
+        cancel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.buttonPressedPlay();
+                setConfirmDialogVisible(false);
+            }
+        });
+
+        confirmTable.add(message).center().fillX().colspan(2);
+        confirmTable.row();
+        confirmTable.add(confirm).center().fill().spaceRight(5);
+        confirmTable.add(cancel).center().fill().spaceLeft(5);
+        stage.addActor(confirmTable);
+    }
+
+    private void setConfirmDialogVisible(boolean visible) {
+        backgroundImage.setVisible(visible);
+        confirmTable.setVisible(visible);
+    }
+
+    private void setDeletedFile(String filename) {
+        for(Cell cell : confirmTable.getCells()) {
+            if(cell.getActor() instanceof TextButton) {
+                if(((TextButton) cell.getActor()).getLabel().textEquals("CONFIRM")) {
+                    cell.getActor().clearListeners();
+                    cell.getActor().addListener(new DeleteSaveClickListener(filename, game));
+                }
+            }
+        }
     }
 
     @Override

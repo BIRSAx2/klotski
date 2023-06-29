@@ -25,6 +25,8 @@ public class GameScreen implements Screen {
     private final Stage stage;
     private final Board gameBoard;
     private final SavesManager savesManager;
+    private Image backgroundImage;
+    private Table saveTable;
 
     public GameScreen(KlotskiGame game, State state) {
         this.game = game;
@@ -37,6 +39,8 @@ public class GameScreen implements Screen {
 
         stage.addListener(gameBoard.getBoardListener());
         setupLayout();
+        setupSaveDialog();
+        setSaveDialogVisible(false);
     }
 
     private void setupLayout() {
@@ -51,7 +55,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                setupSaveInput();
+                setSaveDialogVisible(true);
             }
         });
 
@@ -92,25 +96,25 @@ public class GameScreen implements Screen {
         stage.addActor(table);
     }
 
-    private void setupSaveInput() {
+    private void setupSaveDialog() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
         pixmap.fillRectangle(0, 0, 1, 1);
         Texture background = new Texture(pixmap);
         pixmap.dispose();
 
-        Image backgroundTransparent = new Image(background);
+        backgroundImage = new Image(background);
         background.dispose();
-        backgroundTransparent.setFillParent(true);
-        backgroundTransparent.setScaling(Scaling.fill);
-        backgroundTransparent.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundTransparent.getColor().a = .8f;
-        stage.addActor(backgroundTransparent);
+        backgroundImage.setFillParent(true);
+        backgroundImage.setScaling(Scaling.fill);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        backgroundImage.getColor().a = .8f;
+        stage.addActor(backgroundImage);
 
-        Table saveInput = new Table();
-        saveInput.setFillParent(true);
-        saveInput.setDebug(game.isDebug());
-        saveInput.defaults().space(10);
+        saveTable = new Table();
+        saveTable.setFillParent(true);
+        saveTable.setDebug(game.isDebug());
+        saveTable.defaults().space(10);
 
         Label message = new Label("Please insert a name for the save", game.getSkin());
         message.setVisible(false);
@@ -129,8 +133,9 @@ public class GameScreen implements Screen {
                     message.setVisible(true);
                 } else {
                     savesManager.saveState(gameBoard.getState(), saveName.getText());
-                    backgroundTransparent.setVisible(false);
-                    saveInput.setVisible(false);
+                    setSaveDialogVisible(false);
+                    message.setVisible(false);
+                    saveName.setText("");
                 }
             }
         });
@@ -140,19 +145,25 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
-                backgroundTransparent.setVisible(false);
-                saveInput.setVisible(false);
+                setSaveDialogVisible(false);
+                message.setVisible(false);
+                saveName.setText("");
             }
         });
 
-        saveInput.add(message).center().fillX().colspan(2);
-        saveInput.row();
-        saveInput.add(saveTag).center().spaceRight(5);
-        saveInput.add(saveName).center().spaceLeft(5);
-        saveInput.row();
-        saveInput.add(save).center().fill().spaceRight(5);
-        saveInput.add(cancel).center().fill().spaceLeft(5);
-        stage.addActor(saveInput);
+        saveTable.add(message).center().fillX().colspan(2);
+        saveTable.row();
+        saveTable.add(saveTag).center().spaceRight(5);
+        saveTable.add(saveName).center().spaceLeft(5);
+        saveTable.row();
+        saveTable.add(save).center().fill().spaceRight(5);
+        saveTable.add(cancel).center().fill().spaceLeft(5);
+        stage.addActor(saveTable);
+    }
+
+    private void setSaveDialogVisible(boolean visible) {
+        backgroundImage.setVisible(visible);
+        saveTable.setVisible(visible);
     }
 
     @Override
