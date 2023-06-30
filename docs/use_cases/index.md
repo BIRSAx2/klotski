@@ -16,7 +16,7 @@ nav_order: 3
     </tr>
     <tr>
         <td>Description</td>
-        <td> The user is able to set the resolution, the music volume and the sound effects </td>
+        <td> The user is able to set the music and the sound effects volume </td>
     </tr>
     <tr>
         <td>Data</td>
@@ -109,7 +109,7 @@ nav_order: 3
     </tr>
     <tr>
         <td>Description</td>
-        <td> The user will be able to load a saved game  </td>
+        <td> The user will be able to load a saved game and can delete the savings from the list  </td>
     </tr>
     <tr>
         <td>Data</td>
@@ -140,11 +140,11 @@ nav_order: 3
     </tr>
     <tr>
         <td>Description</td>
-        <td> During a game the stat can be saved in a file </td>
+        <td> During a game the state can be saved in a local file. The saving can be named as the user wants. </td>
     </tr>
     <tr>
         <td>Data</td>
-        <td> The state of the game is saved in the log file </td>
+        <td> The state of the game is saved in the local file </td>
     </tr>
     <tr>
         <td>Stimulus</td>
@@ -152,7 +152,7 @@ nav_order: 3
     </tr>
     <tr>
         <td>Response</td>
-        <td> The state of the game is saved in a file </td>
+        <td> The state of the game is saved in a file and named as the user like </td>
     </tr>
     <tr>
         <td>Comments</td>
