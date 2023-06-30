@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
@@ -33,9 +32,8 @@ public class GameOverScreen implements Screen {
         table.setFillParent(true);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("Game Over", game.getSkin());
+        Label title = new Label("Game Over", game.getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
-        title.setFontScale(1.5f);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
         table.row();

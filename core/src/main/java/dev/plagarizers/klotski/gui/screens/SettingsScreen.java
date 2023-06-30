@@ -36,9 +36,8 @@ public class SettingsScreen implements Screen {
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SETTINGS", game.getSkin());
+        Label title = new Label("SETTINGS", game.getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
-        title.setFontScale(1.5f);
         table.defaults().space(7);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).colspan(2).row();
@@ -49,7 +48,7 @@ public class SettingsScreen implements Screen {
     }
 
     private void makeMusicVolumeSettings(Table table) {
-        Label musicVolume = new Label("Music Volume", game.getSkin());
+        Label musicVolume = new Label("Music Volume", game.getLabelStyle(LabelStyleType.InfoStyle));
         musicVolume.setAlignment(Align.left);
         Slider musicVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
         musicVolumeSlider.setValue(game.getMusicVolume());
@@ -75,7 +74,7 @@ public class SettingsScreen implements Screen {
     }
 
     private void makeEffectsVolumeSettings(Table table) {
-        Label effectsVolume = new Label("Effects Volume", game.getSkin());
+        Label effectsVolume = new Label("Effects Volume", game.getLabelStyle(LabelStyleType.InfoStyle));
         effectsVolume.setAlignment(Align.left);
         Slider effectsVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
         effectsVolumeSlider.setValue(game.getEffectsVolume());
@@ -102,6 +101,7 @@ public class SettingsScreen implements Screen {
 
     private void makeBackButton(Table table) {
         TextButton back = new TextButton("BACK", game.getSkin());
+        back.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
 
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).colspan(2).fillX();

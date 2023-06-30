@@ -39,7 +39,7 @@ public class BoardPreview extends Actor {
 
     private List<Tile> tiles;
 
-    public BoardPreview(Level level, Skin skin) {
+    public BoardPreview(Level level, Skin skin, Label.LabelStyle labelStyle) {
 
         this.level = level;
 
@@ -48,8 +48,7 @@ public class BoardPreview extends Actor {
         this.rows = State.ROWS;
         this.columns = State.COLS;
         this.skin = skin;
-        levelLabel = new Label("Level: " + level.getName(), skin);
-        levelLabel.setFontScale(1.5f);
+        levelLabel = new Label("Level: " + level.getName(), labelStyle);
         this.setWidth((columns + 1) * itemWidth);
         this.setHeight((rows + 2) * itemHeight);
 

@@ -32,14 +32,18 @@ public class MainMenuScreen implements Screen {
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("KLOTSKI", game.getSkin());
-        title.setFontScale(2.5f);
+        Label title = new Label("KLOTSKI", game.getLabelStyle(LabelStyleType.TitleStyle));
 
         TextButton newGame = new TextButton("NEW GAME", game.getSkin());
+        newGame.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton configuration = new TextButton("CHOOSE CONFIGURATION", game.getSkin());
+        configuration.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton loadGame = new TextButton("LOAD GAME", game.getSkin());
+        loadGame.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton settings = new TextButton("SETTINGS", game.getSkin());
+        settings.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton quit = new TextButton("QUIT", game.getSkin());
+        quit.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
 
         configuration.addListener(new ChangeListener() {
             @Override

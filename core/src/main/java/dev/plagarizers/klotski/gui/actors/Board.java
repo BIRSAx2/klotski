@@ -20,14 +20,12 @@ public class Board extends Actor {
     private BoardListener boardListener;
     private GameState gameState;
 
-    public Board(State state, Skin skin) {
+    public Board(State state, Label.LabelStyle labelStyle) {
         this.gameState = new GameState(state);
         boardListener = new BoardListener(this, gameState);
 
         boardTexture = new Texture(Gdx.files.internal("textures/oldTextures/board2.png"));
-        movesLabel = new Label("Moves: ", skin);
-        movesLabel.setFontScale(1.5f);
-
+        movesLabel = new Label("Moves: ", labelStyle);
     }
 
 

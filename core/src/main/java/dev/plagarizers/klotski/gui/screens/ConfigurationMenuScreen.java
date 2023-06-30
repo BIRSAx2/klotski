@@ -34,9 +34,8 @@ public class ConfigurationMenuScreen implements Screen {
         stage.addActor(table);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SELECT A CONFIGURATION", game.getSkin());
+        Label title = new Label("SELECT A CONFIGURATION", game.getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
-        title.setFontScale(1.5f);
         table.add(title).colspan(6).center().padBottom(20);
         table.row();
 
@@ -55,7 +54,7 @@ public class ConfigurationMenuScreen implements Screen {
                 selectableLevels.row();
             }
 
-            BoardPreview board = new BoardPreview(level, game.getSkin());
+            BoardPreview board = new BoardPreview(level, game.getSkin(), game.getLabelStyle(LabelStyleType.InfoStyle));
             board.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -72,6 +71,7 @@ public class ConfigurationMenuScreen implements Screen {
         table.row();
 
         TextButton backButton = new TextButton("BACK", game.getSkin());
+        backButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7);
 
