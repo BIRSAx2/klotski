@@ -28,6 +28,7 @@ public class LoadMenuScreen implements Screen {
     private final SavesManager savesManager;
     private Image backgroundImage;
     private Table confirmTable;
+    private TextButton confirmButton;
 
     public LoadMenuScreen(KlotskiGame game) {
         this.game = game;
@@ -130,10 +131,10 @@ public class LoadMenuScreen implements Screen {
         message.setAlignment(Align.center);
         message.setColor(Color.RED);
 
-        TextButton confirm = new TextButton("CONFIRM", game.getSkin());
+        confirmButton = new TextButton("CONFIRM", game.getSkin());
 
-        TextButton cancel = new TextButton("CANCEL", game.getSkin());
-        cancel.addListener(new ClickListener() {
+        TextButton cancelButton = new TextButton("CANCEL", game.getSkin());
+        cancelButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
@@ -143,8 +144,8 @@ public class LoadMenuScreen implements Screen {
 
         confirmTable.add(message).center().fillX().colspan(2);
         confirmTable.row();
-        confirmTable.add(confirm).center().fill().spaceRight(5);
-        confirmTable.add(cancel).center().fill().spaceLeft(5);
+        confirmTable.add(confirmButton).center().fill().spaceRight(5);
+        confirmTable.add(cancelButton).center().fill().spaceLeft(5);
         stage.addActor(confirmTable);
     }
 
@@ -154,14 +155,8 @@ public class LoadMenuScreen implements Screen {
     }
 
     private void setDeletedFile(String filename) {
-        for(Cell cell : confirmTable.getCells()) {
-            if(cell.getActor() instanceof TextButton) {
-                if(((TextButton) cell.getActor()).getLabel().textEquals("CONFIRM")) {
-                    cell.getActor().clearListeners();
-                    cell.getActor().addListener(new DeleteSaveClickListener(filename, game));
-                }
-            }
-        }
+        confirmButton.clearListeners();
+        confirmButton.addListener(new DeleteSaveClickListener(filename, game));
     }
 
     @Override

@@ -5,10 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -36,8 +33,6 @@ public class ConfigurationMenuScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
         table.setDebug(game.isDebug());
-
-        ImageButton.ImageButtonStyle buttonStyle = game.getImageButtonStyle();
 
         Label title = new Label("SELECT A CONFIGURATION", game.getSkin());
         title.setAlignment(Align.center);
@@ -76,8 +71,7 @@ public class ConfigurationMenuScreen implements Screen {
         levelSelector.validate();
         table.row();
 
-        ImageButton backButton = new ImageButton(buttonStyle);
-        backButton.add(new Label("Back", game.getSkin()));
+        TextButton backButton = new TextButton("BACK", game.getSkin());
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7);
 

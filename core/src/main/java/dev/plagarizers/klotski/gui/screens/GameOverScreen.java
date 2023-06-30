@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -48,8 +45,7 @@ public class GameOverScreen implements Screen {
         score.setFontScale(1.2f);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
-        ImageButton backButton = new ImageButton(game.getImageButtonStyle());
-        backButton.add(new Label("Back", game.getSkin())); // Add the button text label
+        TextButton backButton = new TextButton("BACK", game.getSkin());
 
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7).row();
