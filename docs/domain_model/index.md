@@ -5,52 +5,43 @@ has_children: true
 nav_order: 3
 ---
 
-Domain Model
-
-
+## Domain Model Diagram
 
 ```mermaid
 classDiagram
+    direction LR
+    Player -- KlotskiGame: opens
     
-    Player --> "Opens" KlotskiGame
+    KlotskiGame -- MainMenu: Displays
     
-    KlotskiGame --> "Creates" MainMenu
-    
-    MainMenu --> "Creates" GameScreen
-    MainMenu --> "Creates" Settings
-    
-    
-    MainMenu --> "Creates" LoadGame
+
+    MainMenu -- Settings : creates
+    MainMenu -- GameScreen : creates
+    MainMenu -- LoadGame : creates
+    MainMenu -- Configuration : creates
         
-    LoadGame --> "Uses" SavesManager
+    LoadGame --  SavesManager : uses
+    Configuration -- SavesManager :uses
+    GameScreen -- SavesManager : saves
     
-    MainMenu --> "Creates" Configuration
-    Configuration --> "Uses" SavesManager
     
+    GameScreen -- Board : creates
+    GameScreen -- GameState: contains
     
-    GameScreen --> "Creates" Board
-    GameScreen --> "Contains" GameState
-    GameScreen --> "Save " SavesManager
-    
+
     GameState: Current State
     GameState: Initial State
     GameState: Past States
+    GameState: Moves Counter
     
-    GameState --> "Uses" KlotskiSolver
+    GameState -- KlotskiSolver: uses
     
-    KlotskiSolver --> "Contains" State
+    KlotskiSolver -- State: contains
     
-    GameState --> "Creates" State
+    GameState -- State: creates
     
-    Board --> "Creates" Tile
-    
-    Board --> "Uses" GameState
-    
-    Tile --> "Contains" Block
-    
-    Block <-- "Contains" State
-    
-    
-    
-    
+    Board --  GameState: uses
+
 ```
+
+Let's briefly discuss the domain model. Observing the diagram it's possible to distinguish every use case. There is a "SETTINGS" screen which will allow the user to change the resolution and the volume as he prefers. It is possible to "LOAD", "SAVE" and choose a configuration of the puzzle through the SavesManager. The GameScreen provides the interface to interact with the puzzle: through the GameState it is possible to "MOVE" a block, "UNDO" an action, get the "NEXT BEST ACTION" using KlotskiSolver, "RESTART" the puzzle from the beginning and visualize the "MOVES COUNTER".
