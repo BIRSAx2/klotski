@@ -54,10 +54,13 @@ jobs:
                     cd ..
                     ./gradlew core:test
                     ./gradlew javadoc
+                    ./gradlew generateClassDiagrams
                     mkdir -p "docs/_site/assets/reports/"
                     mkdir -p "docs/_site/assets/javadoc/"
+                    mkdir -p "docs/_site/assets/diagrams/"
                     cp -r core/build/reports/* "docs/_site/assets/reports/"
                     cp -r core/build/docs/javadoc/* "docs/_site/assets/javadoc/"
+                    cp -r core/build/generated/diagrams/* "docs/_site/assets/diagrams/"
                     cd docs
             -   name: Upload artifact
                 uses: actions/upload-pages-artifact@v1
