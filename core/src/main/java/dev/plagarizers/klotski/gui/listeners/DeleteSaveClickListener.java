@@ -39,10 +39,8 @@ public class DeleteSaveClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         // Handle click event
-        Gdx.app.log("LoadMenuScreen", "Clicked on " + event.getTarget());
         game.buttonPressedPlay();
         savesManager.deleteSave(saveName);
-        Gdx.app.log("LoadMenuScreen", "Deleted save: " + saveName);
         // Note: this is a workaround to refresh the screen
         game.setScreen(new LoadMenuScreen(game));
     }

@@ -52,7 +52,6 @@ public class LoadMenuScreen implements Screen {
         setupLayout();
         setupConfirmDialog();
         setConfirmDialogVisible(false);
-        Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
     }
 
     /**
@@ -105,7 +104,6 @@ public class LoadMenuScreen implements Screen {
             savesTable.add(deleteButton).fill().pad(7);
             savesTable.row();
 
-            Gdx.app.log("LoadMenuScreen", "Added save button: " + fileName);
         }
 
         if (saves.isEmpty()) {
@@ -120,7 +118,6 @@ public class LoadMenuScreen implements Screen {
         back.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).fill().pad(7);
-        Gdx.app.log("LoadMenuScreen", "Added back button");
     }
 
     /**

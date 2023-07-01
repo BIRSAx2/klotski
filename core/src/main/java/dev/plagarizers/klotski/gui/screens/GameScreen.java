@@ -84,7 +84,6 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
                 gameBoard.getGameState().reset();
-                Gdx.app.log("Reset", "Resetting board");
             }
         });
 
@@ -95,7 +94,6 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.buttonPressedPlay();
                 gameBoard.getGameState().undoMove();
-                Gdx.app.log("Undo", "Undoing move");
             }
         });
 
