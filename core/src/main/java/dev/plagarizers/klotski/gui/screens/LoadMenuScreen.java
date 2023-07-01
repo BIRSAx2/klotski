@@ -90,7 +90,8 @@ public class LoadMenuScreen implements Screen {
                     setDeletedFile(fileName);
                 }
             });
-            savesTable.add(deleteButton).fillX().pad(7);
+
+            savesTable.add(deleteButton).fill().pad(7);
             savesTable.row();
 
             Gdx.app.log("LoadMenuScreen", "Added save button: " + fileName);
@@ -131,9 +132,8 @@ public class LoadMenuScreen implements Screen {
         confirmTable.setDebug(game.isDebug());
         confirmTable.defaults().space(10);
 
-        Label message = new Label("This action is irreversible, are you sure you want to continue?", game.getFontGenerator().getLabelStyle(LabelStyleType.AlertStyle));
+        Label message = new Label("This action is irreversible\n are you sure you want to continue?", game.getFontGenerator().getLabelStyle(LabelStyleType.AlertStyle));
         message.setAlignment(Align.center);
-
         confirmButton = new TextButton("CONFIRM", game.getSkin());
         confirmButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
 

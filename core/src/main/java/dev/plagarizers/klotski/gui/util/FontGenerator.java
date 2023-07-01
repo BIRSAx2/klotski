@@ -43,7 +43,7 @@ public class FontGenerator {
         labelStyles.put(LabelStyleType.InfoStyle, infoStyle);
 
         Label.LabelStyle alertStyle = new Label.LabelStyle();
-        alertStyle.font = fonts.get(FontType.Title);
+        alertStyle.font = fonts.get(FontType.Info);
         alertStyle.fontColor = Color.RED;
         labelStyles.put(LabelStyleType.AlertStyle, alertStyle);
     }
