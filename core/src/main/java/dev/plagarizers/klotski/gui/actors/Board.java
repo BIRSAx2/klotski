@@ -18,12 +18,13 @@ public class Board extends Actor {
     private final Label movesLabel;
     private final BoardListener boardListener;
     private final GameState gameState;
+    private final String boardTexturePath = "textures/board.png";
 
     public Board(State state, Label.LabelStyle labelStyle) {
         this.gameState = new GameState(state);
         boardListener = new BoardListener(this, gameState);
-
-        boardTexture = new Texture(Gdx.files.internal("textures/oldTextures/board2.png"));
+        boardTexture = new Texture(Gdx.files.internal(boardTexturePath));
+        
         movesLabel = new Label("Moves: ", labelStyle);
     }
 
@@ -47,7 +48,7 @@ public class Board extends Actor {
         batch.draw(boardTexture, getX() - ITEM_WIDTH * 3, getY() - ITEM_HEIGHT * 3 - ITEM_HEIGHT / 2f, (State.COLS + 2) * ITEM_WIDTH, (State.ROWS + 2.5f) * ITEM_HEIGHT);
 
     }
-    
+
     public State getState() {
         return gameState.getState();
     }
