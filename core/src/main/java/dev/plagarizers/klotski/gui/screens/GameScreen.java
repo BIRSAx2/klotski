@@ -18,23 +18,33 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontGenerator;
 import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
 import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
+/**
+ * The GameScreen class represents the main game screen in the Klotski game.
+ * It implements the Screen interface provided by LibGDX.
+ */
 public class GameScreen implements Screen {
+    private final KlotskiGame game; // The main game instance
+    private final Stage stage; // The stage for rendering UI elements
+    private final Board gameBoard; // The game board
+    private final SavesManager savesManager; // The saves manager for managing saved game states
+    private Image backgroundImage; // The background image for the save dialog
+    private Table saveTable; // The table for the save dialog
 
-    private final KlotskiGame game;
-    private final Stage stage;
-    private final Board gameBoard;
-    private final SavesManager savesManager;
-    private Image backgroundImage;
-    private Table saveTable;
-
+    /**
+     * Constructs a new GameScreen object.
+     *
+     * @param game  The main KlotskiGame instance.
+     * @param state The initial state of the game.
+     */
     public GameScreen(KlotskiGame game, State state) {
         this.game = game;
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
         State currentState = state != null ? state : State.fromRandomConfiguration();
-        this.gameBoard = new Board(currentState, game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
+        this.gameBoard = new Board(currentState);
 
         this.stage = new Stage(new ScreenViewport(game.getCamera()));
         stage.addActor(game.getBackground());
@@ -45,17 +55,20 @@ public class GameScreen implements Screen {
         setSaveDialogVisible(false);
     }
 
+    /**
+     * Sets up the layout of the game screen, including buttons and the game board.
+     */
     private void setupLayout() {
         TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        backButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
 
         TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
-        nextMoveButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        nextMoveButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
         TextButton saveButton = new TextButton("Save", game.getSkin());
-        saveButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        saveButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -65,7 +78,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton resetButton = new TextButton("Reset", game.getSkin());
-        resetButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        resetButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         resetButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -76,7 +89,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton undoButton = new TextButton("Undo", game.getSkin());
-        undoButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        undoButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         undoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -103,6 +116,9 @@ public class GameScreen implements Screen {
         stage.addActor(table);
     }
 
+    /**
+     * Sets up the save dialog for saving the game state.
+     */
     private void setupSaveDialog() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
@@ -123,17 +139,17 @@ public class GameScreen implements Screen {
         saveTable.setDebug(game.isDebug());
         saveTable.defaults().space(10);
 
-        Label message = new Label("Please insert a name for the save", game.getFontGenerator().getLabelStyle(LabelStyleType.AlertStyle));
+        Label message = new Label("Please insert a name for the save", FontGenerator.getInstance().getLabelStyle(LabelStyleType.AlertStyle));
         message.setVisible(false);
         message.setAlignment(Align.center);
 
         Label saveTag = new Label("Name:", game.getSkin());
-        saveTag.setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
+        saveTag.setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
         TextField saveName = new TextField("", game.getSkin());
-        saveName.getStyle().font = game.getFontGenerator().getFont(FontType.Info);
+        saveName.getStyle().font = FontGenerator.getInstance().getFont(FontType.Info);
 
         TextButton save = new TextButton("SAVE", game.getSkin());
-        save.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        save.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         save.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -150,7 +166,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton cancel = new TextButton("CANCEL", game.getSkin());
-        cancel.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        cancel.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         cancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -171,6 +187,11 @@ public class GameScreen implements Screen {
         stage.addActor(saveTable);
     }
 
+    /**
+     * Sets the visibility of the save dialog.
+     *
+     * @param visible True to make the dialog visible, false otherwise.
+     */
     private void setSaveDialogVisible(boolean visible) {
         backgroundImage.setVisible(visible);
         saveTable.setVisible(visible);

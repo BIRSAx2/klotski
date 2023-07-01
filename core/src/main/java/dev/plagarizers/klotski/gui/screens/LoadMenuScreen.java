@@ -18,20 +18,29 @@ import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
 import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
-import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator;
 import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The LoadMenuScreen class represents the load menu screen in the Klotski game.
+ * It implements the Screen interface provided by LibGDX.
+ */
 public class LoadMenuScreen implements Screen {
-    private final KlotskiGame game;
-    private final SavesManager savesManager;
-    private final Stage stage;
-    private Image backgroundImage;
-    private Table confirmTable;
-    private TextButton confirmButton;
+    private final KlotskiGame game; // The main game instance
+    private final SavesManager savesManager; // The saves manager for managing saved game states
+    private final Stage stage; // The stage for rendering UI elements
+    private Image backgroundImage; // The background image for the confirmation dialog
+    private Table confirmTable; // The table for the confirmation dialog
+    private TextButton confirmButton; // The confirm button in the confirmation dialog
 
+    /**
+     * Constructs a new LoadMenuScreen object.
+     *
+     * @param game The main KlotskiGame instance.
+     */
     public LoadMenuScreen(KlotskiGame game) {
         this.game = game;
         savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
@@ -46,7 +55,9 @@ public class LoadMenuScreen implements Screen {
         Gdx.app.log("LoadMenuScreen", "LoadMenuScreen initialized");
     }
 
-
+    /**
+     * Sets up the layout of the load menu screen, including labels, buttons, and save slots.
+     */
     private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
@@ -54,7 +65,7 @@ public class LoadMenuScreen implements Screen {
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SELECT A SAVE SLOT", game.getFontGenerator().getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("SELECT A SAVE SLOT", FontGenerator.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
 
         HashMap<String, Integer> saves = savesManager.getSavedStatePaths();
@@ -75,13 +86,13 @@ public class LoadMenuScreen implements Screen {
 
             String saveButtonLabel = fileName + "\nMoves: " + save.getValue();
             TextButton saveButton = new TextButton(saveButtonLabel, game.getSkin());
-            saveButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+            saveButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
             saveButton.getLabel().setAlignment(Align.left);
             saveButton.addListener(new StartFromSaveClickListener(fileName, game));
             savesTable.add(saveButton).fillX().pad(7);
 
             TextButton deleteButton = new TextButton("DELETE", game.getSkin());
-            deleteButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+            deleteButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
             deleteButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -98,7 +109,7 @@ public class LoadMenuScreen implements Screen {
         }
 
         if (saves.isEmpty()) {
-            Label noSaves = new Label("No saves found", game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
+            Label noSaves = new Label("No saves found", FontGenerator.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
             savesTable.add(noSaves).fillX().pad(7);
             savesTable.row();
         }
@@ -106,12 +117,15 @@ public class LoadMenuScreen implements Screen {
         saveSlots.validate();
 
         TextButton back = new TextButton("BACK", game.getSkin());
-        back.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        back.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).fill().pad(7);
         Gdx.app.log("LoadMenuScreen", "Added back button");
     }
 
+    /**
+     * Sets up the confirmation dialog for deleting a save file.
+     */
     private void setupConfirmDialog() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
@@ -132,13 +146,13 @@ public class LoadMenuScreen implements Screen {
         confirmTable.setDebug(game.isDebug());
         confirmTable.defaults().space(10);
 
-        Label message = new Label("This action is irreversible\n are you sure you want to continue?", game.getFontGenerator().getLabelStyle(LabelStyleType.AlertStyle));
+        Label message = new Label("This action is irreversible\n are you sure you want to continue?", FontGenerator.getInstance().getLabelStyle(LabelStyleType.AlertStyle));
         message.setAlignment(Align.center);
         confirmButton = new TextButton("CONFIRM", game.getSkin());
-        confirmButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        confirmButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
 
         TextButton cancelButton = new TextButton("CANCEL", game.getSkin());
-        cancelButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
+        cancelButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         cancelButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -154,11 +168,21 @@ public class LoadMenuScreen implements Screen {
         stage.addActor(confirmTable);
     }
 
+    /**
+     * Sets the visibility of the confirmation dialog.
+     *
+     * @param visible True to make the dialog visible, false otherwise.
+     */
     private void setConfirmDialogVisible(boolean visible) {
         backgroundImage.setVisible(visible);
         confirmTable.setVisible(visible);
     }
 
+    /**
+     * Sets the deleted file for the confirmation dialog.
+     *
+     * @param filename The name of the file to be deleted.
+     */
     private void setDeletedFile(String filename) {
         confirmButton.clearListeners();
         confirmButton.addListener(new DeleteSaveClickListener(filename, game));
@@ -166,6 +190,7 @@ public class LoadMenuScreen implements Screen {
 
     @Override
     public void show() {
+        // Not used
     }
 
     @Override
@@ -183,14 +208,17 @@ public class LoadMenuScreen implements Screen {
 
     @Override
     public void pause() {
+        // Not used
     }
 
     @Override
     public void resume() {
+        // Not used
     }
 
     @Override
     public void hide() {
+        // Not used
     }
 
     @Override

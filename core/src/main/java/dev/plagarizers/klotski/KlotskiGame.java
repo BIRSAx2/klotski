@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Scaling;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
 
 public class KlotskiGame extends Game {
     public static final String SKIN_PATH = "skins/default/uiskin.json";
@@ -20,7 +19,6 @@ public class KlotskiGame extends Game {
     private final String musicPath = "backgroundMusic.wav";
     private final String buttonPressedSoundPath = "buttonPressedSound.mp3";
     private final String backgroundImageTexturePath = "textures/background.png";
-    public FontGenerator fontGenerator;
     private OrthographicCamera camera;
     private Music backgroundMusic;
     private Sound buttonPressedSound;
@@ -31,7 +29,6 @@ public class KlotskiGame extends Game {
     public void create() {
         effectsVolume = 0.5f;
 
-        fontGenerator = new FontGenerator();
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
         backgroundMusic.setVolume(0.5f);
         backgroundMusic.setLooping(true);
@@ -87,11 +84,7 @@ public class KlotskiGame extends Game {
     public Skin getSkin() {
         return gameSkin;
     }
-
-    public FontGenerator getFontGenerator() {
-        return fontGenerator;
-    }
-
+    
     @Override
     public void dispose() {
         gameSkin.dispose();

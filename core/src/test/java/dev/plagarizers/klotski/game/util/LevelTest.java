@@ -38,7 +38,7 @@ public class LevelTest {
         Block[] board = new Block[0];
         Level level = new Level(name, board);
 
-        assertArrayEquals(board, level.getBoard());
+        assertArrayEquals(board, level.getBlocks());
     }
 
     @Test
@@ -49,9 +49,9 @@ public class LevelTest {
 
         Block[] newBoard = new Block[1];
         newBoard[0] = new Block(null, 1, 1);
-        level.setBoard(newBoard);
+        level.setBlocks(newBoard);
 
-        assertArrayEquals(newBoard, level.getBoard());
+        assertArrayEquals(newBoard, level.getBlocks());
     }
 
     @Test
@@ -62,10 +62,10 @@ public class LevelTest {
         assertEquals(1, levels.size());
         Level level = levels.get(0);
         assertEquals("Level 1", level.getName());
-        assertEquals(1, level.getBoard().length);
-        assertEquals(2, level.getBoard()[0].getHeight());
-        assertEquals(2, level.getBoard()[0].getWidth());
-        assertEquals(Block.BlockType.BigBlock, level.getBoard()[0].getType());
+        assertEquals(1, level.getBlocks().length);
+        assertEquals(2, level.getBlocks()[0].getHeight());
+        assertEquals(2, level.getBlocks()[0].getWidth());
+        assertEquals(Block.BlockType.BigBlock, level.getBlocks()[0].getType());
     }
 
     @Test

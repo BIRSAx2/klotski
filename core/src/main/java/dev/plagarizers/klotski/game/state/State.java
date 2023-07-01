@@ -164,7 +164,7 @@ public class State implements Cloneable {
         Level level = levels.get(index);
 
         State state = new State();
-        state.setBlocks(level.getBoard());
+        state.setBlocks(level.getBlocks());
         return state;
     }
 

@@ -13,15 +13,20 @@ import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator;
 import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
-
 public class GameOverScreen implements Screen {
     private final KlotskiGame game;
     private final SavesManager savesManager = new SavesManager();
     private final State state;
     private final Stage stage;
 
+    /**
+     * Constructs a GameOverScreen object.
+     *
+     * @param game  The KlotskiGame instance.
+     * @param state The game state when the game is over.
+     */
     public GameOverScreen(KlotskiGame game, State state) {
         this.state = state;
         this.game = game;
@@ -30,12 +35,15 @@ public class GameOverScreen implements Screen {
         stage.addActor(game.getBackground());
     }
 
+    /**
+     * Sets up the layout of the game over screen.
+     */
     private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("Game Over", game.getFontGenerator().getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("Game Over", FontGenerator.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
@@ -47,7 +55,6 @@ public class GameOverScreen implements Screen {
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
         TextButton backButton = new TextButton("BACK", game.getSkin());
-
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7).row();
 

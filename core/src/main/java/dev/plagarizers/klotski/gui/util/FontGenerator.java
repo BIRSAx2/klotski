@@ -10,15 +10,21 @@ import java.util.HashMap;
 
 public class FontGenerator {
 
+    private static FontGenerator instance = null;
     private final HashMap<FontType, BitmapFont> fonts;
-
     private final HashMap<LabelStyleType, Label.LabelStyle> labelStyles;
 
-    public FontGenerator() {
+    private FontGenerator() {
         fonts = new HashMap<>();
         labelStyles = new HashMap<>();
         setupFonts();
         setupLabelStyles();
+    }
+
+
+    public static FontGenerator getInstance() {
+        if (instance == null) instance = new FontGenerator();
+        return instance;
     }
 
     private void setupLabelStyles() {

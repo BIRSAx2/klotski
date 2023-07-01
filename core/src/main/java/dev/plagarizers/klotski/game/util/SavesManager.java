@@ -10,19 +10,31 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SavesManager {
-
-    private String externalStoragePath;
     private static final String LEVEL_DIRECTORY = "levels";
     private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
+    private String externalStoragePath;
 
+    /**
+     * Constructs a `SavesManager` object with the default external storage path.
+     */
     public SavesManager() {
         this.externalStoragePath = "~/klotski/saves/";
     }
 
+    /**
+     * Constructs a `SavesManager` object with the specified external storage path.
+     *
+     * @param externalStoragePath the external storage path
+     */
     public SavesManager(String externalStoragePath) {
         this.externalStoragePath = externalStoragePath + "klotski/saves/";
     }
 
+    /**
+     * Saves the game state to a file.
+     *
+     * @param state the game state to be saved
+     */
     public void saveState(State state) {
         try {
             String json = state.toJson();
@@ -37,6 +49,12 @@ public class SavesManager {
         }
     }
 
+    /**
+     * Saves the game state to a file with a specified save name.
+     *
+     * @param state    the game state to be saved
+     * @param saveName the name of the save file
+     */
     public void saveState(State state, String saveName) {
         try {
             String json = state.toJson();
@@ -50,6 +68,11 @@ public class SavesManager {
         }
     }
 
+    /**
+     * Retrieves the saved state paths and the number of moves for each saved state.
+     *
+     * @return a HashMap containing the saved state paths and the corresponding number of moves
+     */
     public HashMap<String, Integer> getSavedStatePaths() {
         HashMap<String, Integer> savedStatePaths = new HashMap<>();
         File saveDirectory = new File(externalStoragePath);
@@ -69,6 +92,12 @@ public class SavesManager {
         return savedStatePaths;
     }
 
+    /**
+     * Retrieves the number of moves from a saved state file.
+     *
+     * @param filePath the path to the saved state file
+     * @return the number of moves
+     */
     public int getMoves(String filePath) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
@@ -87,10 +116,22 @@ public class SavesManager {
         }
     }
 
+    /**
+     * Loads a saved state by its name.
+     *
+     * @param name the name of the saved state
+     * @return the loaded state
+     */
     public State loadStateByName(String name) {
         return loadStateByPath(getSaveFilePath(name));
     }
 
+    /**
+     * Loads a saved state by its file path.
+     *
+     * @param filePath the file path of the saved state
+     * @return the loaded state
+     */
     public State loadStateByPath(String filePath) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
@@ -110,6 +151,9 @@ public class SavesManager {
         }
     }
 
+    /**
+     * Creates the save directory if it does not exist.
+     */
     private void createSaveDirectoryIfNotExists() {
         File saveDirectory = new File(externalStoragePath);
         if (!saveDirectory.exists() || !saveDirectory.isDirectory()) {
@@ -120,25 +164,44 @@ public class SavesManager {
         }
     }
 
+    /**
+     * Generates a unique filename for the saved state.
+     *
+     * @return the generated filename
+     */
     private String generateFilename() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         String timestamp = dateFormat.format(new Date());
         return "save_" + timestamp;
     }
 
+    /**
+     * Retrieves the file path for the specified filename.
+     *
+     * @param filename the filename
+     * @return the file path
+     */
     private String getSaveFilePath(String filename) {
         return externalStoragePath + filename + ".json";
     }
 
-
+    /**
+     * Loads the game levels from the default path.
+     *
+     * @return a list of loaded levels
+     */
     public List<Level> loadLevelsFromDefaultPath() {
         return loadLevels(Gdx.files.internal(LEVEL_DIRECTORY + File.separator + "levels.json").reader());
 
     }
 
-
+    /**
+     * Loads the game levels from a given reader.
+     *
+     * @param levelsReader the reader for the levels file
+     * @return a list of loaded levels
+     */
     public List<Level> loadLevels(Reader levelsReader) {
-
         try {
             BufferedReader bufferedReader = new BufferedReader(levelsReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -155,15 +218,17 @@ public class SavesManager {
         }
     }
 
-
+    /**
+     * Deletes a saved state file by its name.
+     *
+     * @param saveName the name of the saved state file to be deleted
+     */
     public void deleteSave(String saveName) {
-
         String path = getSaveFilePath(saveName);
-
         File file = new File(path);
         if (file.exists()) {
             file.delete();
         }
-
     }
 }
+
