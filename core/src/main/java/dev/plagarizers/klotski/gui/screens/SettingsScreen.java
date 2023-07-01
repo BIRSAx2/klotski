@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 public class SettingsScreen implements Screen {
     private final KlotskiGame game;
@@ -36,7 +38,7 @@ public class SettingsScreen implements Screen {
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SETTINGS", game.getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("SETTINGS", game.getFontGenerator().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
         table.defaults().space(7);
 
@@ -48,7 +50,7 @@ public class SettingsScreen implements Screen {
     }
 
     private void makeMusicVolumeSettings(Table table) {
-        Label musicVolume = new Label("Music Volume", game.getLabelStyle(LabelStyleType.InfoStyle));
+        Label musicVolume = new Label("Music Volume", game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
         musicVolume.setAlignment(Align.left);
         Slider musicVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
         musicVolumeSlider.setValue(game.getMusicVolume());
@@ -74,7 +76,7 @@ public class SettingsScreen implements Screen {
     }
 
     private void makeEffectsVolumeSettings(Table table) {
-        Label effectsVolume = new Label("Effects Volume", game.getLabelStyle(LabelStyleType.InfoStyle));
+        Label effectsVolume = new Label("Effects Volume", game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
         effectsVolume.setAlignment(Align.left);
         Slider effectsVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
         effectsVolumeSlider.setValue(game.getEffectsVolume());
@@ -101,7 +103,7 @@ public class SettingsScreen implements Screen {
 
     private void makeBackButton(Table table) {
         TextButton back = new TextButton("BACK", game.getSkin());
-        back.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        back.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
 
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).colspan(2).fillX();

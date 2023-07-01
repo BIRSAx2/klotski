@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 public class MainMenuScreen implements Screen {
     private final KlotskiGame game;
@@ -32,18 +34,19 @@ public class MainMenuScreen implements Screen {
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("KLOTSKI", game.getLabelStyle(LabelStyleType.TitleStyle));
+        Label title = new Label("KLOTSKI", game.getFontGenerator().getLabelStyle(LabelStyleType.TitleStyle));
+        title.setFontScale(3);
 
         TextButton newGame = new TextButton("NEW GAME", game.getSkin());
-        newGame.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        newGame.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton configuration = new TextButton("CHOOSE CONFIGURATION", game.getSkin());
-        configuration.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        configuration.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton loadGame = new TextButton("LOAD GAME", game.getSkin());
-        loadGame.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        loadGame.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton settings = new TextButton("SETTINGS", game.getSkin());
-        settings.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        settings.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton quit = new TextButton("QUIT", game.getSkin());
-        quit.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        quit.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
 
         configuration.addListener(new ChangeListener() {
             @Override

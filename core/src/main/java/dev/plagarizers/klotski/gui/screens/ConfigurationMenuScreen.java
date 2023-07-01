@@ -5,7 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -14,6 +17,8 @@ import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.BoardPreview;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 import java.util.List;
 
@@ -34,7 +39,7 @@ public class ConfigurationMenuScreen implements Screen {
         stage.addActor(table);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SELECT A CONFIGURATION", game.getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("SELECT A CONFIGURATION", game.getFontGenerator().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
         table.add(title).colspan(6).center().padBottom(20);
         table.row();
@@ -54,7 +59,7 @@ public class ConfigurationMenuScreen implements Screen {
                 selectableLevels.row();
             }
 
-            BoardPreview board = new BoardPreview(level, game.getSkin(), game.getLabelStyle(LabelStyleType.InfoStyle));
+            BoardPreview board = new BoardPreview(level, game.getSkin(), game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
             board.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -71,7 +76,7 @@ public class ConfigurationMenuScreen implements Screen {
         table.row();
 
         TextButton backButton = new TextButton("BACK", game.getSkin());
-        backButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        backButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7);
 

@@ -18,14 +18,16 @@ import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 import dev.plagarizers.klotski.gui.listeners.DeleteSaveClickListener;
 import dev.plagarizers.klotski.gui.listeners.StartFromSaveClickListener;
+import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoadMenuScreen implements Screen {
-    private Stage stage;
     private final KlotskiGame game;
     private final SavesManager savesManager;
+    private final Stage stage;
     private Image backgroundImage;
     private Table confirmTable;
     private TextButton confirmButton;
@@ -52,7 +54,7 @@ public class LoadMenuScreen implements Screen {
 
         table.setDebug(game.isDebug());
 
-        Label title = new Label("SELECT A SAVE SLOT", game.getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("SELECT A SAVE SLOT", game.getFontGenerator().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
 
         HashMap<String, Integer> saves = savesManager.getSavedStatePaths();
@@ -73,13 +75,13 @@ public class LoadMenuScreen implements Screen {
 
             String saveButtonLabel = fileName + "\nMoves: " + save.getValue();
             TextButton saveButton = new TextButton(saveButtonLabel, game.getSkin());
-            saveButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+            saveButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
             saveButton.getLabel().setAlignment(Align.left);
             saveButton.addListener(new StartFromSaveClickListener(fileName, game));
             savesTable.add(saveButton).fillX().pad(7);
 
             TextButton deleteButton = new TextButton("DELETE", game.getSkin());
-            deleteButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+            deleteButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
             deleteButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -95,7 +97,7 @@ public class LoadMenuScreen implements Screen {
         }
 
         if (saves.isEmpty()) {
-            Label noSaves = new Label("No saves found", game.getLabelStyle(LabelStyleType.InfoStyle));
+            Label noSaves = new Label("No saves found", game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
             savesTable.add(noSaves).fillX().pad(7);
             savesTable.row();
         }
@@ -103,7 +105,7 @@ public class LoadMenuScreen implements Screen {
         saveSlots.validate();
 
         TextButton back = new TextButton("BACK", game.getSkin());
-        back.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        back.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).fill().pad(7);
         Gdx.app.log("LoadMenuScreen", "Added back button");
@@ -129,14 +131,14 @@ public class LoadMenuScreen implements Screen {
         confirmTable.setDebug(game.isDebug());
         confirmTable.defaults().space(10);
 
-        Label message = new Label("This action is irreversible, are you sure you want to continue?", game.getLabelStyle(LabelStyleType.AlertStyle));
+        Label message = new Label("This action is irreversible, are you sure you want to continue?", game.getFontGenerator().getLabelStyle(LabelStyleType.AlertStyle));
         message.setAlignment(Align.center);
 
         confirmButton = new TextButton("CONFIRM", game.getSkin());
-        confirmButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        confirmButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
 
         TextButton cancelButton = new TextButton("CANCEL", game.getSkin());
-        cancelButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        cancelButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         cancelButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

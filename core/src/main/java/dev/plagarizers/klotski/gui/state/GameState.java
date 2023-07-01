@@ -1,5 +1,6 @@
 package dev.plagarizers.klotski.gui.state;
 
+import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.block.Block;
 import dev.plagarizers.klotski.game.state.KlotskiSolver;
 import dev.plagarizers.klotski.game.state.State;
@@ -15,9 +16,7 @@ public class GameState {
     private State state;
     private List<Tile> tiles;
     private Tile selectedTile;
-
     private State startingConfiguration;
-
     private Stack<State> previousStates;
     private List<State> pathToSolution;
 
@@ -76,9 +75,6 @@ public class GameState {
     }
 
     public void undoMove() {
-        // TODO: Check why after refactoring this is buggy
-        System.out.println("Undoing move");
-        System.out.println("Previous states: " + previousStates.size());
         if (previousStates.size() <= 1) return;
         state = previousStates.pop().clone();
         updateTiles();
@@ -128,11 +124,17 @@ public class GameState {
         y = State.ROWS - y - height;
         float gridOffsetX = (State.COLS * Board.ITEM_WIDTH) / 2;
         float gridOffsetY = (State.ROWS * Board.ITEM_HEIGHT) / 2;
+
         float tileX = (x * Board.ITEM_WIDTH) - gridOffsetX;
         float tileY = (y * Board.ITEM_HEIGHT) - gridOffsetY;
+
         float tileWidth = width * Board.ITEM_WIDTH;
         float tileHeight = height * Board.ITEM_HEIGHT;
+
+
         Tile tile = new Tile(tileX, tileY, tileWidth, tileHeight);
+
+
         tile.setBlock(block);
         if (selectedTile != null && selectedTile.getBlock().equals(block)) {
             selectedTile = tile;
@@ -150,14 +152,15 @@ public class GameState {
         // recalculate the path to solution
 
         calculatePathToSolution();
-        System.out.println("Path to solution: " + pathToSolution.size() + " moves");
 
         if (pathToSolution.isEmpty()) return;
+
         previousStates.push(state.clone());
         State next = pathToSolution.remove(0);
         next.setMoves(state.getMoves() + 1);
         state = next.clone();
         selectedTile = null;
+
         updateTiles();
     }
 

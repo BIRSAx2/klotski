@@ -18,6 +18,8 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 public class GameScreen implements Screen {
 
@@ -32,7 +34,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
         State currentState = state != null ? state : State.fromRandomConfiguration();
-        this.gameBoard = new Board(currentState, game.getLabelStyle(LabelStyleType.InfoStyle));
+        this.gameBoard = new Board(currentState, game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
 
         this.stage = new Stage(new ScreenViewport(game.getCamera()));
         stage.addActor(game.getBackground());
@@ -45,15 +47,15 @@ public class GameScreen implements Screen {
 
     private void setupLayout() {
         TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        backButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
 
         TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
-        nextMoveButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        nextMoveButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
         TextButton saveButton = new TextButton("Save", game.getSkin());
-        saveButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        saveButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -63,7 +65,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton resetButton = new TextButton("Reset", game.getSkin());
-        resetButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        resetButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         resetButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -74,7 +76,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton undoButton = new TextButton("Undo", game.getSkin());
-        undoButton.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        undoButton.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         undoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -121,17 +123,17 @@ public class GameScreen implements Screen {
         saveTable.setDebug(game.isDebug());
         saveTable.defaults().space(10);
 
-        Label message = new Label("Please insert a name for the save", game.getLabelStyle(LabelStyleType.AlertStyle));
+        Label message = new Label("Please insert a name for the save", game.getFontGenerator().getLabelStyle(LabelStyleType.AlertStyle));
         message.setVisible(false);
         message.setAlignment(Align.center);
 
         Label saveTag = new Label("Name:", game.getSkin());
-        saveTag.setStyle(game.getLabelStyle(LabelStyleType.InfoStyle));
+        saveTag.setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.InfoStyle));
         TextField saveName = new TextField("", game.getSkin());
-        saveName.getStyle().font = game.getFont(FontType.Info);
+        saveName.getStyle().font = game.getFontGenerator().getFont(FontType.Info);
 
         TextButton save = new TextButton("SAVE", game.getSkin());
-        save.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        save.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         save.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -148,7 +150,7 @@ public class GameScreen implements Screen {
         });
 
         TextButton cancel = new TextButton("CANCEL", game.getSkin());
-        cancel.getLabel().setStyle(game.getLabelStyle(LabelStyleType.ButtonStyle));
+        cancel.getLabel().setStyle(game.getFontGenerator().getLabelStyle(LabelStyleType.ButtonStyle));
         cancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

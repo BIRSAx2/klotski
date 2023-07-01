@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.gui.listeners.BoardListener;
 import dev.plagarizers.klotski.gui.state.GameState;
@@ -15,10 +14,10 @@ import java.util.List;
 public class Board extends Actor {
     public static final float ITEM_WIDTH = 64;
     public static final float ITEM_HEIGHT = 64;
-    private Texture boardTexture;
-    private Label movesLabel;
-    private BoardListener boardListener;
-    private GameState gameState;
+    private final Texture boardTexture;
+    private final Label movesLabel;
+    private final BoardListener boardListener;
+    private final GameState gameState;
 
     public Board(State state, Label.LabelStyle labelStyle) {
         this.gameState = new GameState(state);
@@ -45,15 +44,10 @@ public class Board extends Actor {
 
         movesLabel.setPosition(getX() - ITEM_WIDTH, getY() - ITEM_HEIGHT * 4);
         movesLabel.draw(batch, parentAlpha);
-        batch.draw(boardTexture,
-            getX() - ITEM_WIDTH * 3,
-            getY() - ITEM_HEIGHT * 3 - ITEM_HEIGHT / 2f,
-            (State.COLS + 2) * ITEM_WIDTH,
-            (State.ROWS + 2.5f) * ITEM_HEIGHT);
+        batch.draw(boardTexture, getX() - ITEM_WIDTH * 3, getY() - ITEM_HEIGHT * 3 - ITEM_HEIGHT / 2f, (State.COLS + 2) * ITEM_WIDTH, (State.ROWS + 2.5f) * ITEM_HEIGHT);
 
     }
-
-
+    
     public State getState() {
         return gameState.getState();
     }

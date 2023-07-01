@@ -4,20 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 
 public class GameOverScreen implements Screen {
-    private Stage stage;
     private final KlotskiGame game;
     private final SavesManager savesManager = new SavesManager();
-
     private final State state;
+    private final Stage stage;
 
     public GameOverScreen(KlotskiGame game, State state) {
         this.state = state;
@@ -32,7 +35,7 @@ public class GameOverScreen implements Screen {
         table.setFillParent(true);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("Game Over", game.getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("Game Over", game.getFontGenerator().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
