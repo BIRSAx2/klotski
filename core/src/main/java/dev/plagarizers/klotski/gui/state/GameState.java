@@ -6,6 +6,7 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Direction;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.actors.Tile;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,7 @@ public class GameState {
         if (!result) previousStates.pop();
         if (result) {
             updateTiles();
+            SoundHandler.getInstance().playPieceMoved();
         }
         return result;
     }

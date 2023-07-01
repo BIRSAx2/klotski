@@ -11,13 +11,16 @@ import com.badlogic.gdx.audio.Sound;
 public class SoundHandler {
 
     private static SoundHandler instance = null;
-    private final String backgroundMusicPath = "sound/background_music.wav";
-    private final String buttonPressedSoundPath = "sound/button_pressed_sound.mp3";
+    private final String backgroundMusicPath = "sounds/background_music.mp3";
+    private final String buttonPressedSoundPath = "sounds/button_pressed_sound.mp3";
+
+    private final String pieceMoveSoundPath = "sounds/piece_move_sound.mp3";
     private final float defaultVolume = 0.5f;
 
     private float effectsVolume = 0.5f;
     private Music backgroundMusic;
     private Sound buttonPressedSound;
+    private Sound pieceMovedSound;
 
     private SoundHandler() {
         // Load and play the background music
@@ -28,6 +31,9 @@ public class SoundHandler {
 
         // Load the button pressed sound
         buttonPressedSound = Gdx.audio.newSound(Gdx.files.internal(buttonPressedSoundPath));
+
+        // Load the piece moved sound
+        pieceMovedSound = Gdx.audio.newSound(Gdx.files.internal(pieceMoveSoundPath));
     }
 
     /**
@@ -45,6 +51,14 @@ public class SoundHandler {
      */
     public void playButtonClick() {
         buttonPressedSound.play(effectsVolume);
+    }
+
+
+    /**
+     * Plays the piece moved sound with the current effects volume.
+     */
+    public void playPieceMoved() {
+        pieceMovedSound.play(effectsVolume);
     }
 
     /**
@@ -82,5 +96,6 @@ public class SoundHandler {
     public void setEffectsVolume(float effectsVolume) {
         this.effectsVolume = effectsVolume / 100f;
     }
+
 
 }
