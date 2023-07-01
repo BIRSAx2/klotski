@@ -12,8 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
-import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The MainMenuScreen class represents the main menu screen in the Klotski game.
@@ -43,26 +44,24 @@ public class MainMenuScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.isDebug());
-
-        Label title = new Label("KLOTSKI", FontGenerator.getInstance().getLabelStyle(LabelStyleType.TitleStyle));
+        Label title = new Label("KLOTSKI", FontHandler.getInstance().getLabelStyle(LabelStyleType.TitleStyle));
         title.setFontScale(3);
 
         TextButton newGame = new TextButton("NEW GAME", game.getSkin());
-        newGame.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        newGame.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton configuration = new TextButton("CHOOSE CONFIGURATION", game.getSkin());
-        configuration.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        configuration.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton loadGame = new TextButton("LOAD GAME", game.getSkin());
-        loadGame.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        loadGame.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton settings = new TextButton("SETTINGS", game.getSkin());
-        settings.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        settings.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         TextButton quit = new TextButton("QUIT", game.getSkin());
-        quit.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        quit.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
 
         configuration.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 game.getScreen().dispose();
                 game.setScreen(new ConfigurationMenuScreen(game));
             }
@@ -71,7 +70,7 @@ public class MainMenuScreen implements Screen {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 game.getScreen().dispose();
                 game.setScreen(new GameScreen(game, State.fromRandomConfiguration()));
             }
@@ -80,7 +79,7 @@ public class MainMenuScreen implements Screen {
         loadGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 game.getScreen().dispose();
                 game.setScreen(new LoadMenuScreen(game));
             }
@@ -89,7 +88,7 @@ public class MainMenuScreen implements Screen {
         settings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 game.getScreen().dispose();
                 game.setScreen(new SettingsScreen(game));
             }

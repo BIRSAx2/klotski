@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.screens.LoadMenuScreen;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The `DeleteSaveClickListener` class is a click listener for deleting a save file.
@@ -39,7 +40,7 @@ public class DeleteSaveClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         // Handle click event
-        game.buttonPressedPlay();
+        SoundHandler.getInstance().playButtonClick();
         savesManager.deleteSave(saveName);
         // Note: this is a workaround to refresh the screen
         game.setScreen(new LoadMenuScreen(game));

@@ -18,9 +18,10 @@ import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
-import dev.plagarizers.klotski.gui.util.FontGenerator.FontType;
-import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.FontType;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The GameScreen class represents the main game screen in the Klotski game.
@@ -60,39 +61,39 @@ public class GameScreen implements Screen {
      */
     private void setupLayout() {
         TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        backButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
 
         TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
-        nextMoveButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        nextMoveButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
         TextButton saveButton = new TextButton("Save", game.getSkin());
-        saveButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        saveButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 setSaveDialogVisible(true);
             }
         });
 
         TextButton resetButton = new TextButton("Reset", game.getSkin());
-        resetButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        resetButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         resetButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 gameBoard.getGameState().reset();
             }
         });
 
         TextButton undoButton = new TextButton("Undo", game.getSkin());
-        undoButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        undoButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         undoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 gameBoard.getGameState().undoMove();
             }
         });
@@ -132,24 +133,23 @@ public class GameScreen implements Screen {
 
         saveTable = new Table();
         saveTable.setFillParent(true);
-        saveTable.setDebug(game.isDebug());
         saveTable.defaults().space(10);
 
-        Label message = new Label("Please insert a name for the save", FontGenerator.getInstance().getLabelStyle(LabelStyleType.AlertStyle));
+        Label message = new Label("Please insert a name for the save", FontHandler.getInstance().getLabelStyle(LabelStyleType.AlertStyle));
         message.setVisible(false);
         message.setAlignment(Align.center);
 
         Label saveTag = new Label("Name:", game.getSkin());
-        saveTag.setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
+        saveTag.setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
         TextField saveName = new TextField("", game.getSkin());
-        saveName.getStyle().font = FontGenerator.getInstance().getFont(FontType.Info);
+        saveName.getStyle().font = FontHandler.getInstance().getFont(FontType.Info);
 
         TextButton save = new TextButton("SAVE", game.getSkin());
-        save.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        save.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         save.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 if (saveName.getText().equals("") || saveName.getText() == null) {
                     message.setVisible(true);
                 } else {
@@ -162,11 +162,11 @@ public class GameScreen implements Screen {
         });
 
         TextButton cancel = new TextButton("CANCEL", game.getSkin());
-        cancel.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        cancel.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         cancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 setSaveDialogVisible(false);
                 message.setVisible(false);
                 saveName.setText("");

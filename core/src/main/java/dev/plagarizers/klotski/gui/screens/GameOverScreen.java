@@ -13,8 +13,8 @@ import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
-import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
 public class GameOverScreen implements Screen {
     private final KlotskiGame game;
     private final SavesManager savesManager = new SavesManager();
@@ -41,9 +41,8 @@ public class GameOverScreen implements Screen {
     private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(game.isDebug());
 
-        Label title = new Label("Game Over", FontGenerator.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("Game Over", FontHandler.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);

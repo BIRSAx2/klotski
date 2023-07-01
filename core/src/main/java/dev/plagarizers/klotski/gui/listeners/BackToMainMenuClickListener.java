@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The `BackToMainMenuClickListener` class is a click listener for the back-to-main-menu button.
@@ -31,7 +32,7 @@ public class BackToMainMenuClickListener extends ClickListener {
      */
     @Override
     public void clicked(InputEvent event, float x, float y) {
-        game.buttonPressedPlay();
+        SoundHandler.getInstance().playButtonClick();
         game.getScreen().dispose();
         game.setScreen(new MainMenuScreen(game));
     }

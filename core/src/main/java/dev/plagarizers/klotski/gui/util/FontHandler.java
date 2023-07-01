@@ -12,16 +12,18 @@ import java.util.HashMap;
  * The FontGenerator class is responsible for generating and managing fonts and label styles.
  * It follows the Singleton design pattern to ensure only one instance is created.
  */
-public class FontGenerator {
-    private static FontGenerator instance = null;
+public class FontHandler {
+    private static FontHandler instance = null;
     private final HashMap<FontType, BitmapFont> fonts;
     private final HashMap<LabelStyleType, Label.LabelStyle> labelStyles;
+    private String fontPath;
 
     /**
      * Private constructor to prevent direct instantiation.
      * Initializes the fonts and label styles HashMaps and sets up the fonts and label styles.
      */
-    private FontGenerator() {
+    private FontHandler() {
+        fontPath = "fonts/monogram.ttf";
         fonts = new HashMap<>();
         labelStyles = new HashMap<>();
         setupFonts();
@@ -34,9 +36,8 @@ public class FontGenerator {
      *
      * @return The FontGenerator instance.
      */
-    public static FontGenerator getInstance() {
-        if (instance == null)
-            instance = new FontGenerator();
+    public static FontHandler getInstance() {
+        if (instance == null) instance = new FontHandler();
         return instance;
     }
 
@@ -81,7 +82,7 @@ public class FontGenerator {
      * Generates fonts for titles, buttons, menus, and information labels using a FreeTypeFontGenerator.
      */
     private void setupFonts() {
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/monogram.ttf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontPath));
 
         // Title font
         FreeTypeFontGenerator.FreeTypeFontParameter tileFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

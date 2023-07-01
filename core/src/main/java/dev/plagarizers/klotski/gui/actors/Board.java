@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.gui.listeners.BoardListener;
 import dev.plagarizers.klotski.gui.state.GameState;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
+import dev.plagarizers.klotski.gui.util.FontHandler;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class Board extends Actor {
         boardListener = new BoardListener(this, gameState);
         boardTexture = new Texture(Gdx.files.internal(boardTexturePath));
 
-        movesLabel = new Label("Moves: ", FontGenerator.getInstance().getLabelStyle(FontGenerator.LabelStyleType.InfoStyle));
+        movesLabel = new Label("Moves: ", FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.InfoStyle));
     }
 
     /**

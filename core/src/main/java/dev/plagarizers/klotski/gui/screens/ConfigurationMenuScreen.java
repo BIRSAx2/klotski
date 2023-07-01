@@ -17,8 +17,9 @@ import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.BoardPreview;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
-import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 import java.util.List;
 
@@ -45,15 +46,13 @@ public class ConfigurationMenuScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(game.isDebug());
 
-        Label title = new Label("SELECT A CONFIGURATION", FontGenerator.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("SELECT A CONFIGURATION", FontHandler.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
         table.add(title).colspan(6).center().padBottom(20);
         table.row();
 
         Table selectableLevels = new Table();
-        selectableLevels.setDebug(game.isDebug());
         ScrollPane levelSelector = new ScrollPane(selectableLevels, game.getSkin());
         levelSelector.setFadeScrollBars(false);
         levelSelector.setFlickScroll(false);
@@ -67,11 +66,11 @@ public class ConfigurationMenuScreen implements Screen {
                 selectableLevels.row();
             }
 
-            BoardPreview board = new BoardPreview(level, game.getSkin(), FontGenerator.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
+            BoardPreview board = new BoardPreview(level, game.getSkin(), FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
             board.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.buttonPressedPlay();
+                    SoundHandler.getInstance().playButtonClick();
                     game.getScreen().dispose();
                     game.setScreen(new GameScreen(game, level.toState()));
                 }
@@ -84,7 +83,7 @@ public class ConfigurationMenuScreen implements Screen {
         table.row();
 
         TextButton backButton = new TextButton("BACK", game.getSkin());
-        backButton.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        backButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7);
 

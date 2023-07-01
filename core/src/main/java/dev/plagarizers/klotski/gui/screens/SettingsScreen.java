@@ -16,8 +16,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-import dev.plagarizers.klotski.gui.util.FontGenerator;
-import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The SettingsScreen class represents a screen in the Klotski game that allows the player to adjust various settings.
@@ -48,9 +49,8 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(game.isDebug());
 
-        Label title = new Label("SETTINGS", FontGenerator.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
+        Label title = new Label("SETTINGS", FontHandler.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
         table.defaults().space(7);
 
@@ -67,23 +67,23 @@ public class SettingsScreen implements Screen {
      * @param table The table to add the UI elements to.
      */
     private void makeMusicVolumeSettings(Table table) {
-        Label musicVolume = new Label("Music Volume", FontGenerator.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
+        Label musicVolume = new Label("Music Volume", FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
         musicVolume.setAlignment(Align.left);
         Slider musicVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
-        musicVolumeSlider.setValue(game.getMusicVolume());
+        musicVolumeSlider.setValue(SoundHandler.getInstance().getMusicVolume());
 
         musicVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 float volume = ((Slider) actor).getValue();
-                game.setMusicVolume(volume);
+                SoundHandler.getInstance().setMusicVolume(volume);
             }
         });
 
         musicVolumeSlider.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
             }
         });
 
@@ -97,23 +97,23 @@ public class SettingsScreen implements Screen {
      * @param table The table to add the UI elements to.
      */
     private void makeEffectsVolumeSettings(Table table) {
-        Label effectsVolume = new Label("Effects Volume", FontGenerator.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
+        Label effectsVolume = new Label("Effects Volume", FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
         effectsVolume.setAlignment(Align.left);
         Slider effectsVolumeSlider = new Slider(0, 100, 1, false, game.getSkin());
-        effectsVolumeSlider.setValue(game.getEffectsVolume());
+        effectsVolumeSlider.setValue(SoundHandler.getInstance().getEffectsVolume());
 
         effectsVolumeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 float volume = ((Slider) actor).getValue();
-                game.setEffectsVolume(volume);
+                SoundHandler.getInstance().setEffectsVolume(volume);
             }
         });
 
         effectsVolumeSlider.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
             }
         });
 
@@ -128,7 +128,7 @@ public class SettingsScreen implements Screen {
      */
     private void makeBackButton(Table table) {
         TextButton back = new TextButton("BACK", game.getSkin());
-        back.getLabel().setStyle(FontGenerator.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        back.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
 
         back.addListener(new BackToMainMenuClickListener(game));
         table.add(back).colspan(2).fillX();
