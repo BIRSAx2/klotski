@@ -4,25 +4,29 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
-
+import dev.plagarizers.klotski.gui.util.FontGenerator;
+import dev.plagarizers.klotski.gui.util.FontGenerator.LabelStyleType;
 public class GameOverScreen implements Screen {
-    private Stage stage;
     private final KlotskiGame game;
     private final SavesManager savesManager = new SavesManager();
-
     private final State state;
+    private final Stage stage;
 
+    /**
+     * Constructs a GameOverScreen object.
+     *
+     * @param game  The KlotskiGame instance.
+     * @param state The game state when the game is over.
+     */
     public GameOverScreen(KlotskiGame game, State state) {
         this.state = state;
         this.game = game;
@@ -31,14 +35,16 @@ public class GameOverScreen implements Screen {
         stage.addActor(game.getBackground());
     }
 
+    /**
+     * Sets up the layout of the game over screen.
+     */
     private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(game.isDebug());
 
-        Label title = new Label("Game Over", game.getSkin());
+        Label title = new Label("Game Over", FontGenerator.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
-        title.setFontScale(1.5f);
 
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
         table.row();
@@ -48,9 +54,7 @@ public class GameOverScreen implements Screen {
         score.setFontScale(1.2f);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
-        ImageButton backButton = new ImageButton(game.getImageButtonStyle());
-        backButton.add(new Label("Back", game.getSkin())); // Add the button text label
-
+        TextButton backButton = new TextButton("BACK", game.getSkin());
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7).row();
 

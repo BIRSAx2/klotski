@@ -2,101 +2,56 @@ package dev.plagarizers.klotski;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import dev.plagarizers.klotski.game.state.State;
-import dev.plagarizers.klotski.gui.screens.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
 
 public class KlotskiGame extends Game {
-    private boolean debug;
-    private AssetManager assetManager;
-    private Stage stage;
-    private OrthographicCamera camera;
+    public static final String SKIN_PATH = "skins/default/uiskin.json";
+
+    public static final String PREVIEWS_PATH = "levels/previews/";
+    private final boolean DEBUG = false;
     private final String musicPath = "backgroundMusic.wav";
     private final String buttonPressedSoundPath = "buttonPressedSound.mp3";
-    private final String skinPath = "skins/default/uiskin.json";
-    private final String buttonTexturePath = "textures/buttons/button.png";
-    private final String backgroundTexturePath = "textures/background.png";
-    private ImageButton.ImageButtonStyle buttonStyle;
-    private Sound buttonPressedSound;
+    private final String backgroundImageTexturePath = "textures/background.png";
+    private OrthographicCamera camera;
     private Music backgroundMusic;
-    private HashMap<ScreenType, Screen> screens;
+    private Sound buttonPressedSound;
+    private Skin gameSkin;
+    private float effectsVolume;
 
     @Override
     public void create() {
-        screens = new HashMap<>();
-        debug = false;
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        effectsVolume = 0.5f;
 
-        assetManager = new AssetManager();
-        assetManager.load(musicPath, Music.class);
-        assetManager.load(buttonPressedSoundPath, Sound.class);
-        assetManager.load(skinPath, Skin.class);
-        assetManager.finishLoading();
-
-        backgroundMusic = assetManager.get(musicPath, Music.class);
-        backgroundMusic.setLooping(true);
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal(musicPath));
         backgroundMusic.setVolume(0.5f);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
+
+        buttonPressedSound = Gdx.audio.newSound(Gdx.files.internal(buttonPressedSoundPath));
+
+        gameSkin = new Skin(Gdx.files.internal(SKIN_PATH));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
 
-        Texture buttonTexture = new Texture(Gdx.files.internal(buttonTexturePath));
-        TextureRegionDrawable buttonBackground = new TextureRegionDrawable(new TextureRegion(buttonTexture));
 
-        buttonStyle = new ImageButton.ImageButtonStyle();
-        buttonStyle.up = buttonBackground;
-        buttonStyle.down = buttonBackground.tint(Color.LIGHT_GRAY);
-        makeScreens();
-
-        this.setScreen(screens.get(ScreenType.MainMenu));
-    }
-
-    private void makeScreens() {
-        screens.put(ScreenType.MainMenu, new MainMenuScreen(this));
-        screens.put(ScreenType.Game, new GameScreen(this, State.fromRandomConfiguration()));
-        screens.put(ScreenType.LoadSave, new LoadMenuScreen(this));
-        screens.put(ScreenType.LoadConfig, new ConfigurationMenuScreen(this));
-        screens.put(ScreenType.Settings, new SettingsScreen(this));
-    }
-
-    public Screen getScreen(ScreenType type) {
-        return screens.get(type);
+        this.setScreen(new MainMenuScreen(this));
     }
 
     public boolean isDebug() {
-        return debug;
-    }
-
-    public void toggleDebug() {
-        debug = !debug;
-    }
-
-    public ImageButton.ImageButtonStyle getImageButtonStyle() {
-        return buttonStyle;
+        return DEBUG;
     }
 
     public Image getBackground() {
-
-        Image background = new Image(new Texture(Gdx.files.internal(backgroundTexturePath)));
+        Image background = new Image(new Texture(Gdx.files.internal(backgroundImageTexturePath)));
         background.setFillParent(true);
         background.setScaling(Scaling.fill);
         return background;
@@ -106,48 +61,34 @@ public class KlotskiGame extends Game {
         return camera;
     }
 
-    public Stage getStage(Viewport viewport) {
-        stage.clear();
-        stage.setViewport(viewport);
-
-        Image background = new Image(new Texture(Gdx.files.internal(backgroundTexturePath)));
-        background.setScaling(Scaling.fill);
-        background.setZIndex(0);
-        stage.addActor(background);
-        return stage;
-    }
-
     public void buttonPressedPlay() {
-        buttonPressedSound = assetManager.get(buttonPressedSoundPath, Sound.class);
-        buttonPressedSound.play(0.5f);
-    }
-
-    public void setMusicVolume(float musicVolume) {
-        backgroundMusic.setVolume(musicVolume / 100);
+        buttonPressedSound.play(effectsVolume);
     }
 
     public float getMusicVolume() {
         return backgroundMusic.getVolume() * 100;
     }
 
-    public void setEffectsVolume(float effectsVolume) {
-        // Not implemented in the provided code, you can add your implementation here
+    public void setMusicVolume(float musicVolume) {
+        backgroundMusic.setVolume(musicVolume / 100);
     }
 
-    public AssetManager getAssetManager() {
-        return assetManager;
+    public float getEffectsVolume() {
+        return effectsVolume * 100;
+    }
+
+    public void setEffectsVolume(float effectsVolume) {
+        this.effectsVolume = effectsVolume / 100;
     }
 
     public Skin getSkin() {
-        return assetManager.get(skinPath, Skin.class);
+        return gameSkin;
     }
-
+    
     @Override
     public void dispose() {
-        assetManager.dispose();
-        for(Map.Entry<ScreenType, Screen> entry : screens.entrySet()) {
-            entry.getValue().dispose();
-        }
+        gameSkin.dispose();
+        backgroundMusic.dispose();
+        buttonPressedSound.dispose();
     }
-
 }

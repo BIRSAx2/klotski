@@ -1,6 +1,5 @@
 package dev.plagarizers.klotski.gui.actors;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,118 +7,180 @@ import dev.plagarizers.klotski.game.block.Block;
 
 import java.util.EnumMap;
 
+
+/**
+ * The `Tile` class represents a tile on the game board.
+ * It extends the `Actor` class and is responsible for rendering the tile and its components.
+ */
 public class Tile extends Actor {
-  private float x;
-  private float y;
-  private float width;
-  private float height;
+    private static final EnumMap<Block.BlockType, Texture> TEXTURES = new EnumMap<>(Block.BlockType.class) {
+        {
+            put(Block.BlockType.UnknownBlock, new Texture("textures/blocks/big_block.png"));
+            put(Block.BlockType.BigBlock, new Texture("textures/blocks/big_block.png"));
+            put(Block.BlockType.VerticalBlock, new Texture("textures/blocks/vertical_block.png"));
+            put(Block.BlockType.HorizontalBlock, new Texture("textures/blocks/horizontal_block.png"));
+            put(Block.BlockType.SmallBlock, new Texture("textures/blocks/small_block.png"));
+        }
+    };
+    private static final EnumMap<Block.BlockType, Texture> CONTOURS = new EnumMap<>(Block.BlockType.class) {
+        {
+            put(Block.BlockType.UnknownBlock, new Texture("textures/blocks/big_block_contour.png"));
+            put(Block.BlockType.BigBlock, new Texture("textures/blocks/big_block_contour.png"));
+            put(Block.BlockType.VerticalBlock, new Texture("textures/blocks/vertical_block_contour.png"));
+            put(Block.BlockType.HorizontalBlock, new Texture("textures/blocks/horizontal_block_contour.png"));
+            put(Block.BlockType.SmallBlock, new Texture("textures/blocks/small_block_contour.png"));
+        }
+    };
+    private float x;
+    private float y;
+    private float width;
+    private float height;
+    private Block block;
 
-  @Override
-  public void draw(Batch batch, float parentAlpha) {
-
-    batch.draw(getTexture(), getX(), getY(), getWidth(), getHeight());
-    batch.draw(getContourTexture(), getX(), getY(), getWidth(), getHeight());
-
-    super.draw(batch, parentAlpha);
-  }
-
-  private EnumMap<Block.BlockType, Texture> textureMap = new EnumMap<Block.BlockType, Texture>(Block.BlockType.class) {
-    {
-      put(Block.BlockType.UnknownBlock, new Texture("textures/blocks/big_block.png"));
-      put(Block.BlockType.BigBlock, new Texture("textures/blocks/big_block.png"));
-      put(Block.BlockType.VerticalBlock, new Texture("textures/blocks/vertical_block.png"));
-      put(Block.BlockType.HorizontalBlock, new Texture("textures/blocks/horizontal_block.png"));
-      put(Block.BlockType.SmallBlock, new Texture("textures/blocks/small_block.png"));
+    /**
+     * Constructs a new `Tile` object with the specified position and dimensions.
+     *
+     * @param x      the x-coordinate of the tile
+     * @param y      the y-coordinate of the tile
+     * @param width  the width of the tile
+     * @param height the height of the tile
+     */
+    public Tile(float x, float y, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
-  };
 
-  private EnumMap<Block.BlockType, Color> colorMap = new EnumMap<Block.BlockType, Color>(Block.BlockType.class) {
-    {
-      put(Block.BlockType.UnknownBlock, Color.WHITE);
-      put(Block.BlockType.BigBlock, Color.valueOf("F9E2AF"));
-      put(Block.BlockType.VerticalBlock, Color.valueOf("009FBD"));
-      put(Block.BlockType.HorizontalBlock, Color.valueOf("210062"));
-      put(Block.BlockType.SmallBlock, Color.valueOf("77037B"));
+    /**
+     * Renders the tile and its components.
+     *
+     * @param batch       the sprite batch to render to
+     * @param parentAlpha the parent alpha value
+     */
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(getTexture(), getX(), getY(), getWidth(), getHeight());
+        batch.draw(getContourTexture(), getX(), getY(), getWidth(), getHeight());
+        super.draw(batch, parentAlpha);
     }
-  };
 
-
-  private EnumMap<Block.BlockType, Texture> contourMap = new EnumMap<Block.BlockType, Texture>(Block.BlockType.class) {
-    {
-      put(Block.BlockType.UnknownBlock, new Texture("textures/blocks/big_block_contour.png"));
-      put(Block.BlockType.BigBlock, new Texture("textures/blocks/big_block_contour.png"));
-      put(Block.BlockType.VerticalBlock, new Texture("textures/blocks/vertical_block_contour.png"));
-      put(Block.BlockType.HorizontalBlock, new Texture("textures/blocks/horizontal_block_contour.png"));
-      put(Block.BlockType.SmallBlock, new Texture("textures/blocks/small_block_contour.png"));
+    /**
+     * Returns the x-coordinate of the tile.
+     *
+     * @return the x-coordinate
+     */
+    public float getX() {
+        return x;
     }
-  };
 
+    /**
+     * Sets the x-coordinate of the tile.
+     *
+     * @param x the x-coordinate to set
+     */
+    public void setX(float x) {
+        this.x = x;
+    }
 
-  private Block block;
+    /**
+     * Returns the y-coordinate of the tile.
+     *
+     * @return the y-coordinate
+     */
+    public float getY() {
+        return y;
+    }
 
-  public float getX() {
-    return x;
-  }
+    /**
+     * Sets the y-coordinate of the tile.
+     *
+     * @param y the y-coordinate to set
+     */
+    public void setY(float y) {
+        this.y = y;
+    }
 
-  public void setX(float x) {
-    this.x = x;
-  }
+    /**
+     * Returns the width of the tile.
+     *
+     * @return the width
+     */
+    public float getWidth() {
+        return width;
+    }
 
-  public float getY() {
-    return y;
-  }
+    /**
+     * Sets the width of the tile.
+     *
+     * @param width the width to set
+     */
+    public void setWidth(float width) {
+        this.width = width;
+    }
 
-  public void setY(float y) {
-    this.y = y;
-  }
+    /**
+     * Returns the height of the tile.
+     *
+     * @return the height
+     */
+    public float getHeight() {
+        return height;
+    }
 
-  public float getWidth() {
-    return width;
-  }
+    /**
+     * Sets the height of the tile.
+     *
+     * @param height the height to set
+     */
+    public void setHeight(float height) {
+        this.height = height;
+    }
 
-  public void setWidth(float width) {
-    this.width = width;
-  }
+    /**
+     * Returns the block associated with the tile.
+     *
+     * @return the block
+     */
+    public Block getBlock() {
+        return block;
+    }
 
-  public float getHeight() {
-    return height;
-  }
+    /**
+     * Sets the block associated with the tile.
+     *
+     * @param block the block to set
+     */
+    public void setBlock(Block block) {
+        this.block = block;
+    }
 
-  public void setHeight(float height) {
-    this.height = height;
-  }
+    /**
+     * Returns the texture of the tile based on the block type.
+     *
+     * @return the texture
+     */
+    public Texture getTexture() {
+        return TEXTURES.get(block.getType());
+    }
 
-  public Block getBlock() {
-    return block;
-  }
+    /**
+     * Returns the contour texture of the tile based on the block type.
+     *
+     * @return the contour texture
+     */
+    public Texture getContourTexture() {
+        return CONTOURS.get(block.getType());
+    }
 
-  public Texture getTexture() {
-    return textureMap.get(block.getType());
-  }
-
-  public Texture getContourTexture() {
-    return contourMap.get(block.getType());
-  }
-
-  public void setBlock(Block block) {
-    this.block = block;
-  }
-
-  public Tile(float x, float y, float width, float height) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-
-
-  }
-
-  @Override
-  public Color getColor() {
-    return colorMap.get(block.getType());
-  }
-
-  public boolean contains(float x, float y) {
-    return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
-  }
+    /**
+     * Checks if the tile contains the specified coordinates.
+     *
+     * @param x the x-coordinate to check
+     * @param y the y-coordinate to check
+     * @return true if the tile contains the coordinates, false otherwise
+     */
+    public boolean contains(float x, float y) {
+        return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
+    }
 }
