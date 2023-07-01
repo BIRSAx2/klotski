@@ -12,7 +12,7 @@ import java.util.List;
 public class SavesManager {
     private static final String LEVEL_DIRECTORY = "levels";
     private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
-    private String externalStoragePath;
+    private final String externalStoragePath;
 
     /**
      * Constructs a `SavesManager` object with the default external storage path.
@@ -28,25 +28,6 @@ public class SavesManager {
      */
     public SavesManager(String externalStoragePath) {
         this.externalStoragePath = externalStoragePath + "klotski/saves/";
-    }
-
-    /**
-     * Saves the game state to a file.
-     *
-     * @param state the game state to be saved
-     */
-    public void saveState(State state) {
-        try {
-            String json = state.toJson();
-            createSaveDirectoryIfNotExists();
-            String filename = generateFilename();
-            FileWriter fileWriter = new FileWriter(getSaveFilePath(filename));
-            fileWriter.write(json);
-            fileWriter.close();
-
-        } catch (IOException e) {
-            System.err.println("Error saving state: " + e.getMessage());
-        }
     }
 
     /**

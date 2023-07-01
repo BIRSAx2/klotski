@@ -109,8 +109,6 @@ public class GameScreen implements Screen {
         table.add(undoButton).colspan(3).fill().pad(10);
         table.add(nextMoveButton).colspan(3).fill().pad(10);
         table.row();
-
-        System.out.println(table.getColumns());
         stage.addActor(table);
     }
 
