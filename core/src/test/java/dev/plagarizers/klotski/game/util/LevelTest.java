@@ -14,8 +14,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The LevelTest class is used to test the functionality of the Level class.
+ */
 public class LevelTest {
 
+    /**
+     * Test case for the getName() method.
+     * It verifies that the name is returned correctly.
+     */
     @Test
     void testGetName_Level_Returns1() {
         // Arrange
@@ -30,6 +37,10 @@ public class LevelTest {
         assertEquals(name, levelName, "Unexpected level name");
     }
 
+    /**
+     * Test case for the setName() method.
+     * It verifies that the name is set correctly.
+     */
     @Test
     void testSetName_Level_NameUpdate() {
         // Arrange
@@ -46,6 +57,10 @@ public class LevelTest {
         assertEquals(newName, updatedName, "Level name not updated correctly");
     }
 
+    /**
+     * Test case for the getBoard() method.
+     * It verifies that the board is returned correctly.
+     */
     @Test
     void testGetBoard_Level_ReturnsBoard() {
         // Arrange
@@ -60,6 +75,10 @@ public class LevelTest {
         assertArrayEquals(board, retrievedBoard, "Unexpected board");
     }
 
+    /**
+     * Test case for the setBoard() method.
+     * It verifies that the board is set correctly.
+     */
     @Test
     void testSetBoard_Level_SetBoard() {
         // Arrange
@@ -77,6 +96,10 @@ public class LevelTest {
         assertArrayEquals(newBoard, updatedBoard, "Board not set correctly");
     }
 
+    /**
+     * Test case for the fromJson() method.
+     * It verifies that the levels are parsed correctly.
+     */
     @Test
     void testFromJson_Level_ValidJsonData() {
         // Arrange
@@ -95,6 +118,10 @@ public class LevelTest {
         assertEquals(Block.BlockType.BigBlock, level.getBoard()[0].getType(), "Unexpected block type");
     }
 
+    /**
+     * Test case for the fromJson() method.
+     * It verifies that the levels are parsed correctly.
+     */
     @Test
     void testToString_LEvel_ReturnsExpectedString() {
         // Arrange
@@ -110,6 +137,10 @@ public class LevelTest {
         assertEquals(expected, levelString, "Unexpected string representation of level");
     }
 
+    /**
+     * Test case for the toState() method.
+     * It verifies that the state is generated correctly.
+     */
     @Test
     void testToState_Level_GeneratesValidStateFromLevel() {
         // Arrange

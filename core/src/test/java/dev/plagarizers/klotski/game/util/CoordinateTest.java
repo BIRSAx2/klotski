@@ -8,17 +8,29 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The CoordinateTest class is used to test the functionality of the Coordinate
+ * class.
+ */
 class CoordinateTest {
 
   private Coordinate coordinate;
 
+  /**
+   * The CoordinateTest class is used to test the functionality of the Coordinate
+   * class.
+   */
   @BeforeEach
-  void testSetUp_Coordinate_SetUp() {
+  void setUp_Coordinate_InitializesCoordinate() {
     coordinate = new Coordinate(2, 3);
   }
 
+  /**
+   * Test case for the getX() method.
+   * It verifies that the X coordinate is returned correctly.
+   */
   @Test
-  void testGetCoordinate_Coordinate_ReturnsX() {
+  void getX_Coordinate_ReturnsX() {
     // Arrange
     int expectedX = 2;
 
@@ -29,8 +41,12 @@ class CoordinateTest {
     assertEquals(expectedX, x, "Expected x-coordinate to be 2");
   }
 
+  /**
+   * Test case for the setX() method.
+   * It verifies that the X coordinate is set correctly.
+   */
   @Test
-  void testSetX_Coordinate_SetX() {
+  void setX_Coordinate_SetsX() {
     // Arrange
     int newX = 5;
 
@@ -41,8 +57,12 @@ class CoordinateTest {
     assertEquals(newX, coordinate.getX(), "Expected x-coordinate to be set to 5");
   }
 
+  /**
+   * Test case for the getY() method.
+   * It verifies that the Y coordinate is returned correctly.
+   */
   @Test
-  void testGetCoordinate_CoordinateTest_ReturnsY() {
+  void getY_Coordinate_ReturnsY() {
     // Arrange
     int expectedY = 3;
 
@@ -53,8 +73,12 @@ class CoordinateTest {
     assertEquals(expectedY, y, "Expected y-coordinate to be 3");
   }
 
+  /**
+   * Test case for the setY() method.
+   * It verifies that the Y coordinate is set correctly.
+   */
   @Test
-  void testSetX_Coordinate_SetY() {
+  void setY_Coordinate_SetsY() {
     // Arrange
     int newY = 4;
 
@@ -65,8 +89,13 @@ class CoordinateTest {
     assertEquals(newY, coordinate.getY(), "Expected y-coordinate to be set to 4");
   }
 
+  /**
+   * Test case for the add(int, int) method.
+   * It verifies that adding values to the coordinate produces the expected
+   * result.
+   */
   @Test
-  void testAddWithValues_Coordinate_AddWhitValue() {
+  void addWithValue_Coordinate_AddsWithValue() {
     // Arrange
     int valueX = 1;
     int valueY = 2;
@@ -80,8 +109,13 @@ class CoordinateTest {
     assertEquals(expectedResult.getY(), result.getY(), "Expected y-coordinate to be 5");
   }
 
+  /**
+   * Test case for the add(Coordinate) method.
+   * It verifies that adding another coordinate to the coordinate produces the
+   * expected result.
+   */
   @Test
-  void testAddWithCoordinate_Coordinate_AddWhitCoordinate() {
+  void addWithCoordinate_Coordinate_AddsWithCoordinate() {
     // Arrange
     Coordinate other = new Coordinate(1, 2);
     Coordinate expectedResult = new Coordinate(3, 5);
@@ -94,8 +128,13 @@ class CoordinateTest {
     assertEquals(expectedResult.getY(), result.getY(), "Expected y-coordinate to be 5");
   }
 
+  /**
+   * Test case for the subtract(int, int) method.
+   * It verifies that subtracting values from the coordinate produces the expected
+   * result.
+   */
   @Test
-  void testEquals_Coordinate_ReturnsTrue() {
+  void equals_Coordinate_ReturnsTrue() {
     // Arrange
     Coordinate coordinate1 = new Coordinate(2, 3);
     Coordinate coordinate2 = new Coordinate(2, 3);
@@ -112,8 +151,13 @@ class CoordinateTest {
     assertEquals(coordinate1, coordinate1.clone(), "Expected coordinate to be equal to its clone");
   }
 
+  /**
+   * Test case for the subtract(Coordinate) method.
+   * It verifies that subtracting another coordinate from the coordinate produces
+   * the expected result.
+   */
   @Test
-  void testStringRepresentation_Coordinate_toStringRepresentation() {
+  void toStringRepresentation_Coordinate_ReturnsStringRepresentation() {
     // Arrange
     String expectedString = "(2, 3)";
 
@@ -124,8 +168,12 @@ class CoordinateTest {
     assertEquals(expectedString, str, "Expected string representation to be '(2, 3)'");
   }
 
+  /**
+   * Test case for the clone() method.
+   * It verifies that the clone is a deep copy of the coordinate.
+   */
   @Test
-  void testClone_CreatesDeepCopyOfCoordinate() {
+  void clone_CreatesDeepCopyOfCoordinate() {
     // Arrange
     Coordinate clone = coordinate.clone();
 
