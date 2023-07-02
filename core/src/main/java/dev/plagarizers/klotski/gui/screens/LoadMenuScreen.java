@@ -87,7 +87,7 @@ public class LoadMenuScreen implements Screen {
             saveButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
             saveButton.getLabel().setAlignment(Align.left);
             saveButton.addListener(new StartFromSaveClickListener(fileName, game));
-            savesTable.add(saveButton).fillX().pad(7);
+            savesTable.add(saveButton).fill().pad(7);
 
             TextButton deleteButton = new TextButton("DELETE", game.getSkin());
             deleteButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));

@@ -26,7 +26,7 @@ import java.util.List;
 public class ConfigurationMenuScreen implements Screen {
     private final KlotskiGame game;
     private final Stage stage;
-    private final SavesManager savesManager = new SavesManager();
+    private final SavesManager savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
 
     /**
      * Constructs a ConfigurationMenuScreen object.
@@ -60,19 +60,23 @@ public class ConfigurationMenuScreen implements Screen {
         selectableLevels.defaults().padBottom(20).fillX().colspan(2);
 
         List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").reader());
+        List<String> completedLevels = savesManager.loadCompletedLevels();
         int i = 0;
         for (Level level : levels) {
             if (i % 3 == 0) {
                 selectableLevels.row();
             }
 
-            BoardPreview board = new BoardPreview(level, game.getSkin(), FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
+            if (completedLevels.contains(level.getName())) {
+                level.setCompleted(true);
+            }
+            BoardPreview board = new BoardPreview(level, game.getSkin());
             board.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     SoundHandler.getInstance().playButtonClick();
                     game.getScreen().dispose();
-                    game.setScreen(new GameScreen(game, level.toState()));
+                    game.setScreen(new GameScreen(game, level));
                 }
             });
             selectableLevels.add(board).pad(10);

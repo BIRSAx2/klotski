@@ -72,7 +72,7 @@ public class MainMenuScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 SoundHandler.getInstance().playButtonClick();
                 game.getScreen().dispose();
-                game.setScreen(new GameScreen(game, State.fromRandomConfiguration()));
+                game.setScreen(new GameScreen(game, State.fromRandomLevel()));
             }
         });
 

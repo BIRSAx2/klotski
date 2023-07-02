@@ -21,6 +21,8 @@ public class Level {
     @SerializedName("board")
     private Block[] blocks;
 
+    private transient boolean isCompleted;
+
     /**
      * Constructs a `Level` object with the specified name and game board.
      *
@@ -30,6 +32,11 @@ public class Level {
     public Level(String name, Block[] blocks) {
         this.name = name;
         this.blocks = blocks;
+    }
+
+    public Level(State state, String name) {
+        this.name = name;
+        this.blocks = state.getBlocks();
     }
 
     /**
@@ -100,5 +107,14 @@ public class Level {
         State state = State.fromDefaultConfiguration();
         state.setBlocks(blocks);
         return state;
+    }
+
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
     }
 }

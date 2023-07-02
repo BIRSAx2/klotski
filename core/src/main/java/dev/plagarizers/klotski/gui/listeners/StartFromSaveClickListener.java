@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.screens.GameScreen;
 import dev.plagarizers.klotski.gui.util.SoundHandler;
@@ -45,6 +46,6 @@ public class StartFromSaveClickListener extends ClickListener {
         SoundHandler.getInstance().playButtonClick();
         State save = savesManager.loadStateByName(saveName);
         game.getScreen().dispose();
-        game.setScreen(new GameScreen(game, save));
+        game.setScreen(new GameScreen(game, new Level(save, saveName)));
     }
 }

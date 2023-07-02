@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.gui.listeners.BoardListener;
 import dev.plagarizers.klotski.gui.state.GameState;
 import dev.plagarizers.klotski.gui.util.FontHandler;
@@ -21,6 +22,7 @@ public class Board extends Actor {
     public static final float ITEM_HEIGHT = 64;
     private final Texture boardTexture;
     private final Label movesLabel;
+    private final Label levelLabel;
     private final BoardListener boardListener;
     private final GameState gameState;
     private final String boardTexturePath = "textures/board.png";
@@ -28,15 +30,15 @@ public class Board extends Actor {
     /**
      * Constructs a new `Board` object with the specified initial state and label style.
      *
-     * @param state      the initial game state
-     * @param labelStyle the style for the moves label
+     * @param level the initial game state
      */
-    public Board(State state) {
-        this.gameState = new GameState(state);
+    public Board(Level level) {
+        this.gameState = new GameState(level.toState());
         boardListener = new BoardListener(this, gameState);
         boardTexture = new Texture(Gdx.files.internal(boardTexturePath));
 
         movesLabel = new Label("Moves: ", FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.InfoStyle));
+        levelLabel = new Label("Level: " + level.getName(), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.MenuStyle));
     }
 
     /**
@@ -59,9 +61,15 @@ public class Board extends Actor {
             }
         }
 
+        batch.draw(boardTexture, getX() - ITEM_WIDTH * 3, getY() - ITEM_HEIGHT * 3 - ITEM_HEIGHT / 2f, (State.COLS + 2) * ITEM_WIDTH, (State.ROWS + 2.5f) * ITEM_HEIGHT);
+
         movesLabel.setPosition(getX() - ITEM_WIDTH, getY() - ITEM_HEIGHT * 4);
         movesLabel.draw(batch, parentAlpha);
-        batch.draw(boardTexture, getX() - ITEM_WIDTH * 3, getY() - ITEM_HEIGHT * 3 - ITEM_HEIGHT / 2f, (State.COLS + 2) * ITEM_WIDTH, (State.ROWS + 2.5f) * ITEM_HEIGHT);
+
+        levelLabel.setPosition(getX() - ITEM_WIDTH, getY() + ITEM_HEIGHT * 4);
+        levelLabel.draw(batch, parentAlpha);
+
+
     }
 
     /**

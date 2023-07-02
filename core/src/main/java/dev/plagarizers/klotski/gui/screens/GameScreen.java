@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
@@ -35,17 +36,23 @@ public class GameScreen implements Screen {
     private Image backgroundImage; // The background image for the save dialog
     private Table saveTable; // The table for the save dialog
 
+    private Level currentLevel;
+
     /**
      * Constructs a new GameScreen object.
      *
      * @param game  The main KlotskiGame instance.
-     * @param state The initial state of the game.
+     * @param level The level  of the game.
      */
-    public GameScreen(KlotskiGame game, State state) {
+    public GameScreen(KlotskiGame game, Level level) {
         this.game = game;
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
-        State currentState = state != null ? state : State.fromRandomConfiguration();
-        this.gameBoard = new Board(currentState);
+
+        if (level == null) level = State.fromRandomLevel();
+
+        this.currentLevel = level;
+
+        this.gameBoard = new Board(level);
 
         this.stage = new Stage(new ScreenViewport(game.getCamera()));
         stage.addActor(game.getBackground());
@@ -203,6 +210,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (gameBoard.getState().isSolved()) {
+            savesManager.addCompletedLevel(currentLevel.getName());
             game.setScreen(new GameOverScreen(game, gameBoard.getState()));
         }
 

@@ -1,16 +1,20 @@
 package dev.plagarizers.klotski.game.util;
 
 import com.badlogic.gdx.Gdx;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev.plagarizers.klotski.game.state.State;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class SavesManager {
     private static final String LEVEL_DIRECTORY = "levels";
+    private static final String COMPLETED_LEVELS_FILE = "completed_levels.json";
     private static final String DATE_FORMAT = "yyyy-MM-dd_HH-mm-ss";
     private final String externalStoragePath;
 
@@ -61,6 +65,15 @@ public class SavesManager {
             File[] saveFiles = saveDirectory.listFiles();
             if (saveFiles != null) {
                 for (File saveFile : saveFiles) {
+                    if (saveFile.isDirectory()) {
+                        continue;
+                    }
+                    if (!saveFile.getName().endsWith(".json")) {
+                        continue;
+                    }
+                    if (saveFile.getName().equals(COMPLETED_LEVELS_FILE)) {
+                        continue;
+                    }
                     String path = saveFile.getAbsolutePath();
                     int moves = getMoves(path);
                     if (moves < 0) {
@@ -211,5 +224,82 @@ public class SavesManager {
             file.delete();
         }
     }
-}
 
+    /**
+     * Loads the list of completed levels from a file.
+     *
+     * @return the list of completed levels
+     */
+    public List<String> loadCompletedLevels() {
+        Gson gson = new Gson();
+        try {
+            File completedLevelsFile = new File(getCompletedLevelsFilePath());
+
+            if (!completedLevelsFile.exists()) {
+                // If the file doesn't exist, return an empty list
+
+                boolean created = completedLevelsFile.createNewFile();
+                if (!created) {
+                    System.err.println("Failed to create completed levels file: " + completedLevelsFile.getAbsolutePath());
+                }
+                return new ArrayList<>();
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(completedLevelsFile));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            bufferedReader.close();
+
+            String json = stringBuilder.toString();
+
+            return gson.fromJson(json, new TypeToken<List<String>>() {
+            }.getType());
+        } catch (IOException e) {
+            System.err.println("Error loading completed levels: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Saves the list of completed levels to a file.
+     *
+     * @param completedLevels the list of completed levels
+     */
+    public void saveCompletedLevels(List<String> completedLevels) {
+        Gson gson = new Gson();
+        try {
+            String json = gson.toJson(completedLevels);
+            FileWriter fileWriter = new FileWriter(getCompletedLevelsFilePath());
+            fileWriter.write(json);
+            fileWriter.close();
+
+        } catch (IOException e) {
+            System.err.println("Error saving completed levels: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Adds a level to the list of completed levels.
+     *
+     * @param levelName the number of the completed level
+     */
+    public void addCompletedLevel(String levelName) {
+        List<String> completedLevels = loadCompletedLevels();
+        if (!completedLevels.contains(levelName)) {
+            completedLevels.add(levelName);
+            saveCompletedLevels(completedLevels);
+        }
+    }
+
+    /**
+     * Retrieves the file path for the completed levels file.
+     *
+     * @return the file path
+     */
+    private String getCompletedLevelsFilePath() {
+        return externalStoragePath + COMPLETED_LEVELS_FILE;
+    }
+}
