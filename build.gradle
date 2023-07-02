@@ -80,7 +80,7 @@ configure(subprojects - project(':android')) {
 }
 
 subprojects {
-  version = '0.4'
+  version = '1.0'
   ext.appName = 'klotski'
   repositories {
     mavenCentral()
