@@ -11,6 +11,7 @@ import dev.plagarizers.klotski.game.util.Direction;
 import dev.plagarizers.klotski.gui.actors.Board;
 import dev.plagarizers.klotski.gui.actors.Tile;
 import dev.plagarizers.klotski.gui.state.GameState;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The `BoardListener` class is an input listener for the game board.
@@ -150,6 +151,7 @@ public class BoardListener extends InputListener {
         return new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SoundHandler.getInstance().playPieceMoved();
                 gameState.playBestMove();
             }
         };

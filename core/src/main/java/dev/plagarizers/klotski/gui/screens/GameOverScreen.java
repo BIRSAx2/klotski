@@ -48,7 +48,7 @@ public class GameOverScreen implements Screen {
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
         table.row();
 
-        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", game.getSkin());
+        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", FontHandler.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         score.setAlignment(Align.center);
         score.setFontScale(1.2f);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();

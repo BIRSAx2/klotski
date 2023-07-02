@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Scaling;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 /**
  * The KlotskiGame class represents the main game class that extends the Game class from libGDX.
@@ -24,7 +25,7 @@ public class KlotskiGame extends Game {
     public void create() {
         // Load the game's skin
         gameSkin = new Skin(Gdx.files.internal(SKIN_PATH));
-
+        SoundHandler.getInstance(); // loads the sounds
         // Setup the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
