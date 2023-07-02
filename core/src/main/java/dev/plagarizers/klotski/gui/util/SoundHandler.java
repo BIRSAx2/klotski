@@ -12,6 +12,7 @@ public class SoundHandler {
 
     private static SoundHandler instance = null;
     private final String backgroundMusicPath = "sounds/background_music.mp3";
+    private final String victoryMusicPath = "sounds/victory_music.mp3";
     private final String buttonPressedSoundPath = "sounds/button_pressed_sound.mp3";
 
     private final String pieceMoveSoundPath = "sounds/piece_move_sound.mp3";
@@ -19,6 +20,7 @@ public class SoundHandler {
 
     private float effectsVolume = 0.5f;
     private Music backgroundMusic;
+    private Music victoryMusic;
     private Sound buttonPressedSound;
     private Sound pieceMovedSound;
 
@@ -28,6 +30,11 @@ public class SoundHandler {
         backgroundMusic.setVolume(defaultVolume);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
+
+        // Load the victory music
+        victoryMusic = Gdx.audio.newMusic(Gdx.files.internal(victoryMusicPath));
+        victoryMusic.setVolume(defaultVolume);
+
 
         // Load the button pressed sound
         buttonPressedSound = Gdx.audio.newSound(Gdx.files.internal(buttonPressedSoundPath));
@@ -61,6 +68,24 @@ public class SoundHandler {
         pieceMovedSound.play(effectsVolume);
     }
 
+    public void playBackgroundMusic() {
+        if(victoryMusic.isPlaying()) {
+            victoryMusic.pause();
+            victoryMusic.setPosition(0);
+        }
+
+        backgroundMusic.play();
+    }
+
+    public void playVictoryMusic() {
+        if(backgroundMusic.isPlaying()) {
+            backgroundMusic.pause();
+            backgroundMusic.setPosition(0);
+        }
+
+        victoryMusic.play();
+    }
+
     /**
      * Returns the current volume of the background music.
      *
@@ -77,6 +102,7 @@ public class SoundHandler {
      */
     public void setMusicVolume(float musicVolume) {
         backgroundMusic.setVolume(musicVolume / 100f);
+        victoryMusic.setVolume(musicVolume / 100f);
     }
 
     /**
@@ -95,6 +121,13 @@ public class SoundHandler {
      */
     public void setEffectsVolume(float effectsVolume) {
         this.effectsVolume = effectsVolume / 100f;
+    }
+
+    public void dispose() {
+        backgroundMusic.dispose();
+        victoryMusic.dispose();
+        buttonPressedSound.dispose();
+        pieceMovedSound.dispose();
     }
 
 

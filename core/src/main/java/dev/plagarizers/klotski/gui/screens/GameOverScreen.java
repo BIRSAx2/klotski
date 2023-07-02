@@ -15,6 +15,8 @@ import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
 import dev.plagarizers.klotski.gui.util.FontHandler;
 import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
+
 public class GameOverScreen implements Screen {
     private final KlotskiGame game;
     private final SavesManager savesManager = new SavesManager();
@@ -48,9 +50,8 @@ public class GameOverScreen implements Screen {
         table.add(title).width(Gdx.graphics.getWidth() / 2f).padBottom(10);
         table.row();
 
-        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", FontHandler.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
+        Label score = new Label("You solved the puzzle in " + state.getMoves() + " moves", FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
         score.setAlignment(Align.center);
-        score.setFontScale(1.2f);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
         TextButton backButton = new TextButton("BACK", game.getSkin());
@@ -64,6 +65,7 @@ public class GameOverScreen implements Screen {
     public void show() {
         setupLayout();
         Gdx.input.setInputProcessor(stage);
+        SoundHandler.getInstance().playVictoryMusic();
     }
 
     @Override

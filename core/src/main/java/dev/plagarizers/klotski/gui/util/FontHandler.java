@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The FontGenerator class is responsible for generating and managing fonts and label styles.
@@ -107,6 +108,7 @@ public class FontHandler {
         FreeTypeFontGenerator.FreeTypeFontParameter infoFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         infoFontParameter.size = 35;
         fonts.put(FontType.Info, fontGenerator.generateFont(infoFontParameter));
+        fontGenerator.dispose();
     }
 
     /**
@@ -127,6 +129,12 @@ public class FontHandler {
      */
     public Label.LabelStyle getLabelStyle(LabelStyleType labelStyleType) {
         return labelStyles.get(labelStyleType);
+    }
+
+    public void dispose() {
+        for(Map.Entry<FontType, BitmapFont> entry : fonts.entrySet()) {
+            entry.getValue().dispose();
+        }
     }
 
     /**

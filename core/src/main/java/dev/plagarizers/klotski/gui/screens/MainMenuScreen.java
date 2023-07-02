@@ -111,6 +111,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        SoundHandler.getInstance().playBackgroundMusic();
         Gdx.input.setInputProcessor(stage);
         setupLayout();
     }
