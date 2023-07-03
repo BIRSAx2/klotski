@@ -25,7 +25,7 @@ nav_order: 2
     </tr>
     <tr>
         <td>Data</td>
-        <td> None </td>
+        <td> Information needed to change the volume </td>
     </tr>
     <tr>
         <td>Stimulus</td>
@@ -33,7 +33,7 @@ nav_order: 2
     </tr>
     <tr>
         <td>Response</td>
-        <td> A page where it can be possible to modify resolution, music and effects volume is displayed </td>
+        <td> A page where it can be possible to set music and effects volume is displayed </td>
     </tr>
     <tr>
         <td>Comments</td>
@@ -83,11 +83,11 @@ nav_order: 2
     </tr>
     <tr>
         <td>Description</td>
-        <td> A new game starts </td>
+        <td> A new game starts choosing randomly from the 40 configuration </td>
     </tr>
     <tr>
         <td>Data</td>
-        <td> None </td>
+        <td> The configuration randomly selected by the game </td>
     </tr>
     <tr>
         <td>Stimulus</td>
@@ -134,37 +134,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Save game)
-<table>
-    <tr>
-        <th colspan="2"> Save game </th>
-    </tr>
-    <tr>
-        <td>Actors</td>
-        <td> User, local storage file </td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td> During a game the state can be saved in a local file. The saving can be named as the user wants. </td>
-    </tr>
-    <tr>
-        <td>Data</td>
-        <td> The state of the game is saved in the local file </td>
-    </tr>
-    <tr>
-        <td>Stimulus</td>
-        <td> The "SAVE GAME" button, during a game, is pressed </td>
-    </tr>
-    <tr>
-        <td>Response</td>
-        <td> The state of the game is saved in a file and named as the user like </td>
-    </tr>
-    <tr>
-        <td>Comments</td>
-        <td> The saved game will appear in the list when the user wants to load a game </td>
-    </tr>
-</table>
-
 [//]: # (Exit game)
 <table>
     <tr>
@@ -193,6 +162,37 @@ nav_order: 2
     <tr>
         <td>Comments</td>
         <td> None </td>
+    </tr>
+</table>
+
+[//]: # (Save game)
+<table>
+    <tr>
+        <th colspan="2"> Save game </th>
+    </tr>
+    <tr>
+        <td>Actors</td>
+        <td> User, local storage file </td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td> During a game the state can be saved in a local file. The saving can be named as the user wants. </td>
+    </tr>
+    <tr>
+        <td>Data</td>
+        <td> The state of the game is saved in the local file </td>
+    </tr>
+    <tr>
+        <td>Stimulus</td>
+        <td> The "SAVE GAME" button, during a game, is pressed </td>
+    </tr>
+    <tr>
+        <td>Response</td>
+        <td> The state of the game is saved in a file and named as the user like </td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td> The saved game will appear in the list when the user wants to load a game </td>
     </tr>
 </table>
 
