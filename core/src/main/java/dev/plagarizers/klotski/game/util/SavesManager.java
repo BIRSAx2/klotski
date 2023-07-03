@@ -288,6 +288,9 @@ public class SavesManager {
      */
     public void addCompletedLevel(String levelName) {
         List<String> completedLevels = loadCompletedLevels();
+        if(completedLevels == null) {
+            completedLevels = new ArrayList<>();
+        }
         if (!completedLevels.contains(levelName)) {
             completedLevels.add(levelName);
             saveCompletedLevels(completedLevels);
