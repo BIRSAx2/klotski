@@ -1,0 +1,58 @@
+@startuml
+
+!include theme.puml
+
+left to right direction
+
+
+title "KLOTSKI: Use-Cases Diagram"
+
+
+actor User
+
+  database File [
+    saves
+  ]
+
+
+rectangle "KLOTSKI app"{
+
+
+  database Levels {
+
+   }
+
+  User -- (Start game)
+
+  (Start game) ..> (Random Level) : <<include>>
+  (Start game) ..> (Load game): <<include>>
+  (Start game) ..> (Load level) : <<include>>
+  (Random Level) ..> (Select configuration) : <<include>>
+  (Load level) ..> (Select configuration) : <<include>>
+
+  (Select configuration) -- Levels
+
+  (Load game) -- File
+
+  User -- (Settings)
+
+  (Settings) ..> (Adjust Music Volume ) : <<include>>
+  (Settings) ..> (Adjust Effects Volume ) : <<include>>
+
+  User -- (Save game)
+  (Save game) -- File
+
+  User -- (Play the game)
+  (Play the game) ..> (Move block) : <<include>>
+  (Play the game) ..> (Reset setup) : <<include>>
+  (Play the game) ..> (Undo action) : <<include>>
+  (Play the game) ..> (Next best action) : <<include>>
+
+  (Play the game) ..> (Moves counter) : <<include>>
+
+  User -- (Exit the game)
+}
+
+
+
+@enduml
