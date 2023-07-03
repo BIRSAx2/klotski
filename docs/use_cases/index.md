@@ -1,11 +1,14 @@
 ---
 title: Use Cases
 layout: default
-nav_order: 3
+nav_order: 2
 ---
 
+# Use Cases
 
-# ADD USE CASE DIAGRAM HERE
+![Use Cases]({{site.baseurl}}/assets/diagrams/use_case.svg)
+
+## Description
 
 [//]: # (Game settings)
 <table>

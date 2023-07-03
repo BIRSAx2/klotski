@@ -1,0 +1,32 @@
+@startuml
+
+'!include theme.puml
+
+package klotski {
+
+    package game {
+        package state {
+        }
+        package block {
+        }
+        package util {
+        }
+    }
+    package gui {
+        package screens {
+        }
+        package actors {
+        }
+        package listeners {
+        }
+
+        package state {
+        }
+
+        package util {
+        }
+    }
+}
+
+
+@enduml
