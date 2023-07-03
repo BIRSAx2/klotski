@@ -1,12 +1,7 @@
 package dev.plagarizers.klotski.game.util;
 
-import dev.plagarizers.klotski.game.block.BigBlock;
-import dev.plagarizers.klotski.game.block.Block;
-import dev.plagarizers.klotski.game.block.HorizontalBlock;
-import dev.plagarizers.klotski.game.block.SmallBlock;
-import dev.plagarizers.klotski.game.block.VerticalBlock;
+import dev.plagarizers.klotski.game.block.*;
 import dev.plagarizers.klotski.game.state.State;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -58,7 +53,7 @@ public class LevelTest {
     }
 
     /**
-     * Test case for the getBoard() method.
+     * Test case for the getBlocks() method.
      * It verifies that the board is returned correctly.
      */
     @Test
@@ -69,18 +64,18 @@ public class LevelTest {
         Level level = new Level(name, board);
 
         // Act
-        Block[] retrievedBoard = level.getBoard();
+        Block[] retrievedBoard = level.getBlocks();
 
         // Assert
         assertArrayEquals(board, retrievedBoard, "Unexpected board");
     }
 
     /**
-     * Test case for the setBoard() method.
+     * Test case for the setBlocks() method.
      * It verifies that the board is set correctly.
      */
     @Test
-    void testSetBoard_Level_SetBoard() {
+    void testSetBoard_Level_setBlocks() {
         // Arrange
         String name = "Level 1";
         Block[] board = new Block[0];
@@ -89,8 +84,8 @@ public class LevelTest {
         newBoard[0] = new Block(null, 1, 1);
 
         // Act
-        level.setBoard(newBoard);
-        Block[] updatedBoard = level.getBoard();
+        level.setBlocks(newBoard);
+        Block[] updatedBoard = level.getBlocks();
 
         // Assert
         assertArrayEquals(newBoard, updatedBoard, "Board not set correctly");
@@ -112,10 +107,10 @@ public class LevelTest {
         // Assert
         assertEquals(1, levels.size(), "Unexpected number of levels");
         assertEquals("Level 1", level.getName(), "Unexpected level name");
-        assertEquals(1, level.getBoard().length, "Unexpected board length");
-        assertEquals(2, level.getBoard()[0].getHeight(), "Unexpected block height");
-        assertEquals(2, level.getBoard()[0].getWidth(), "Unexpected block width");
-        assertEquals(Block.BlockType.BigBlock, level.getBoard()[0].getType(), "Unexpected block type");
+        assertEquals(1, level.getBlocks().length, "Unexpected board length");
+        assertEquals(2, level.getBlocks()[0].getHeight(), "Unexpected block height");
+        assertEquals(2, level.getBlocks()[0].getWidth(), "Unexpected block width");
+        assertEquals(Block.BlockType.BigBlock, level.getBlocks()[0].getType(), "Unexpected block type");
     }
 
     /**
@@ -145,16 +140,16 @@ public class LevelTest {
     void testToState_Level_GeneratesValidStateFromLevel() {
         // Arrange
         Block[] board = {
-                new BigBlock(new Coordinate(0, 1)),
-                new HorizontalBlock(new Coordinate(2, 1)),
-                new VerticalBlock(new Coordinate(0, 3)),
-                new VerticalBlock(new Coordinate(0, 0)),
-                new VerticalBlock(new Coordinate(3, 0)),
-                new VerticalBlock(new Coordinate(3, 3)),
-                new SmallBlock(new Coordinate(3, 1)),
-                new SmallBlock(new Coordinate(3, 2)),
-                new SmallBlock(new Coordinate(4, 1)),
-                new SmallBlock(new Coordinate(4, 2))
+            new BigBlock(new Coordinate(0, 1)),
+            new HorizontalBlock(new Coordinate(2, 1)),
+            new VerticalBlock(new Coordinate(0, 3)),
+            new VerticalBlock(new Coordinate(0, 0)),
+            new VerticalBlock(new Coordinate(3, 0)),
+            new VerticalBlock(new Coordinate(3, 3)),
+            new SmallBlock(new Coordinate(3, 1)),
+            new SmallBlock(new Coordinate(3, 2)),
+            new SmallBlock(new Coordinate(4, 1)),
+            new SmallBlock(new Coordinate(4, 2))
         };
         Level level = new Level("Sample Level", board);
 

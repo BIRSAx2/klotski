@@ -302,4 +302,14 @@ public class SavesManager {
     private String getCompletedLevelsFilePath() {
         return externalStoragePath + COMPLETED_LEVELS_FILE;
     }
+
+
+    /**
+     * Retrieves the external storage path.
+     *
+     * @return the external storage path
+     */
+    public String getExternalStoragePath() {
+        return externalStoragePath;
+    }
 }
