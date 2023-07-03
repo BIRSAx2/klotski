@@ -47,11 +47,11 @@ nav_order: 3
     </tr>
     <tr>
         <td>Description</td>
-        <td> The game provides a set of 40 levels that can be selected </td>
+        <td> The game provides a set of 40 levels that can be selected. The different configuration are stored in a local file  </td>
     </tr>
     <tr>
         <td>Data</td>
-        <td> None </td>
+        <td> The level configuration selected by the user </td>
     </tr>
     <tr>
         <td>Stimulus</td>
