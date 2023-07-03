@@ -9,23 +9,23 @@ Let's briefly discuss the domain model. Observing the diagram it's possible to d
 
 ```mermaid
 classDiagram
-    Player -- KlotskiGame: opens
+    Player 1--1 KlotskiGame: opens
     
-    KlotskiGame -- MainMenu: Displays
+    KlotskiGame 1--1 MainMenu: Displays
     
 
-    MainMenu -- Settings : creates
-    MainMenu -- GameScreen : creates
-    MainMenu -- LoadGame : creates
-    MainMenu -- Configuration : creates
+    MainMenu 1--1 Settings : creates
+    MainMenu 1--1 GameScreen : creates
+    MainMenu 1--1 LoadGame : creates
+    MainMenu 1--1 Configuration : creates
         
-    LoadGame --  SavesManager : uses
-    Configuration -- SavesManager :uses
-    GameScreen -- SavesManager : saves
+    LoadGame 1--1  SavesManager : uses
+    Configuration 1--1 SavesManager :uses
+    GameScreen 1--1 SavesManager : saves
     
     
-    GameScreen -- Board : creates
-    GameScreen -- GameState: contains
+    GameScreen 1--1 Board : creates
+    GameScreen 1--1 GameState: contains
     
 
     GameState: Current State
@@ -33,13 +33,13 @@ classDiagram
     GameState: Past States
     GameState: Moves Counter
     
-    GameState -- KlotskiSolver: uses
+    GameState 1--1 KlotskiSolver: uses
     
-    KlotskiSolver -- State: contains
+    KlotskiSolver 1--1 State: contains
     
-    GameState -- State: creates
+    GameState 1--1 State: creates
     
-    Board --  GameState: uses
+    Board 1--1  GameState: uses
 
 ```
 
