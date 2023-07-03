@@ -1,9 +1,14 @@
 ---
 title: Use Cases
 layout: default
-has_children: true
-nav_order: 3
+nav_order: 2
 ---
+
+# Use Cases
+
+![Use Cases]({{site.baseurl}}/assets/diagrams/use_case.svg)
+
+## Description
 
 [//]: # (Game settings)
 <table>

@@ -5,10 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -17,36 +17,42 @@ import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.BoardPreview;
 import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
 import java.util.List;
 
 public class ConfigurationMenuScreen implements Screen {
     private final KlotskiGame game;
     private final Stage stage;
-    private final SavesManager savesManager = new SavesManager();
+    private final SavesManager savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
 
+    /**
+     * Constructs a ConfigurationMenuScreen object.
+     *
+     * @param game The KlotskiGame instance.
+     */
     public ConfigurationMenuScreen(KlotskiGame game) {
         this.game = game;
         this.stage = new Stage(new ScreenViewport(game.getCamera()));
         this.stage.addActor(game.getBackground());
     }
 
+    /**
+     * Sets up the layout of the configuration menu screen.
+     */
     private void setupLayout() {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(game.isDebug());
 
-        ImageButton.ImageButtonStyle buttonStyle = game.getImageButtonStyle();
-
-        Label title = new Label("SELECT A CONFIGURATION", game.getSkin());
+        Label title = new Label("SELECT A CONFIGURATION", FontHandler.getInstance().getLabelStyle(LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
-        title.setFontScale(1.5f);
         table.add(title).colspan(6).center().padBottom(20);
         table.row();
 
         Table selectableLevels = new Table();
-        selectableLevels.setDebug(game.isDebug());
         ScrollPane levelSelector = new ScrollPane(selectableLevels, game.getSkin());
         levelSelector.setFadeScrollBars(false);
         levelSelector.setFlickScroll(false);
@@ -54,18 +60,23 @@ public class ConfigurationMenuScreen implements Screen {
         selectableLevels.defaults().padBottom(20).fillX().colspan(2);
 
         List<Level> levels = savesManager.loadLevels(Gdx.files.internal("levels/levels.json").reader());
+        List<String> completedLevels = savesManager.loadCompletedLevels();
         int i = 0;
         for (Level level : levels) {
             if (i % 3 == 0) {
                 selectableLevels.row();
             }
 
+            if (completedLevels.contains(level.getName())) {
+                level.setCompleted(true);
+            }
             BoardPreview board = new BoardPreview(level, game.getSkin());
             board.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.buttonPressedPlay();
-                    game.setScreen(new GameScreen(game, level.toState()));
+                    SoundHandler.getInstance().playButtonClick();
+                    game.getScreen().dispose();
+                    game.setScreen(new GameScreen(game, level));
                 }
             });
             selectableLevels.add(board).pad(10);
@@ -75,8 +86,8 @@ public class ConfigurationMenuScreen implements Screen {
         levelSelector.validate();
         table.row();
 
-        ImageButton backButton = new ImageButton(buttonStyle);
-        backButton.add(new Label("Back", game.getSkin()));
+        TextButton backButton = new TextButton("BACK", game.getSkin());
+        backButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         backButton.addListener(new BackToMainMenuClickListener(game));
         table.add(backButton).fill().colspan(6).pad(7);
 

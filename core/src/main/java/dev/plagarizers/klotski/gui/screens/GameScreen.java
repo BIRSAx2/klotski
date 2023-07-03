@@ -15,68 +15,93 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.game.state.State;
+import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.game.util.SavesManager;
 import dev.plagarizers.klotski.gui.actors.Board;
+import dev.plagarizers.klotski.gui.listeners.BackToMainMenuClickListener;
+import dev.plagarizers.klotski.gui.util.FontHandler;
+import dev.plagarizers.klotski.gui.util.FontHandler.FontType;
+import dev.plagarizers.klotski.gui.util.FontHandler.LabelStyleType;
+import dev.plagarizers.klotski.gui.util.SoundHandler;
 
+/**
+ * The GameScreen class represents the main game screen in the Klotski game.
+ * It implements the Screen interface provided by LibGDX.
+ */
 public class GameScreen implements Screen {
+    private final KlotskiGame game; // The main game instance
+    private final Stage stage; // The stage for rendering UI elements
+    private final Board gameBoard; // The game board
+    private final SavesManager savesManager; // The saves manager for managing saved game states
+    private Image backgroundImage; // The background image for the save dialog
+    private Table saveTable; // The table for the save dialog
 
-    private final KlotskiGame game;
-    private final Stage stage;
-    private final Board gameBoard;
-    private final SavesManager savesManager;
+    private Level currentLevel;
 
-    public GameScreen(KlotskiGame game, State state) {
+    /**
+     * Constructs a new GameScreen object.
+     *
+     * @param game  The main KlotskiGame instance.
+     * @param level The level  of the game.
+     */
+    public GameScreen(KlotskiGame game, Level level) {
         this.game = game;
         this.savesManager = new SavesManager(Gdx.files.getExternalStoragePath());
-        State currentState = state != null ? state : State.fromRandomConfiguration();
-        this.gameBoard = new Board(currentState, game.getSkin());
+
+        if (level == null) level = State.fromRandomLevel();
+
+        this.currentLevel = level;
+
+        this.gameBoard = new Board(level);
 
         this.stage = new Stage(new ScreenViewport(game.getCamera()));
         stage.addActor(game.getBackground());
 
         stage.addListener(gameBoard.getBoardListener());
         setupLayout();
+        setupSaveDialog();
+        setSaveDialogVisible(false);
     }
 
+    /**
+     * Sets up the layout of the game screen, including buttons and the game board.
+     */
     private void setupLayout() {
         TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
-                game.setScreen(game.getScreen(ScreenType.MainMenu));
-            }
-        });
+        backButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        backButton.addListener(new BackToMainMenuClickListener(game));
 
         TextButton nextMoveButton = new TextButton("Next Move", game.getSkin());
+        nextMoveButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         nextMoveButton.addListener(gameBoard.getBoardListener().getNextMoveListener());
 
         TextButton saveButton = new TextButton("Save", game.getSkin());
+        saveButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
-                setupSaveInput();
+                SoundHandler.getInstance().playButtonClick();
+                setSaveDialogVisible(true);
             }
         });
 
         TextButton resetButton = new TextButton("Reset", game.getSkin());
+        resetButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         resetButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 gameBoard.getGameState().reset();
-                Gdx.app.log("Reset", "Resetting board");
             }
         });
 
         TextButton undoButton = new TextButton("Undo", game.getSkin());
+        undoButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         undoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 gameBoard.getGameState().undoMove();
-                Gdx.app.log("Undo", "Undoing move");
             }
         });
 
@@ -92,68 +117,87 @@ public class GameScreen implements Screen {
         table.add(undoButton).colspan(3).fill().pad(10);
         table.add(nextMoveButton).colspan(3).fill().pad(10);
         table.row();
-
-        System.out.println(table.getColumns());
         stage.addActor(table);
     }
 
-    private void setupSaveInput() {
+    /**
+     * Sets up the save dialog for saving the game state.
+     */
+    private void setupSaveDialog() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
         pixmap.fillRectangle(0, 0, 1, 1);
         Texture background = new Texture(pixmap);
         pixmap.dispose();
 
-        Image backgroundTransparent = new Image(background);
-        backgroundTransparent.setFillParent(true);
-        backgroundTransparent.setScaling(Scaling.fill);
-        backgroundTransparent.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundTransparent.getColor().a = .8f;
-        stage.addActor(backgroundTransparent);
-        Table saveInput = new Table();
-        saveInput.setFillParent(true);
-        saveInput.setDebug(game.isDebug());
-        saveInput.defaults().space(10);
-        Label message = new Label("Please insert a name for the save", game.getSkin());
+        backgroundImage = new Image(background);
+        background.dispose();
+        backgroundImage.setFillParent(true);
+        backgroundImage.setScaling(Scaling.fill);
+        backgroundImage.setSize(stage.getWidth(), stage.getHeight());
+        backgroundImage.getColor().a = .8f;
+        stage.addActor(backgroundImage);
+
+        saveTable = new Table();
+        saveTable.setFillParent(true);
+        saveTable.defaults().space(10);
+
+        Label message = new Label("Please insert a name for the save", FontHandler.getInstance().getLabelStyle(LabelStyleType.AlertStyle));
         message.setVisible(false);
         message.setAlignment(Align.center);
-        message.setColor(Color.RED);
+
         Label saveTag = new Label("Name:", game.getSkin());
+        saveTag.setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.InfoStyle));
         TextField saveName = new TextField("", game.getSkin());
+        saveName.getStyle().font = FontHandler.getInstance().getFont(FontType.Info);
 
         TextButton save = new TextButton("SAVE", game.getSkin());
+        save.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         save.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
+                SoundHandler.getInstance().playButtonClick();
                 if (saveName.getText().equals("") || saveName.getText() == null) {
                     message.setVisible(true);
                 } else {
                     savesManager.saveState(gameBoard.getState(), saveName.getText());
-                    backgroundTransparent.setVisible(false);
-                    saveInput.setVisible(false);
+                    setSaveDialogVisible(false);
+                    message.setVisible(false);
+                    saveName.setText("");
                 }
             }
         });
 
         TextButton cancel = new TextButton("CANCEL", game.getSkin());
+        cancel.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
         cancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.buttonPressedPlay();
-                backgroundTransparent.setVisible(false);
-                saveInput.setVisible(false);
+                SoundHandler.getInstance().playButtonClick();
+                setSaveDialogVisible(false);
+                message.setVisible(false);
+                saveName.setText("");
             }
         });
 
-        saveInput.add(message).center().fillX().colspan(2);
-        saveInput.row();
-        saveInput.add(saveTag).center().spaceRight(5);
-        saveInput.add(saveName).center().spaceLeft(5);
-        saveInput.row();
-        saveInput.add(save).center().fill().spaceRight(5);
-        saveInput.add(cancel).center().fill().spaceLeft(5);
-        stage.addActor(saveInput);
+        saveTable.add(message).center().fillX().colspan(2);
+        saveTable.row();
+        saveTable.add(saveTag).center().spaceRight(5);
+        saveTable.add(saveName).center().spaceLeft(5);
+        saveTable.row();
+        saveTable.add(save).center().fill().spaceRight(5);
+        saveTable.add(cancel).center().fill().spaceLeft(5);
+        stage.addActor(saveTable);
+    }
+
+    /**
+     * Sets the visibility of the save dialog.
+     *
+     * @param visible True to make the dialog visible, false otherwise.
+     */
+    private void setSaveDialogVisible(boolean visible) {
+        backgroundImage.setVisible(visible);
+        saveTable.setVisible(visible);
     }
 
     @Override
@@ -166,6 +210,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (gameBoard.getState().isSolved()) {
+            savesManager.addCompletedLevel(currentLevel.getName());
             game.setScreen(new GameOverScreen(game, gameBoard.getState()));
         }
 

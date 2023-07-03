@@ -13,14 +13,11 @@ import java.util.stream.Collectors;
 
 public class State implements Cloneable {
 
-    private final HashMap<Coordinate, Block> blocks;
-    private int moves = 0;
-
-    private static final SavesManager savesManager = new SavesManager();
-
-
     public final static int ROWS = 5, COLS = 4, NUM_PIECES = 10;
     public final static Coordinate GOAL = Coordinate.of(3, 1);
+    private static final SavesManager savesManager = new SavesManager();
+    private final HashMap<Coordinate, Block> blocks;
+    private int moves = 0;
 
 
     /**
@@ -28,24 +25,6 @@ public class State implements Cloneable {
      */
     private State() {
         this.blocks = new HashMap<>();
-    }
-
-    /**
-     * Returns the number of moves made in the current state.
-     *
-     * @return the number of moves made
-     */
-    public int getMoves() {
-        return moves;
-    }
-
-    /**
-     * Sets the number of moves made in the current state.
-     *
-     * @param moves the number of moves to set
-     */
-    public void setMoves(int moves) {
-        this.moves = moves;
     }
 
     /**
@@ -72,102 +51,22 @@ public class State implements Cloneable {
         return state;
     }
 
-
-    /**
-     * Checks if the current state is solved, i.e., if the big block is in the goal position.
-     *
-     * @return true if the state is solved, false otherwise
-     */
-    public boolean isSolved() {
-        if (!blocks.containsKey(GOAL)) return false;
-        return blocks.get(GOAL).equals(new BigBlock(GOAL));
-    }
-
-    /**
-     * Sets the blocks in the state based on the given array of blocks.
-     *
-     * @param base the array of blocks to set
-     * @throws IllegalArgumentException if the number of blocks is invalid
-     */
-    public void setBlocks(Block[] base) {
-        blocks.clear();
-        if (base.length != NUM_PIECES) throw new IllegalArgumentException("Invalid number of blocks");
-        for (Block block : base) {
-            if (block == null) throw new IllegalArgumentException("Invalid block");
-            for (Coordinate coordinate : block.getOccupiedLocations()) {
-                this.blocks.put(coordinate, block);
-            }
-        }
-    }
-
-    /**
-     * Checks if a block can be moved in the given direction in the current state.
-     *
-     * @param block     the block to move
-     * @param direction the direction to move the block
-     * @return true if the block can be moved, false otherwise
-     */
-    public boolean canMoveBlock(Block block, Direction direction) {
-
-        Coordinate newTopLeft = block.getLocation().move(direction);
-
-        if (!isValidBlock(newTopLeft, block.getWidth(), block.getHeight())) {
-            return false;
-        }
-        for (Coordinate coordinate : block.getOccupiedLocations(newTopLeft)) {
-            if (!blocks.containsKey(coordinate)) continue;
-            if (!blocks.get(coordinate).equals(block)) return false;
-        }
-        return true;
-    }
-
-    /**
-     * Moves a block in the given direction in the current state.
-     *
-     * @param block     the block to move
-     * @param direction the direction to move the block
-     * @return true if the block was moved, false otherwise
-     */
-    public boolean moveBlock(Block block, Direction direction) {
-
-
-        if (!canMoveBlock(block, direction)) return false;
-
-        for (Coordinate coordinate : block.getOccupiedLocations()) {
-            blocks.remove(coordinate);
-        }
-
-        Coordinate newTopLeft = block.getLocation().move(direction);
-        block.setLocation(newTopLeft);
-
-        for (Coordinate coordinate : block.getOccupiedLocations()) {
-            blocks.put(coordinate, block);
-        }
-
-        moves++;
-
-        return true;
-    }
-
-
     /**
      * Creates a new State object with a random configuration loaded from the levels file.
      *
      * @return a new State object with a random configuration
      */
     public static State fromRandomConfiguration() {
-        // TODO: Move the levels folder to the root of the project and load it from there
+        return fromRandomLevel().toState();
+    }
+
+    public static Level fromRandomLevel() {
         List<Level> levels = savesManager.loadLevelsFromDefaultPath();
 
         Random random = new Random();
         int index = random.nextInt(levels.size());
-        Level level = levels.get(index);
-
-        State state = new State();
-        state.setBlocks(level.getBoard());
-        return state;
+        return levels.get(index);
     }
-
 
     /**
      * Checks if the given coordinate is a valid coordinate within the board boundaries.
@@ -177,57 +76,6 @@ public class State implements Cloneable {
      */
     public static boolean isValidCoordinate(Coordinate coordinate) {
         return coordinate.getX() >= 0 && coordinate.getX() < ROWS && coordinate.getY() >= 0 && coordinate.getY() < COLS;
-    }
-
-
-    /**
-     * Checks if the given topLeft is a valid coordinate within the board boundaries for a block with the given width and height.
-     *
-     * @param topLeft the topLeft to check
-     * @param width   the width of the block
-     * @param height  the height of the block
-     * @return true if the topLeft is valid for the block, false otherwise
-     */
-    private boolean isValidBlock(Coordinate topLeft, int width, int height) {
-        int x = topLeft.getX();
-        int y = topLeft.getY();
-
-        // Check if the topLeft is within the boundaries of the puzzle
-        if (x >= 0 && y >= 0 && x <= ROWS && y <= COLS) {
-            // Check if the topLeft is within the boundaries of the block
-            return y + width <= COLS && x + height <= ROWS;
-        }
-        return false;
-    }
-
-
-    /**
-     * Gets an array of blocks representing the current state.
-     *
-     * @return an array of blocks representing the current state
-     */
-    @SuppressWarnings("NewApi")
-    public Block[] getBlocks() {
-        HashSet<Block> set = new HashSet<>(blocks.values());
-        List<Block> list = set.stream().sorted(Comparator.comparing(Block::getWidth).thenComparing(Block::getHeight)).collect(Collectors.toList());
-        Collections.reverse(list);
-        return list.toArray(new Block[0]);
-    }
-
-
-    /**
-     * Converts the state to a JSON string representation.
-     *
-     * @return the JSON string representation of the state
-     */
-    public String toJson() {
-        Gson gson = new Gson();
-
-        HashMap<String, Object> save = new HashMap<>();
-
-        save.put("moves", this.moves);
-        save.put("blocks", this.getBlocks());
-        return gson.toJson(save);
     }
 
     /**
@@ -251,22 +99,6 @@ public class State implements Cloneable {
         return state;
     }
 
-    @Override
-    @SuppressWarnings("CloneDoesntCallSuperClone")
-    public State clone() {
-        State clone = new State();
-
-        clone.moves = this.moves;
-
-        for (Map.Entry<Coordinate, Block> entry : this.blocks.entrySet()) {
-            Coordinate coordinate = entry.getKey();
-            Block block = entry.getValue();
-
-            clone.blocks.put(coordinate.clone(), block.clone());
-        }
-        return clone;
-    }
-
     /**
      * Converts an array of bit board representations to a State object.
      *
@@ -282,26 +114,6 @@ public class State implements Cloneable {
         }
         state.setBlocks(blocks);
         return state;
-    }
-
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < ROWS; i++) {
-            sb.append("|");
-            for (int j = 0; j < COLS; j++) {
-                Coordinate coordinate = Coordinate.of(i, j);
-                if (blocks.containsKey(coordinate)) {
-                    sb.append(blocks.get(coordinate).getIcon());
-                } else {
-                    sb.append(" ");
-                }
-                sb.append(" | ");
-            }
-            sb.append("\n");
-        }
-        return sb.toString();
     }
 
     /**
@@ -363,6 +175,183 @@ public class State implements Cloneable {
         return new Block(Coordinate.of(x, y), height, width);
     }
 
+    /**
+     * Returns the number of moves made in the current state.
+     *
+     * @return the number of moves made
+     */
+    public int getMoves() {
+        return moves;
+    }
+
+    /**
+     * Sets the number of moves made in the current state.
+     *
+     * @param moves the number of moves to set
+     */
+    public void setMoves(int moves) {
+        this.moves = moves;
+    }
+
+    /**
+     * Checks if the current state is solved, i.e., if the big block is in the goal position.
+     *
+     * @return true if the state is solved, false otherwise
+     */
+    public boolean isSolved() {
+        if (!blocks.containsKey(GOAL)) return false;
+        return blocks.get(GOAL).equals(new BigBlock(GOAL));
+    }
+
+    /**
+     * Checks if a block can be moved in the given direction in the current state.
+     *
+     * @param block     the block to move
+     * @param direction the direction to move the block
+     * @return true if the block can be moved, false otherwise
+     */
+    public boolean canMoveBlock(Block block, Direction direction) {
+
+        Coordinate newTopLeft = block.getLocation().move(direction);
+
+        if (!isValidBlock(newTopLeft, block.getWidth(), block.getHeight())) {
+            return false;
+        }
+        for (Coordinate coordinate : block.getOccupiedLocations(newTopLeft)) {
+            if (!blocks.containsKey(coordinate)) continue;
+            if (!blocks.get(coordinate).equals(block)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Moves a block in the given direction in the current state.
+     *
+     * @param block     the block to move
+     * @param direction the direction to move the block
+     * @return true if the block was moved, false otherwise
+     */
+    public boolean moveBlock(Block block, Direction direction) {
+
+
+        if (!canMoveBlock(block, direction)) return false;
+
+        for (Coordinate coordinate : block.getOccupiedLocations()) {
+            blocks.remove(coordinate);
+        }
+
+        Coordinate newTopLeft = block.getLocation().move(direction);
+        block.setLocation(newTopLeft);
+
+        for (Coordinate coordinate : block.getOccupiedLocations()) {
+            blocks.put(coordinate, block);
+        }
+
+        moves++;
+
+        return true;
+    }
+
+    /**
+     * Checks if the given topLeft is a valid coordinate within the board boundaries for a block with the given width and height.
+     *
+     * @param topLeft the topLeft to check
+     * @param width   the width of the block
+     * @param height  the height of the block
+     * @return true if the topLeft is valid for the block, false otherwise
+     */
+    private boolean isValidBlock(Coordinate topLeft, int width, int height) {
+        int x = topLeft.getX();
+        int y = topLeft.getY();
+
+        // Check if the topLeft is within the boundaries of the puzzle
+        if (x >= 0 && y >= 0 && x <= ROWS && y <= COLS) {
+            // Check if the topLeft is within the boundaries of the block
+            return y + width <= COLS && x + height <= ROWS;
+        }
+        return false;
+    }
+
+    /**
+     * Gets an array of blocks representing the current state.
+     *
+     * @return an array of blocks representing the current state
+     */
+    @SuppressWarnings("NewApi")
+    public Block[] getBlocks() {
+        HashSet<Block> set = new HashSet<>(blocks.values());
+        List<Block> list = set.stream().sorted(Comparator.comparing(Block::getWidth).thenComparing(Block::getHeight)).collect(Collectors.toList());
+        Collections.reverse(list);
+        return list.toArray(new Block[0]);
+    }
+
+    /**
+     * Sets the blocks in the state based on the given array of blocks.
+     *
+     * @param base the array of blocks to set
+     * @throws IllegalArgumentException if the number of blocks is invalid
+     */
+    public void setBlocks(Block[] base) {
+        blocks.clear();
+        if (base.length != NUM_PIECES) throw new IllegalArgumentException("Invalid number of blocks");
+        for (Block block : base) {
+            if (block == null) throw new IllegalArgumentException("Invalid block");
+            for (Coordinate coordinate : block.getOccupiedLocations()) {
+                this.blocks.put(coordinate, block);
+            }
+        }
+    }
+
+    /**
+     * Converts the state to a JSON string representation.
+     *
+     * @return the JSON string representation of the state
+     */
+    public String toJson() {
+        Gson gson = new Gson();
+
+        HashMap<String, Object> save = new HashMap<>();
+
+        save.put("moves", this.moves);
+        save.put("blocks", this.getBlocks());
+        return gson.toJson(save);
+    }
+
+    @Override
+    @SuppressWarnings("CloneDoesntCallSuperClone")
+    public State clone() {
+        State clone = new State();
+
+        clone.moves = this.moves;
+
+        for (Map.Entry<Coordinate, Block> entry : this.blocks.entrySet()) {
+            Coordinate coordinate = entry.getKey();
+            Block block = entry.getValue();
+
+            clone.blocks.put(coordinate.clone(), block.clone());
+        }
+        return clone;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ROWS; i++) {
+            sb.append("|");
+            for (int j = 0; j < COLS; j++) {
+                Coordinate coordinate = Coordinate.of(i, j);
+                if (blocks.containsKey(coordinate)) {
+                    sb.append(blocks.get(coordinate).getIcon());
+                } else {
+                    sb.append(" ");
+                }
+                sb.append(" | ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 
     /**
      * Converts the state to a bit board representation.
