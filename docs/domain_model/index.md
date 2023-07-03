@@ -6,7 +6,7 @@ nav_order: 3
 ---
 
 ## Domain Model Diagram
-Let's briefly discuss the domain model. Observing the diagram it's possible to distinguish every use case. There is a "SETTINGS" screen which will allow the user to change the resolution and the volume as he prefers. It is possible to "LOAD", "SAVE" and choose a configuration of the puzzle through the SavesManager. The GameScreen provides the interface to interact with the puzzle: through the GameState it is possible to "MOVE" a block, "UNDO" an action, get the "NEXT BEST ACTION" using KlotskiSolver, "RESTART" the puzzle from the beginning and visualize the "MOVES COUNTER".
+Let's briefly discuss the domain model. Observing the diagram it's possible to distinguish every use case. When the player opens the Klotski game the main menu displays giving to the player the possibility to open "SETTINGS", to "LOAD" a game, to choose a "CONFIGURATION" or to start a "NEW" game. Then, when the game starts, through the GameState it is possible to "RESET" the game using the initial state, to "UNDO" a move, using the past states and asking for a hint using the Klotski Solver algorithm ("NEXT BEST MOVE"). Eventually it is possible to "SAVE" the game through the Saves Manager.
 
 ```mermaid
 classDiagram
