@@ -5,7 +5,7 @@ known as the "hero" block) to a specific location on the game board by sliding t
 
 ## Demo
 
-TODO: INSERT GIF HERE
+![](docs/assets/images/showcase.gif)
 
 ## Documentation
 
