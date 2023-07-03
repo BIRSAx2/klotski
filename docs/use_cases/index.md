@@ -60,7 +60,7 @@ nav_order: 2
     </tr>
     <tr>
         <td>Stimulus</td>
-        <td> The "SELECT CONFIGURATION" button is pressed </td>
+        <td> The "CHOOSE CONFIGURATION" button is pressed </td>
     </tr>
     <tr>
         <td>Response</td>
@@ -227,37 +227,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Moves counter)
-<table>
-    <tr>
-        <th colspan="2"> Moves counter </th>
-    </tr>
-    <tr>
-        <td>Actors</td>
-        <td> User </td>
-    </tr>
-    <tr>
-        <td>Description</td>
-        <td> The puzzle has a counter that will keep track of the moves token during the game </td>
-    </tr>
-    <tr>
-        <td>Data</td>
-        <td> None </td>
-    </tr>
-    <tr>
-        <td>Stimulus</td>
-        <td> An action is taken by the user </td>
-    </tr>
-    <tr>
-        <td>Response</td>
-        <td> The counter move will be updated </td>
-    </tr>
-    <tr>
-        <td>Comments</td>
-        <td> The counter can't be a negative number </td>
-    </tr>
-</table>
-
 [//]: # (Next best action)
 <table>
     <tr>
@@ -350,4 +319,35 @@ nav_order: 2
         <td> None </td>
     </tr>
     <tr>
+</table>
+
+[//]: # (Moves counter)
+<table>
+    <tr>
+        <th colspan="2"> Moves counter </th>
+    </tr>
+    <tr>
+        <td>Actors</td>
+        <td> User </td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td> The puzzle has a counter that will keep track of the moves token during the game </td>
+    </tr>
+    <tr>
+        <td>Data</td>
+        <td> None </td>
+    </tr>
+    <tr>
+        <td>Stimulus</td>
+        <td> An action is taken by the user </td>
+    </tr>
+    <tr>
+        <td>Response</td>
+        <td> The counter move will be updated </td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td> The counter can't be a negative number </td>
+    </tr>
 </table>
