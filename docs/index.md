@@ -10,6 +10,8 @@ Welcome to the Klotski game! Klotski is a sliding block puzzle game where the go
 known as the "hero" block) to a specific location on the game board by sliding the other blocks out of the way. This
 manual will guide you through the gameplay, controls, rules, and features of the Klotski game.
 
+![Main Menu](assets/images/showcase.gif){:width="70%" :align="center" }
+
 # Objective
 
 The objective of the Klotski game is to move the hero block to the designated target position on the game board. The
@@ -45,7 +47,6 @@ Key Features:
 
 - Multiplatform Compatibility: Enjoy Klotski on Linux, Windows, Mac, and Android devices, providing flexibility and
   accessibility for players on different platforms.
-
 - Challenging Puzzles: Encounter a wide range of mind-bending puzzles that progressively increase in difficulty,
   ensuring a stimulating experience for puzzle enthusiasts.
 - Strategic Thinking: Plan your moves carefully and analyze the puzzle layout to overcome obstacles and create a clear

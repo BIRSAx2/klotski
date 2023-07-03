@@ -1,9 +1,11 @@
 ---
 title: Use Cases
 layout: default
-has_children: true
 nav_order: 3
 ---
+
+
+# ADD USE CASE DIAGRAM HERE
 
 [//]: # (Game settings)
 <table>
