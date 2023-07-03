@@ -67,7 +67,7 @@ public class ConfigurationMenuScreen implements Screen {
                 selectableLevels.row();
             }
 
-            if (completedLevels.contains(level.getName())) {
+            if (completedLevels != null && completedLevels.contains(level.getName())) {
                 level.setCompleted(true);
             }
             BoardPreview board = new BoardPreview(level, game.getSkin());
