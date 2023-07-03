@@ -17,15 +17,15 @@ nav_order: 2
     </tr>
     <tr>
         <td>Actors</td>
-        <td> User, computer </td>
+        <td> User </td>
     </tr>
     <tr>
         <td>Description</td>
-        <td> The user is able to set the music and the sound effects volume </td>
+        <td> The settings page is displayed </td>
     </tr>
     <tr>
         <td>Data</td>
-        <td> Information needed to change the volume </td>
+        <td> None </td>
     </tr>
     <tr>
         <td>Stimulus</td>
@@ -34,6 +34,68 @@ nav_order: 2
     <tr>
         <td>Response</td>
         <td> A page where it can be possible to set music and effects volume is displayed </td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td> None </td>
+    </tr>
+</table>
+
+[//]: # (Adjust music volume)
+<table>
+    <tr>
+        <th colspan="2">Adjust music volume </th>
+    </tr>
+    <tr>
+        <td>Actors</td>
+        <td> User, computer </td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td> The user is able to adjust the music volume </td>
+    </tr>
+    <tr>
+        <td>Data</td>
+        <td> Information needed to change the volume </td>
+    </tr>
+    <tr>
+        <td>Stimulus</td>
+        <td> The music volume bar is moved </td>
+    </tr>
+    <tr>
+        <td>Response</td>
+        <td> The music volume increases or decreases </td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td> None </td>
+    </tr>
+</table>
+
+[//]: # (Adjust sound effects volume)
+<table>
+    <tr>
+        <th colspan="2"> Adjust sound effects volume </th>
+    </tr>
+    <tr>
+        <td>Actors</td>
+        <td> User, computer </td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td> The user is able to adjust the sound effects volume </td>
+    </tr>
+    <tr>
+        <td>Data</td>
+        <td> Information needed to change the volume </td>
+    </tr>
+    <tr>
+        <td>Stimulus</td>
+        <td> The sound effects volume bar is moved </td>
+    </tr>
+    <tr>
+        <td>Response</td>
+        <td> The sound effects volume increases or decreases </td>
     </tr>
     <tr>
         <td>Comments</td>
