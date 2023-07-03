@@ -97,6 +97,7 @@ public class MainMenuScreen implements Screen {
         quit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.getScreen().dispose();
                 Gdx.app.exit();
             }
         });
