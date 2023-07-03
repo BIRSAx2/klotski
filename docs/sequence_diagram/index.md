@@ -4,19 +4,35 @@ layout: default
 nav_order: 5
 ---
 
+# System Sequence Diagram
 
 [//]: # (Reference: https://mermaid.js.org/syntax/sequenceDiagram.html)
 
+
+
+# Internal Sequence Diagram
+### Load Game
+
+
+
 ```mermaid
 sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice ->> John: Hello John, how are you?
-    loop Healthcheck
-        John ->> John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts <br/>prevail!
-    John -->> Alice: Great!
-    John ->> Bob: How about you?
-    Bob -->> John: Jolly good!
+    participant MainMenu
+    participant LoadMenuScreen
+    participant StartFromSaveClickListener
+    participant SavesManager
+    
+    MainMenu ->> LoadMenuScreen: Load Game
+    LoadMenuScreen ->> StartFromSaveClickListener: Click
+    StartFromSaveClickListener ->> SavesManager: loadStateByName
+    SavesManager ->> SavesManager: getSaveFilePath
+    SavesManager ->> SavesManager: loadStateByPath
+    SavesManager ->> State: fromJson
+    State -->> SavesManager: state
+    
+    SavesManager -->> StartFromSaveClickListener: state
+    StartFromSaveClickListener ->> Level : state
+    Level -->> StartFromSaveClickListener: level
+    StartFromSaveClickListener ->> GameScreen: level
+
 ```
