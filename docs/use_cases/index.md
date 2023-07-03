@@ -52,7 +52,7 @@ nav_order: 2
     </tr>
     <tr>
         <td>Description</td>
-        <td> The game provides a set of 40 levels that can be selected. The different configuration are stored in a local file  </td>
+        <td> The game provides a set of 40 levels that can be selected. The different configuration are stored in an internal file  </td>
     </tr>
     <tr>
         <td>Data</td>
