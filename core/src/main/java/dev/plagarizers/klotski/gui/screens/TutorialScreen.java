@@ -1,6 +1,7 @@
 package dev.plagarizers.klotski.gui.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -27,7 +28,9 @@ public class TutorialScreen implements Screen {
     private Table table;
     private Cell<Label> textCell;
     private Cell<Label> titleCell;
-    public TutorialScreen(KlotskiGame game) {
+    private Preferences preferences;
+    public TutorialScreen(KlotskiGame game, Preferences preferences) {
+        this.preferences = preferences;
         this.game = game;
         this.currentLabel = 0;
         this.minButtonWidth = Gdx.graphics.getWidth() / 6f;
@@ -208,6 +211,8 @@ public class TutorialScreen implements Screen {
         skipButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                preferences.putBoolean("done", true);
+                preferences.flush();
                 game.getScreen().dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
@@ -230,6 +235,8 @@ public class TutorialScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(currentLabel == textStrings.size - 1) {
+                    preferences.putBoolean("done", true);
+                    preferences.flush();
                     game.getScreen().dispose();
                     game.setScreen(new MainMenuScreen(game));
                 } else {
