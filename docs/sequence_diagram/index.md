@@ -334,7 +334,7 @@ sequenceDiagram
     actor User
     User ->> MainMenuScreen : clicks on "EXIT GAME"
     MainMenuScreen -->> MainMenuScreen: game shuts down
-    MainMenuScreen -->> User: 
+    MainMenuScreen -->> User: #32;
 ```
 
 ## Save Game
