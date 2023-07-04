@@ -80,6 +80,7 @@ public class GameScreen implements Screen {
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                gameBoard.setDisabled(true);
                 SoundHandler.getInstance().playButtonClick();
                 setSaveDialogVisible(true);
             }
@@ -164,6 +165,7 @@ public class GameScreen implements Screen {
                     setSaveDialogVisible(false);
                     message.setVisible(false);
                     saveName.setText("");
+                    gameBoard.setDisabled(false);
                 }
             }
         });
@@ -177,6 +179,7 @@ public class GameScreen implements Screen {
                 setSaveDialogVisible(false);
                 message.setVisible(false);
                 saveName.setText("");
+                gameBoard.setDisabled(false);
             }
         });
 

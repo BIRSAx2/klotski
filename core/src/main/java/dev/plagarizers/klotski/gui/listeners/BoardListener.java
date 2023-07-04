@@ -45,6 +45,7 @@ public class BoardListener extends InputListener {
      */
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
+        if(board.isDisabled()) return false;
         // Handle key down event
         if (keycode == Input.Keys.TAB) {
             gameState.selectNextTile();
@@ -78,6 +79,7 @@ public class BoardListener extends InputListener {
      */
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        if(board.isDisabled()) return false;
         // Handle touch down event
         dragStartPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         float localX = Gdx.input.getX();
@@ -105,6 +107,7 @@ public class BoardListener extends InputListener {
      */
     @Override
     public void touchDragged(InputEvent event, float x, float y, int pointer) {
+        if(board.isDisabled()) return;
         // Handle touch dragged event
         Vector2 dragEndPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
         float dragDistance = dragEndPos.dst(dragStartPos);

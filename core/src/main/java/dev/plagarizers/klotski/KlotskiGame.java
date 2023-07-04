@@ -2,12 +2,14 @@ package dev.plagarizers.klotski;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Scaling;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
+import dev.plagarizers.klotski.gui.screens.TutorialScreen;
 import dev.plagarizers.klotski.gui.util.FontHandler;
 import dev.plagarizers.klotski.gui.util.SoundHandler;
 
@@ -31,8 +33,14 @@ public class KlotskiGame extends Game {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
 
-        // Set the initial screen to the main menu screen
-        this.setScreen(new MainMenuScreen(this));
+        Preferences prefs = Gdx.app.getPreferences("tutorial_preferences");
+        if(prefs.getBoolean("done")) {
+            // Set the initial screen to the main menu screen
+            this.setScreen(new MainMenuScreen(this));
+        } else {
+            this.setScreen(new TutorialScreen(this, prefs));
+        }
+
     }
 
     /**

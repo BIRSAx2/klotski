@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.gui.listeners.BoardListener;
@@ -17,9 +18,10 @@ import java.util.List;
  * The `Board` class represents a game board that extends the `Actor` class.
  * It is responsible for rendering the game board, managing the game state, and handling user input.
  */
-public class Board extends Actor {
+public class Board extends Actor implements Disableable {
     public static final float ITEM_WIDTH = 64;
     public static final float ITEM_HEIGHT = 64;
+    private boolean isDisabled;
     private final Texture boardTexture;
     private final Label movesLabel;
     private final Label levelLabel;
@@ -106,5 +108,15 @@ public class Board extends Actor {
      */
     public BoardListener getBoardListener() {
         return boardListener;
+    }
+
+    @Override
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return this.isDisabled;
     }
 }
