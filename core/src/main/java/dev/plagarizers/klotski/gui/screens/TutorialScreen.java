@@ -47,27 +47,26 @@ public class TutorialScreen implements Screen {
         titleStrings.add(introTitle);
 
         String introText = """
-            Klotski is a sliding block puzzle game
-            where the goal is to move the special
-            block (also known as the "hero" block)
-            to a specific location on the game board
-            by sliding the other blocks out of the way.
-            This manual will guide you through the gameplay,
-            controls, rules, and features of the Klotski game.""";
+            Klotski is a sliding block puzzle game where
+            the goal is to move the special block
+            (also known as the "hero" block) to a specific
+            location on the game board by sliding the other
+            blocks out of the way. This tutorial will guide
+            you through the gameplay, controls, rules, and
+            features of the Klotski game.""";
         textStrings.add(introText);
 
         String objectiveTitle = "Objective";
         titleStrings.add(objectiveTitle);
 
         String objectiveText = """
-            The objective of the Klotski game is
-            to move the hero block to the designated
-            target position on the game board.
-            The hero block can only move in a straight
-            line (horizontally or vertically), and
+            The objective of Klotski is to move the hero
+            block to the designated target position on the
+            game board. The hero block can only move in a
+            straight line (horizontally or vertically), and
             other blocks act as obstacles that must be
-            strategically moved to create a clear path
-            for the hero block.""";
+            strategically moved to create a clear path for
+            the hero block.""";
         textStrings.add(objectiveText);
 
         String controlsTitle = "Game Controls";
@@ -75,58 +74,52 @@ public class TutorialScreen implements Screen {
 
         String controlsText = """
             Keyboard Controls:
-                Arrow Keys: Move the hero block in
-                the corresponding direction (up,
-                down, left, right).
-                Tab Key: Switch to the next available
-                block for control.
+                Arrow Keys: Move the hero block up, down, left
+                or right.
+                Tab Key: Switch to next available block.
                 Z Key + Control Key: Undo the last move.
-                R Key + Control Key: Reset the game to
-                the initial configuration.
+                R Key + Control Key: Reset the board.
                 Space Key : Play next best move.
 
             Mouse Controls:
                 Click: Select a block to control.
-                Click and Drag: Drag a selected
-                block in the desired direction to move it.""";
+                Click and Drag: Drag the selected block in the
+                desired direction to move it.""";
         textStrings.add(controlsText);
 
         String rulesTitle = "Game Rules";
         titleStrings.add(rulesTitle);
 
         String rulesText = """
-            Only one block can be moved at a time.
-            Blocks can only move in a straight line
-            (horizontally or vertically). Blocks
-            cannot move through or overlap other blocks.
-            The hero block must reach the target position
-            to win the game. The game can be reset at any
-            time to restart from the initial configuration.""";
+            Only one block can be moved at a time. Blocks
+            can only move in a straight line (horizontally
+            or vertically). Blocks cannot move through or
+            overlap other blocks. The hero block must reach
+            the target position to win the game. The game
+            can be reset at any time to restart from the
+            initial configuration.""";
         textStrings.add(rulesText);
 
         String playTitle = "Play";
         titleStrings.add(playTitle);
 
         String playText = """
-            The game screen consists of the following
-            elements:
-                Game Board: Displays the game board
-                with blocks arranged on it.
-                Hero Block: A 2x2 block that needs
-                to reach the target position.
+            The game screen has:
+                Game Board: Displays the game board and
+                blocks inside.
+                Hero Block: the 2x2 block that must reach
+                the target position.
                 Other Blocks: Obstacle blocks that
-                need to be moved to create a path for
-                the hero block.
-                Moves Counter: Shows the number of
-                moves made by the player.
-            In addition, the game screen also displays the
-            following buttons:
+                need to be moved to finish the game.
+                Moves Counter: Shows the number of moves
+                made.
+            In addition, the game screen has also 5 buttons:
                 Back Button: Returns to the main menu.
                 Undo Button: Undoes the last move.
-                Reset Button: Resets the game to the
-                initial configuration.
-                Save Button: Saves the current
-                game configuration.
+                Reset Button: Resets the game to the initial
+                configuration.
+                Save Button: Saves the current game
+                configuration.
                 Next Move Button: Plays the next best move.""";
         textStrings.add(playText);
 
@@ -148,10 +141,10 @@ public class TutorialScreen implements Screen {
         String saveText = """
             The Klotski game allows you to save and load
             your progress. You can save the current game
-            configuration to continue playing later or load
-            a previously saved game. Saved games can be
-            accessed from the main menu by pressing on the
-            "Load game" button.""";
+            configuration to continue playing later or
+            load a previously saved game. Saved games can
+            be accessed from the main menu by pressing on
+            the "Load game" button.""";
         textStrings.add(saveText);
 
         String configurationTitle = "Choose Configuration";
@@ -174,9 +167,10 @@ public class TutorialScreen implements Screen {
         titleStrings.add(settingsTitle);
 
         String settingsText = """
-            The options menu provides additional functionality
-            to enhance your gameplay experience, like the music
-            and effects volume, these options can be turned off
+            The options menu provides additional
+            functionality to enhance your gameplay
+            experience, like the music and effects
+            volume, these options can be turned off
             or on from the options.""";
         textStrings.add(settingsText);
 
@@ -184,9 +178,11 @@ public class TutorialScreen implements Screen {
         titleStrings.add(hintsTitle);
 
         String hintsText = """
-            The Klotski game has a hint feature that can be used
-            to get a hint for the next best move. The hint feature
-            can be used by pressing on the "Next Move" button.
+            The Klotski game has a hint feature
+            that can be used to get a hint for
+            the next best move. The hint feature
+            can be used by pressing on the "Next
+            Move" button.
             Have fun!""";
         textStrings.add(hintsText);
     }
@@ -255,7 +251,7 @@ public class TutorialScreen implements Screen {
         title.setAlignment(Align.center);
 
         Label description = new Label(textStrings.get(currentLabel), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.InfoStyle));
-        description.setAlignment(Align.center);
+        description.setAlignment(Align.left);
 
         table.add(quitButton).left().minWidth(minButtonWidth);
         table.add(skipButton).right().minWidth(minButtonWidth);
