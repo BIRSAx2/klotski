@@ -11,10 +11,10 @@ sequenceDiagram
     participant Local file
 
 
-    par Settings
-        Player ->> Klotski Game: clicks on "SETTINGS"
-        Klotski Game ->> Player: displays game settings
-        Player ->> Klotski Game: adjust volume
+    par New Game
+        Player ->> Klotski Game: clicks on "NEW GAME"
+        Klotski Game ->> Player: displays random configurations
+        Klotski Game ->> Player: displays game
     end
 
 
@@ -26,25 +26,12 @@ sequenceDiagram
     end
 
 
-    par New Game
-        Player ->> Klotski Game: clicks on "NEW GAME"
-        Klotski Game ->> Player: displays random configurations
-        Klotski Game ->> Player: displays game
-    end
-
-
     par Load Game
         Player ->> Klotski Game: clicks on "LOAD GAME"
         Klotski Game ->> Local file: gets configurations
         Local file ->>  Klotski Game: returns configurations
         Player ->>  Klotski Game: chooses configuration
         Klotski Game ->> Player: displays game
-    end
-    
-
-    par Exit game
-        Player ->> Klotski Game: clicks on "EXIT GAME"
-        Klotski Game ->> Player: game shuts down
     end
 
 
@@ -77,6 +64,18 @@ sequenceDiagram
             Player ->> Klotski Game: clicks on "Reset"
             Klotski Game ->> Player: displays game
         end
+    end
+
+    par Settings
+        Player ->> Klotski Game: clicks on "SETTINGS"
+        Klotski Game ->> Player: displays game settings
+        Player ->> Klotski Game: adjust volume
+    end
+
+
+    par Exit game
+        Player ->> Klotski Game: clicks on "EXIT GAME"
+        Klotski Game ->> Player: game shuts down
     end
 ```
 
