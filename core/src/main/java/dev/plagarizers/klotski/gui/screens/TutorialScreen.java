@@ -18,21 +18,31 @@ import dev.plagarizers.klotski.KlotskiGame;
 import dev.plagarizers.klotski.gui.util.FontHandler;
 import dev.plagarizers.klotski.gui.util.SoundHandler;
 
+/**
+ * The TutorialScreen class represents the tutorial presented to a new player for the first time.
+ * It implements the Screen interface provided by LibGDX.
+ */
 public class TutorialScreen implements Screen {
-    private KlotskiGame game;
-    private Stage stage;
-    private Array<String> titleStrings;
-    private Array<String> textStrings;
-    private float minButtonWidth;
-    private int currentLabel;
-    private Table table;
+    private final KlotskiGame game;
+    private final Stage stage;
+    private final Array<String> titleStrings;
+    private final Array<String> textStrings;
+    private final float minButtonWidth;
+    private int currentText;
     private Cell<Label> textCell;
     private Cell<Label> titleCell;
-    private Preferences preferences;
+    private final Preferences preferences;
+
+    /**
+     * Constructs a new TutorialScreen object.
+     *
+     * @param game  The main KlotskiGame instance.
+     * @param preferences The preferences of the game, representing if the tutorial has been completed or skipped.
+     */
     public TutorialScreen(KlotskiGame game, Preferences preferences) {
         this.preferences = preferences;
         this.game = game;
-        this.currentLabel = 0;
+        this.currentText = 0;
         this.minButtonWidth = Gdx.graphics.getWidth() / 6f;
         textStrings = new Array<>();
         titleStrings = new Array<>();
@@ -42,6 +52,9 @@ public class TutorialScreen implements Screen {
         setupLayout();
     }
 
+    /**
+     * Created all the string to be used in the labels for titles and information texts and add them to the corresponding array.
+     */
     private void setupText() {
         String introTitle = "Welcome to Klotski!";
         titleStrings.add(introTitle);
@@ -187,8 +200,11 @@ public class TutorialScreen implements Screen {
         textStrings.add(hintsText);
     }
 
+    /**
+     * Sets up the layout of the tutorial screen, including buttons, listeners and the main text label.
+     */
     private void setupLayout() {
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
         table.setDebug(false);
 
@@ -207,6 +223,7 @@ public class TutorialScreen implements Screen {
         skipButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SoundHandler.getInstance().playButtonClick();
                 preferences.putBoolean("done", true);
                 preferences.flush();
                 game.getScreen().dispose();
@@ -220,7 +237,8 @@ public class TutorialScreen implements Screen {
         previousButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentLabel - 1 <= 0) previousButton.setVisible(false);
+                SoundHandler.getInstance().playButtonClick();
+                if(currentText - 1 <= 0) previousButton.setVisible(false);
                 previousLabel();
             }
         });
@@ -230,27 +248,28 @@ public class TutorialScreen implements Screen {
         nextButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(currentLabel == textStrings.size - 1) {
+                SoundHandler.getInstance().playButtonClick();
+                if(currentText == textStrings.size - 1) {
                     preferences.putBoolean("done", true);
                     preferences.flush();
                     game.getScreen().dispose();
                     game.setScreen(new MainMenuScreen(game));
                 } else {
-                    if (currentLabel == textStrings.size - 2) {
+                    if (currentText == textStrings.size - 2) {
                         Label finish = new Label("FINISH", FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.ButtonStyle));
                         finish.setAlignment(Align.center);
                         nextButton.setLabel(finish);
                     }
-                    if (currentLabel + 1 > 0) previousButton.setVisible(true);
+                    if (currentText + 1 > 0) previousButton.setVisible(true);
                     nextLabel();
                 }
             }
         });
 
-        Label title = new Label(titleStrings.get(currentLabel), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.MenuStyle));
+        Label title = new Label(titleStrings.get(currentText), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.MenuStyle));
         title.setAlignment(Align.center);
 
-        Label description = new Label(textStrings.get(currentLabel), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.InfoStyle));
+        Label description = new Label(textStrings.get(currentText), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.InfoStyle));
         description.setAlignment(Align.left);
 
         table.add(quitButton).left().minWidth(minButtonWidth);
@@ -265,19 +284,25 @@ public class TutorialScreen implements Screen {
         stage.addActor(table);
     }
 
+    /**
+     * Advance the current text, getting the next text for the info and tile from the corresponding array and insert it in the right label
+     */
     private void nextLabel() {
-        if(currentLabel < textStrings.size) {
-            currentLabel++;
-            titleCell.getActor().setText(titleStrings.get(currentLabel));
-            textCell.getActor().setText(textStrings.get(currentLabel));
+        if(currentText < textStrings.size) {
+            currentText++;
+            titleCell.getActor().setText(titleStrings.get(currentText));
+            textCell.getActor().setText(textStrings.get(currentText));
         }
     }
 
+    /**
+     * Decrement the current text, getting the previous text for the info and tile from the corresponding array and insert it in the right label
+     */
     private void previousLabel() {
-        if(currentLabel > 0) {
-            currentLabel--;
-            titleCell.getActor().setText(titleStrings.get(currentLabel));
-            textCell.getActor().setText(textStrings.get(currentLabel));
+        if(currentText > 0) {
+            currentText--;
+            titleCell.getActor().setText(titleStrings.get(currentText));
+            textCell.getActor().setText(textStrings.get(currentText));
         }
     }
 
@@ -302,17 +327,17 @@ public class TutorialScreen implements Screen {
 
     @Override
     public void pause() {
-
+        // not used
     }
 
     @Override
     public void resume() {
-
+        // not used
     }
 
     @Override
     public void hide() {
-
+        // not used
     }
 
     @Override

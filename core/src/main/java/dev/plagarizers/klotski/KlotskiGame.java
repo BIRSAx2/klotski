@@ -33,11 +33,13 @@ public class KlotskiGame extends Game {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
 
+        // get the game preferences and check if the tutorial had been done or skipped
         Preferences prefs = Gdx.app.getPreferences("tutorial_preferences");
         if(prefs.getBoolean("done")) {
             // Set the initial screen to the main menu screen
             this.setScreen(new MainMenuScreen(this));
         } else {
+            // Set the initial screen to the tutorial screen
             this.setScreen(new TutorialScreen(this, prefs));
         }
     }
