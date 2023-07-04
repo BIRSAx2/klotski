@@ -11,7 +11,6 @@ nav_order: 5
 # Internal Sequence Diagram
 
 ### Game Settings
-
 ```mermaid
 sequenceDiagram
     actor User
@@ -23,7 +22,6 @@ sequenceDiagram
 ```
 
 ### Adjust Music/Effects Volume
-
 ```mermaid
 sequenceDiagram
     actor User
@@ -59,8 +57,6 @@ sequenceDiagram
 ```
 
 ### Select Starting Configuration
-
-
 ```mermaid
 sequenceDiagram
     actor User
@@ -111,9 +107,7 @@ GameScreen -->> User: Render board
 deactivate ConfigurationMenuScreen
 ```
 
-## New Game
-
-
+### New Game
 ```mermaid
 
 sequenceDiagram
@@ -203,3 +197,35 @@ deactivate GameScreen
 deactivate GameScreen
 
 ```
+
+### Load Game
+```mermaid
+sequenceDiagram
+    actor User
+    User ->> LoadMenuScreen : setupLayout
+    activate LoadMenuScreen
+    LoadMenuScreen ->> StartFromSaveClickListener : new
+    activate StartFromSaveClickListener
+    StartFromSaveClickListener ->> SavesManager : new
+    activate SavesManager
+    SavesManager -->> StartFromSaveClickListener : #32; 
+    deactivate SavesManager
+    StartFromSaveClickListener -->> LoadMenuScreen : #32; 
+    deactivate StartFromSaveClickListener
+    LoadMenuScreen ->> BackToMainMenuClickListener : new
+    activate BackToMainMenuClickListener
+    BackToMainMenuClickListener -->> LoadMenuScreen : #32; 
+    deactivate BackToMainMenuClickListener
+    deactivate LoadMenuScreen
+```
+
+### Exit Game
+```mermaid
+sequenceDiagram
+    actor User
+    User ->> MainMenuScreen : clicks on "EXIT GAME"
+    activate MainMenuScreen
+    deactivate MainMenuScreen
+```
+
+
