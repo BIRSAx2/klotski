@@ -3,10 +3,12 @@ package dev.plagarizers.klotski.gui.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.plagarizers.klotski.KlotskiGame;
@@ -23,15 +25,18 @@ public class GameOverScreen implements Screen {
     private final State state;
     private final Stage stage;
 
+    private final int minSteps;
+
     /**
      * Constructs a GameOverScreen object.
      *
      * @param game  The KlotskiGame instance.
      * @param state The game state when the game is over.
      */
-    public GameOverScreen(KlotskiGame game, State state) {
+    public GameOverScreen(KlotskiGame game, State state, int minSteps) {
         this.state = state;
         this.game = game;
+        this.minSteps = minSteps;
         stage = new Stage(new ScreenViewport(game.getCamera()));
 
         stage.addActor(game.getBackground());
@@ -54,9 +59,16 @@ public class GameOverScreen implements Screen {
         score.setAlignment(Align.center);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
-        TextButton backButton = new TextButton("BACK", game.getSkin());
+        Label minMoves = new Label("This the puzzle can be solved in " + minSteps + " moves", FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+        minMoves.setAlignment(Align.center);
+        table.add(minMoves).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
+
+        TextButton backButton = new TextButton("BACK MAIN MENU", game.getSkin());
+        backButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+
         backButton.addListener(new BackToMainMenuClickListener(game));
-        table.add(backButton).fill().colspan(6).pad(7).row();
+
+        table.add(backButton).pad(7);
 
         stage.addActor(table);
     }

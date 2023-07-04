@@ -214,7 +214,7 @@ public class GameScreen implements Screen {
 
         if (gameBoard.getState().isSolved()) {
             savesManager.addCompletedLevel(currentLevel.getName());
-            game.setScreen(new GameOverScreen(game, gameBoard.getState()));
+            game.setScreen(new GameOverScreen(game, gameBoard.getState(), gameBoard.getGameState().getMinMovesToSolve()));
         }
 
         stage.act(delta);

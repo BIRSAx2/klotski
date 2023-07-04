@@ -17,7 +17,6 @@ import java.util.Stack;
  * It contains information about the current state, moves, selected tile, and handles game logic.
  */
 public class GameState {
-
     private State state;
     private List<Tile> tiles;
     private Tile selectedTile;
@@ -220,5 +219,10 @@ public class GameState {
         KlotskiSolver solver = new KlotskiSolver(state.clone());
         pathToSolution.clear();
         pathToSolution.addAll(solver.getPathToSolution());
+    }
+
+    public int getMinMovesToSolve() {
+        KlotskiSolver solver = new KlotskiSolver(startingConfiguration.clone());
+        return solver.minSteps();
     }
 }
