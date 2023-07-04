@@ -10,7 +10,6 @@ nav_order: 2
 
 ## Description
 
-[//]: # (Game settings)
 <table>
     <tr>
         <th colspan="2"> Game settings </th>
@@ -41,7 +40,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Adjust music volume)
 <table>
     <tr>
         <th colspan="2">Adjust music volume </th>
@@ -72,7 +70,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Adjust sound effects volume)
 <table>
     <tr>
         <th colspan="2"> Adjust sound effects volume </th>
@@ -103,7 +100,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Select configuration)
 <table>
     <tr>
         <th colspan="2"> Select configuration </th>
@@ -134,7 +130,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (New Game)
 <table>
     <tr>
         <th colspan="2"> New game </th>
@@ -165,7 +160,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Load game)
 <table>
     <tr>
         <th colspan="2"> Load game </th>
@@ -196,7 +190,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Exit game)
 <table>
     <tr>
         <th colspan="2"> Exit game </th>
@@ -227,7 +220,6 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Save game)
 <table>
     <tr>
         <th colspan="2"> Save game </th>
@@ -258,7 +250,7 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Move blocks)
+
 <table>
     <tr>
         <th colspan="2"> Move blocks </th>
@@ -289,7 +281,7 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Next best action)
+
 <table>
     <tr>
         <th colspan="2"> Next best action  </th>
@@ -320,7 +312,7 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Undo action)
+
 <table>
     <tr>
         <th colspan="2"> Undo action </th>
@@ -351,7 +343,7 @@ nav_order: 2
     </tr>
 </table>
 
-[//]: # (Reset setup)
+
 <table>
     <tr>
         <th colspan="2"> Reset setup   </th>
@@ -380,10 +372,10 @@ nav_order: 2
         <td>Comments</td>
         <td> None </td>
     </tr>
-    <tr>
+
 </table>
 
-[//]: # (Moves counter)
+
 <table>
     <tr>
         <th colspan="2"> Moves counter </th>
