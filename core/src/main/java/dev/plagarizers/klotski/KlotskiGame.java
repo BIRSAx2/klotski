@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Scaling;
 import dev.plagarizers.klotski.gui.screens.MainMenuScreen;
+import dev.plagarizers.klotski.gui.screens.TutorialScreen;
 import dev.plagarizers.klotski.gui.util.FontHandler;
 import dev.plagarizers.klotski.gui.util.SoundHandler;
 
@@ -32,7 +33,7 @@ public class KlotskiGame extends Game {
         camera.update();
 
         // Set the initial screen to the main menu screen
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new TutorialScreen(this));
     }
 
     /**
