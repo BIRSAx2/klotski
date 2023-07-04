@@ -40,7 +40,6 @@ public class KlotskiGame extends Game {
         } else {
             this.setScreen(new TutorialScreen(this, prefs));
         }
-
     }
 
     /**
