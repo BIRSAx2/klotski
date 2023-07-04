@@ -80,12 +80,9 @@ sequenceDiagram
     end
 ```
 
-[//]: # (Reference: https://mermaid.js.org/syntax/sequenceDiagram.html)
-
 # Internal Sequence Diagram
 
-### Game Settings
-
+## Game Settings
 ```mermaid
 sequenceDiagram
     actor User
@@ -96,7 +93,7 @@ sequenceDiagram
     deactivate MainMenuScreen
 ```
 
-### Adjust Music/Effects Volume
+## Adjust Music/Effects Volume
 
 ```mermaid
 sequenceDiagram
@@ -132,7 +129,7 @@ sequenceDiagram
     deactivate SettingsScreen
 ```
 
-### Select Starting Configuration
+## Select Starting Configuration
 ```mermaid
 sequenceDiagram
     actor User
@@ -301,7 +298,6 @@ sequenceDiagram
     deactivate MainMenuScreen
 ```
 
-
 ## Save Game
 
 ```mermaid
@@ -340,13 +336,21 @@ actor User
     deactivate SavesManager
     deactivate GameScreen
 ```
+
 ## Move Blocks
-# Incompleto
 ```mermaid
 sequenceDiagram
-actor User
     actor User
-    User ->> MainMenuScreen: start game
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant BoardListener
+    participant GameState
+
+
+    User ->> MainMenuScreen: starts game
     
     alt Choose Configuration
         MainMenuScreen ->> ConfigurationScreen: 
@@ -362,47 +366,43 @@ actor User
         MainMenuScreen ->> GameScreen: 
     end
     activate GameScreen
-    GameScreen ->> Board: create
-    Board ->> GameState: create
+    GameScreen ->> Board: creates
+    Board ->> GameState: creates
     GameState -->> Board: 
-    Board ->> BoardListener: create
+    Board ->> BoardListener: creates
     BoardListener -->> Board: 
     Board -->> GameScreen: 
-    GameScreen -->> User: Render game screen
+    GameScreen -->> User: renders game screen
     deactivate GameScreen
     
     activate BoardListener
     alt mouse movement
-    User ->> BoardListener : touchDragged
-    BoardListener ->> BoardListener : calculateDragDirection
+        User ->> BoardListener : touchDragged
+        BoardListener ->> BoardListener : calculateDragDirection
     end
+
     alt arrow keys 
-    User ->> BoardListener: key down
+        User ->> BoardListener: key down
     end
+
     BoardListener ->> GameState : moveBlock
-    GameState ->> State : clone
-    State -->> GameState: clonedState
-    activate State
-    GameState ->> State: moveBlock on clonedState
-    State ->> State: canMoveBlock
-    State ->> State: isValidBlock
-    State -->> GameState: 
-    deactivate State
     activate GameState
     GameState ->> GameState : updateTiles
     GameState ->> GameState : createTile
     GameState -->> Board: new state
+    deactivate GameState
     Board -->> GameScreen: Render game state
-    GameScreen -->> User: Render game
-    
-
 ```
 
 ## Next Best Action
-Mouhi
+```mermaid
+```
+
 ## Undo Action
 Gianluca
+
 ## Reset game
 Gianluca
+
 ## Moves Counter
 Gianluca
