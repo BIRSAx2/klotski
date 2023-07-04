@@ -205,13 +205,104 @@ deactivate GameScreen
 Trigolo
 
 ## Exit Game
-
 Trigolo
 
 ## Save Game
-Mouhi
+
+```mermaid
+sequenceDiagram
+actor User
+    actor User
+    User ->> MainMenuScreen: start game
+    
+    alt Choose Configuration
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen ->> GameScreen: 
+    end
+
+    alt Load Save
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen ->> GameScreen: 
+    end
+    
+    alt Start from random level 
+        MainMenuScreen ->> GameScreen: 
+    end
+    activate GameScreen
+    GameScreen -->> User: Render game screen
+    
+    User ->> GameScreen : click on save button
+    activate GameScreen
+    GameScreen ->> SavesManager : saveState
+    activate SavesManager
+    SavesManager ->> State : toJson
+
+    activate State
+    State -->> SavesManager : #32; 
+    SavesManager ->> SavesManager: Persist to file
+    deactivate State
+    SavesManager -->> GameScreen : #32; 
+    deactivate SavesManager
+    deactivate GameScreen
+```
 ## Move Blocks
-Mouhi
+# Incompleto
+```mermaid
+sequenceDiagram
+actor User
+    actor User
+    User ->> MainMenuScreen: start game
+    
+    alt Choose Configuration
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen ->> GameScreen: 
+    end
+
+    alt Load Save
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen ->> GameScreen: 
+    end
+    
+    alt Start from random level 
+        MainMenuScreen ->> GameScreen: 
+    end
+    activate GameScreen
+    GameScreen ->> Board: create
+    Board ->> GameState: create
+    GameState -->> Board: 
+    Board ->> BoardListener: create
+    BoardListener -->> Board: 
+    Board -->> GameScreen: 
+    GameScreen -->> User: Render game screen
+    deactivate GameScreen
+    
+    activate BoardListener
+    alt mouse movement
+    User ->> BoardListener : touchDragged
+    BoardListener ->> BoardListener : calculateDragDirection
+    end
+    alt arrow keys 
+    User ->> BoardListener: key down
+    end
+    BoardListener ->> GameState : moveBlock
+    GameState ->> State : clone
+    State -->> GameState: clonedState
+    activate State
+    GameState ->> State: moveBlock on clonedState
+    State ->> State: canMoveBlock
+    State ->> State: isValidBlock
+    State -->> GameState: 
+    deactivate State
+    activate GameState
+    GameState ->> GameState : updateTiles
+    GameState ->> GameState : createTile
+    GameState -->> Board: new state
+    Board -->> GameScreen: Render game state
+    GameScreen -->> User: Render game
+    
+
+```
+
 ## Next Best Action
 Mouhi
 ## Undo Action
