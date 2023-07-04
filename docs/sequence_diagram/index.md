@@ -192,14 +192,31 @@ activate BackToMainMenuClickListener
 BackToMainMenuClickListener -->> GameScreen : #32; 
 deactivate BackToMainMenuClickListener
 
-
-GameScreen -->> GameScreen : #32; 
 deactivate GameScreen
 GameScreen ->> GameScreen : setupSaveDialog
 activate GameScreen
 
-GameScreen -->> GameScreen : #32; 
+GameScreen -->> User: Render game screen
 deactivate GameScreen
-deactivate GameScreen
-
 ```
+
+## Load Game
+
+Trigolo
+
+## Exit Game
+
+Trigolo
+
+## Save Game
+Mouhi
+## Move Blocks
+Mouhi
+## Next Best Action
+Mouhi
+## Undo Action
+Gianluca
+## Reset game
+Gianluca
+## Moves Counter
+Gianluca
