@@ -8,31 +8,104 @@ nav_order: 5
 
 [//]: # (Reference: https://mermaid.js.org/syntax/sequenceDiagram.html)
 
-
-
 # Internal Sequence Diagram
-### Load Game
 
+### Game Settings
+
+```mermaid
+sequenceDiagram
+    actor User
+    User ->> MainMenuScreen: start game
+    activate MainMenuScreen
+    MainMenuScreen ->> SettingsScreen: press on "SETTINGS"
+    SettingsScreen -->> User: Render settings
+    deactivate MainMenuScreen
+```
+
+### Adjust Music/Effects Volume
+
+```mermaid
+sequenceDiagram
+    actor User
+    User ->> MainMenuScreen: Start game
+    activate MainMenuScreen
+    MainMenuScreen ->> SettingsScreen: press on "SETTINGS"
+    activate SettingsScreen
+    SettingsScreen ->> SettingsScreen: setupLayout
+    activate SettingsScreen
+    SettingsScreen ->> SettingsScreen: makeMusicVolumeSettings
+    activate SettingsScreen
+    deactivate SettingsScreen
+    SettingsScreen ->> SettingsScreen: makeEffectsVolumeSettings
+    SettingsScreen ->> SettingsScreen: makeBackButton
+    activate SettingsScreen
+    SettingsScreen ->> BackToMainMenuClickListener: create
+    activate BackToMainMenuClickListener
+    BackToMainMenuClickListener -->> SettingsScreen: listener
+    deactivate BackToMainMenuClickListener
+    deactivate SettingsScreen
+    SettingsScreen -->> User: Render settings;
+    deactivate SettingsScreen
+    deactivate MainMenuScreen
+    par Music volume slider
+        User ->> SettingsScreen: Adjust slider
+    end
+    par Effects volume slider
+        User ->> SettingsScreen: Adjust slider
+    end
+    activate SettingsScreen
+    SettingsScreen -->> User: Volume changed
+    deactivate SettingsScreen
+```
+
+### Select Starting Configuration
 
 
 ```mermaid
 sequenceDiagram
-    participant MainMenu
-    participant LoadMenuScreen
-    participant StartFromSaveClickListener
-    participant SavesManager
+    actor User
+    User ->> MainMenuScreen: start game
+    activate MainMenuScreen
+    MainMenuScreen ->> ConfigurationMenuScreen: press on "CHOOSE CONFIGURATION"
+    deactivate MainMenuScreen
+    activate ConfigurationMenuScreen
+    ConfigurationMenuScreen ->> SavesManager: loadLevels
+    activate SavesManager
+    SavesManager ->> Level: fromJson
+    activate Level
+    Level -->> SavesManager: #32; 
+    deactivate Level
+    SavesManager -->> ConfigurationMenuScreen: #32; 
+    deactivate SavesManager
+    ConfigurationMenuScreen ->> SavesManager: loadCompletedLevels
+    activate SavesManager
+    SavesManager ->> SavesManager: getCompletedLevelsFilePath
+    SavesManager -->> ConfigurationMenuScreen:  #32; 
+    deactivate SavesManager
+    ConfigurationMenuScreen ->> Level: getName
+    activate Level
+    Level -->> ConfigurationMenuScreen: #32; 
+    deactivate Level
+    ConfigurationMenuScreen ->> Level: setCompleted
+    activate Level
+    Level -->> ConfigurationMenuScreen: #32; 
+    deactivate Level
+    ConfigurationMenuScreen ->> BoardPreview: create
+    activate BoardPreview
+    BoardPreview ->> Level: getName
+    activate Level
+    Level -->> BoardPreview: level name; 
+    deactivate Level
+    BoardPreview -->> ConfigurationMenuScreen: render preview;
+    ConfigurationMenuScreen -->> User: Render configurations
+    deactivate BoardPreview
+    deactivate ConfigurationMenuScreen
     
-    MainMenu ->> LoadMenuScreen: Load Game
-    LoadMenuScreen ->> StartFromSaveClickListener: Click
-    StartFromSaveClickListener ->> SavesManager: loadStateByName
-    SavesManager ->> SavesManager: getSaveFilePath
-    SavesManager ->> SavesManager: loadStateByPath
-    SavesManager ->> State: fromJson
-    State -->> SavesManager: state
     
-    SavesManager -->> StartFromSaveClickListener: state
-    StartFromSaveClickListener ->> Level : state
-    Level -->> StartFromSaveClickListener: level
-    StartFromSaveClickListener ->> GameScreen: level
-
+    User ->> ConfigurationMenuScreen: Select Level
+    activate ConfigurationMenuScreen
+    ConfigurationMenuScreen ->> GameScreen: Level
+    GameScreen -->> User : Render board
+    deactivate ConfigurationMenuScreen
+    
 ```
