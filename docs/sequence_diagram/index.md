@@ -417,18 +417,18 @@ sequenceDiagram
         LoadGameScreen -->> GameScreen: 
     end
 
-    activate GameScreen
-    GameScreen ->> Board: creates
-    Board ->> GameState: creates
-    GameState -->> Board: 
-    Board ->> BoardListener: creates
-    BoardListener -->> Board: 
-    Board -->> GameScreen: 
-    GameScreen -->> User: renders game screen
-    deactivate GameScreen
-    
-    activate BoardListener
-    
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+        
     alt mouse movement
         User ->> BoardListener : touchDragged
         BoardListener ->> BoardListener : calculateDragDirection
@@ -479,15 +479,17 @@ sequenceDiagram
         LoadGameScreen -->> GameScreen: 
     end
 
-    activate GameScreen
-    GameScreen ->> Board: creates
-    Board ->> GameState: creates
-    GameState -->> Board: 
-    Board ->> BoardListener: creates
-    BoardListener -->> Board: 
-    Board -->> GameScreen: 
-    GameScreen -->> User: renders game screen
-    deactivate GameScreen
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
     
     activate BoardListener
 
