@@ -9,23 +9,23 @@ Let's briefly discuss the domain model. Observing the diagram it's possible to d
 
 ```mermaid
 classDiagram
-    Player 1--1 KlotskiGame: opens
+    Player "1"--"1" KlotskiGame: opens
     
-    KlotskiGame 1--1 MainMenu: Displays
+    KlotskiGame "1"--"1" MainMenu: Displays
     
 
-    MainMenu 1--1 Settings : creates
-    MainMenu 1--1 GameScreen : creates
-    MainMenu 1--1 LoadGame : creates
-    MainMenu 1--1 Configuration : creates
+    MainMenu "1"--"1" Settings : creates
+    MainMenu "1"--"1" GameScreen : creates
+    MainMenu "1"--"1" LoadGame : creates
+    MainMenu "1"--"1" Configuration : creates
         
-    LoadGame 1--1  SavesManager : uses
-    Configuration 1--1 SavesManager :uses
-    GameScreen 1--1 SavesManager : saves
+    LoadGame "1"--"1"  SavesManager : uses
+    Configuration "1"--"1" SavesManager :uses
+    GameScreen "1"--"1" SavesManager : saves
     
     
-    GameScreen 1--1 Board : creates
-    GameScreen 1--1 GameState: contains
+    GameScreen "1"--"1" Board : creates
+    GameScreen "1"--"1" GameState: contains
     
 
     GameState: Current State
@@ -33,13 +33,12 @@ classDiagram
     GameState: Past States
     GameState: Moves Counter
     
-    GameState 1--1 KlotskiSolver: uses
+    GameState "1"--"1" KlotskiSolver: uses
     
-    KlotskiSolver 1--1 State: contains
+    KlotskiSolver "1"--"1" State: contains
     
-    GameState 1--1 State: creates
+    GameState "1"--"1" State: creates
     
-    Board 1--1  GameState: uses
-
+    Board "1"--"1"  GameState: uses
 ```
 
