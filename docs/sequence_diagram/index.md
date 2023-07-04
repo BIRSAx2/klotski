@@ -73,39 +73,133 @@ sequenceDiagram
     activate SavesManager
     SavesManager ->> Level: fromJson
     activate Level
-    Level -->> SavesManager: #32; 
-    deactivate Level
-    SavesManager -->> ConfigurationMenuScreen: #32; 
-    deactivate SavesManager
-    ConfigurationMenuScreen ->> SavesManager: loadCompletedLevels
-    activate SavesManager
-    SavesManager ->> SavesManager: getCompletedLevelsFilePath
-    SavesManager -->> ConfigurationMenuScreen:  #32; 
-    deactivate SavesManager
-    ConfigurationMenuScreen ->> Level: getName
-    activate Level
-    Level -->> ConfigurationMenuScreen: #32; 
-    deactivate Level
-    ConfigurationMenuScreen ->> Level: setCompleted
-    activate Level
-    Level -->> ConfigurationMenuScreen: #32; 
-    deactivate Level
-    ConfigurationMenuScreen ->> BoardPreview: create
-    activate BoardPreview
-    BoardPreview ->> Level: getName
-    activate Level
-    Level -->> BoardPreview: level name; 
-    deactivate Level
-    BoardPreview -->> ConfigurationMenuScreen: render preview;
-    ConfigurationMenuScreen -->> User: Render configurations
-    deactivate BoardPreview
-    deactivate ConfigurationMenuScreen
-    
-    
-    User ->> ConfigurationMenuScreen: Select Level
-    activate ConfigurationMenuScreen
-    ConfigurationMenuScreen ->> GameScreen: Level
-    GameScreen -->> User : Render board
-    deactivate ConfigurationMenuScreen
-    
+Level -->> SavesManager: #32; 
+deactivate Level
+SavesManager -->> ConfigurationMenuScreen: #32; 
+deactivate SavesManager
+ConfigurationMenuScreen ->> SavesManager: loadCompletedLevels
+activate SavesManager
+SavesManager ->> SavesManager: getCompletedLevelsFilePath
+SavesManager -->> ConfigurationMenuScreen:  #32; 
+deactivate SavesManager
+ConfigurationMenuScreen ->> Level: getName
+activate Level
+Level -->> ConfigurationMenuScreen: #32; 
+deactivate Level
+ConfigurationMenuScreen ->> Level: setCompleted
+activate Level
+Level -->> ConfigurationMenuScreen: #32; 
+deactivate Level
+ConfigurationMenuScreen ->> BoardPreview: create
+activate BoardPreview
+BoardPreview ->> Level: getName
+activate Level
+Level -->> BoardPreview: level name
+
+deactivate Level
+BoardPreview -->> ConfigurationMenuScreen: render preview
+deactivate BoardPreview
+
+ConfigurationMenuScreen -->> User: Render configurations
+deactivate ConfigurationMenuScreen
+
+
+User ->> ConfigurationMenuScreen: Select Level
+activate ConfigurationMenuScreen
+ConfigurationMenuScreen ->> GameScreen: Level
+GameScreen -->> User: Render board
+deactivate ConfigurationMenuScreen
+```
+
+## New Game
+
+
+```mermaid
+
+sequenceDiagram
+actor User
+User ->> GameScreen : new
+activate GameScreen
+GameScreen ->> SavesManager : new
+activate SavesManager
+SavesManager -->> GameScreen : #32; 
+deactivate SavesManager
+GameScreen ->> State : fromRandomLevel
+activate State
+State ->> SavesManager : loadLevelsFromDefaultPath
+activate SavesManager
+SavesManager ->> SavesManager : loadLevels
+activate SavesManager
+SavesManager ->> Level : fromJson
+activate Level
+Level -->> SavesManager : #32; 
+deactivate Level
+SavesManager -->> State : #32; 
+deactivate SavesManager
+State -->> GameScreen : #32; 
+deactivate State
+GameScreen ->> Board : new
+activate Board
+Board ->> Level : toState
+activate Level
+Level ->> State : fromDefaultConfiguration
+activate State
+State -->> Level : #32; 
+deactivate State
+Level -->> Board : #32; 
+deactivate Level
+Board ->> GameState : new
+activate GameState
+GameState ->> State : clone
+activate State
+State ->> State : new
+activate State
+GameState ->> State : clone
+activate State
+State ->> State : new
+State -->> GameState : #32; 
+deactivate State
+GameState ->> State : clone
+activate State
+State ->> State : new
+activate State
+State -->> State : #32; 
+deactivate State
+State -->> GameState : #32; 
+deactivate State
+GameState ->> GameState : updateTiles
+activate GameState
+GameState ->> GameState : createTile
+activate GameState
+GameState ->> Tile : new
+activate Tile
+Tile -->> GameState : #32; 
+deactivate Tile
+GameState -->> Board : #32; 
+deactivate GameState
+Board ->> BoardListener : new
+activate BoardListener
+BoardListener -->> Board : #32; 
+deactivate BoardListener
+
+Board -->> GameScreen : #32; 
+deactivate Board
+GameScreen ->> GameScreen : setupLayout
+activate GameScreen
+
+GameScreen ->> BackToMainMenuClickListener : new
+activate BackToMainMenuClickListener
+BackToMainMenuClickListener -->> GameScreen : #32; 
+deactivate BackToMainMenuClickListener
+
+
+GameScreen -->> GameScreen : #32; 
+deactivate GameScreen
+GameScreen ->> GameScreen : setupSaveDialog
+activate GameScreen
+
+GameScreen -->> GameScreen : #32; 
+deactivate GameScreen
+deactivate GameScreen
+
 ```
