@@ -187,96 +187,78 @@ sequenceDiagram
 
     User ->> ConfigurationMenuScreen: selects level
     ConfigurationMenuScreen ->> GameScreen: displays selected level
-    GameScreen -->> User: 
+    GameScreen -->> User: #32;
 ```
 
 ## New Game
 ```mermaid
 sequenceDiagram
-actor User
-User ->> GameScreen : new
-activate GameScreen
-GameScreen ->> SavesManager : new
-activate SavesManager
-SavesManager -->> GameScreen : #32; 
-deactivate SavesManager
-GameScreen ->> State : fromRandomLevel
-activate State
-State ->> SavesManager : loadLevelsFromDefaultPath
-activate SavesManager
-SavesManager ->> SavesManager : loadLevels
-activate SavesManager
-SavesManager ->> Level : fromJson
-activate Level
-Level -->> SavesManager : #32; 
-deactivate Level
-SavesManager -->> State : #32; 
-deactivate SavesManager
-State -->> GameScreen : #32; 
-deactivate State
-GameScreen ->> Board : new
-activate Board
-Board ->> Level : toState
-activate Level
-Level ->> State : fromDefaultConfiguration
-activate State
-State -->> Level : #32; 
-deactivate State
-Level -->> Board : #32; 
-deactivate Level
-Board ->> GameState : new
-activate GameState
-GameState ->> State : clone
-activate State
-State ->> State : new
-activate State
-GameState ->> State : clone
-activate State
-State ->> State : new
-State -->> GameState : #32; 
-deactivate State
-GameState ->> State : clone
-activate State
-State ->> State : new
-activate State
-State -->> State : #32; 
-deactivate State
-State -->> GameState : #32; 
-deactivate State
-GameState ->> GameState : updateTiles
-activate GameState
-GameState ->> GameState : createTile
-activate GameState
-GameState ->> Tile : new
-activate Tile
-Tile -->> GameState : #32; 
-deactivate Tile
-GameState -->> Board : #32; 
-deactivate GameState
-Board ->> BoardListener : new
-activate BoardListener
-BoardListener -->> Board : #32; 
-deactivate BoardListener
+    actor User
+    participant MainMenuScreen
+    participant GameScreen
+    participant SavesManager
+    participant Board
+    participant GameState
+    participant Level
+    participant State
 
-Board -->> GameScreen : #32; 
-deactivate Board
-GameScreen ->> GameScreen : setupLayout
-activate GameScreen
+    User ->> MainMenuScreen: clicks on "NEW GAME"
+    MainMenuScreen ->>+ GameScreen: displays 
 
-GameScreen ->> BackToMainMenuClickListener : new
-activate BackToMainMenuClickListener
-BackToMainMenuClickListener -->> GameScreen : #32; 
-deactivate BackToMainMenuClickListener
 
-deactivate GameScreen
-GameScreen ->> GameScreen : setupSaveDialog
-activate GameScreen
+    par game screen creation
 
-GameScreen -->> User: Render game screen
-deactivate GameScreen
+        GameScreen ->> SavesManager : creates
+        SavesManager -->> GameScreen : 
+
+        GameScreen ->>+ Board : creates
+        Board ->> Level: calls
+        Level ->> State: fromDefaultLevel
+        State -->> Level: 
+        Level -->> Board: 
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board -->>- GameScreen: 
+
+        GameScreen->>GameScreen: setupLayout
+        
+        GameScreen->>GameScreen: setupSaveDialog
+
+        GameScreen -->> User: 
+
+        alt move block
+            User ->> GameScreen: moves block
+            GameScreen ->>+ Board: makes action
+            Board -->>- GameScreen: displays updated board
+            GameScreen -->> User: 
+        else Undo
+            User ->> GameScreen: clicks "UNDO" button
+            GameScreen ->>+ Board: makes action
+            Board -->>- GameScreen: displays updated board
+            GameScreen -->> User: 
+        else Next Best Move
+            User ->> GameScreen: clicks "NEXT BEST MOVE" button
+            GameScreen ->>+ Board: makes action
+            Board -->>- GameScreen: displays updated board
+            GameScreen -->> User: 
+        else reset layout
+            User ->> GameScreen: clicks "RESET" button
+            GameScreen ->>+ Board: makes action
+            Board -->>- GameScreen: displays updated board
+            GameScreen -->> User: 
+        else save
+            User ->> GameScreen: clicks "SAVE" button
+            GameScreen ->> GameScreen: displays save dialog
+            GameScreen -->> User: 
+        else back
+            User->>GameScreen: clicks "BACK" button
+            GameScreen-->>MainMenuScreen: displays
+            MainMenuScreen -->> User: 
+        end
+end
 ```
 
-### Load Game
+## Load Game
 ```mermaid
 sequenceDiagram
     actor User
@@ -328,10 +310,9 @@ sequenceDiagram
         LoadMenuScreen ->> GameScreen: displays game with selected save
         GameScreen -->> User : 
     end
-
 ```
 
-### Exit Game
+## Exit Game
 ```mermaid
 sequenceDiagram
     actor User
@@ -395,52 +376,47 @@ sequenceDiagram
     participant LoadGameScreen
     participant GameScreen
     participant Board
-    participant BoardListener
     participant GameState
 
 
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
-        MainMenuScreen -->> GameScreen: 
+        MainMenuScreen -->> GameScreen: displays
+        activate GameScreen
     else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen -->> GameScreen: 
+        ConfigurationScreen -->> GameScreen: displays
     else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen -->> GameScreen: 
+        LoadGameScreen -->> GameScreen: displays
     end
 
-    par render game screen
-        activate GameScreen
-        GameScreen ->> Board: creates
-        Board ->> GameState: creates
-        GameState -->> Board: 
-        Board ->> BoardListener: creates
-        BoardListener -->> Board: 
-        Board -->> GameScreen: 
-        GameScreen -->> User: renders game screen
-        deactivate GameScreen
-    end
+    GameScreen -->>- User: #32;
         
-    alt mouse movement
-        User ->> BoardListener : touchDragged
-        BoardListener ->> BoardListener : calculateDragDirection
+    alt touch and drag
+        User ->> GameScreen : selects and drags a block
+        GameScreen ->>+ Board: touchDragged
+        Board ->> Board: calculate new position
+
+    
+    else keyboard and mouse
+        alt mouse 
+            User ->> GameScreen: clicks a block with mouse
+        else keyboard
+            User ->> GameScreen: presses TAB key
+        end
+        User ->> GameScreen:  presses a key
+        GameScreen ->> Board: moves block
+
+
     end
 
-    alt arrow keys 
-        User ->> BoardListener: key down
-    end
-
-    BoardListener ->> GameState : moveBlock
-    activate GameState
-    GameState ->> GameState : updateTiles
-    GameState ->> GameState : createTile
-    GameState -->> Board: new state
-    deactivate GameState
-    Board -->> GameScreen: Render game state
-    GameScreen -->> User: renders game screen
+    Board ->> GameState: updates
+    GameState -->> Board: 
+    Board -->>- GameScreen: 
+    GameScreen -->> User: displays updated board
 ```
 
 ## Next Best Action
