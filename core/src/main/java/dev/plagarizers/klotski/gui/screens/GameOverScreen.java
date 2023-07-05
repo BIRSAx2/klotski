@@ -59,9 +59,9 @@ public class GameOverScreen implements Screen {
         score.setAlignment(Align.center);
         table.add(score).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
-        Label minMoves = new Label("This the puzzle can be solved in " + minSteps + " moves", FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
-        minMoves.setAlignment(Align.center);
-        table.add(minMoves).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
+//        Label minMoves = new Label("This the puzzle can be solved in " + minSteps + " moves", FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
+//        minMoves.setAlignment(Align.center);
+//        table.add(minMoves).width(Gdx.graphics.getWidth() / 2f).padBottom(10).row();
 
         TextButton backButton = new TextButton("BACK MAIN MENU", game.getSkin());
         backButton.getLabel().setStyle(FontHandler.getInstance().getLabelStyle(LabelStyleType.ButtonStyle));
