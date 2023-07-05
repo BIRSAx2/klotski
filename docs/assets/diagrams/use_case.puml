@@ -4,8 +4,8 @@
 
 left to right direction
 
-
 title "KLOTSKI: Use-Cases Diagram"
+
 
 
 actor User
@@ -17,10 +17,11 @@ actor User
 
 rectangle "KLOTSKI app"{
 
-
   database Levels {
 
-   }
+  }
+
+  User -- (Tutorial)
 
   User -- (Start game)
 
@@ -52,7 +53,5 @@ rectangle "KLOTSKI app"{
 
   User -- (Exit the game)
 }
-
-
 
 @enduml

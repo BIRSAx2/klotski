@@ -12,6 +12,37 @@ nav_order: 2
 
 <table>
     <tr>
+        <th colspan="2"> Tutorial </th>
+    </tr>
+    <tr>
+        <td>Actors</td>
+        <td> User </td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td> The tutorial is shown to the user </td>
+    </tr>
+    <tr>
+        <td>Data</td>
+        <td> Information about the tutorial, if it has been completed or skipped </td>
+    </tr>
+    <tr>
+        <td>Stimulus</td>
+        <td> The game is opened for the first time </td>
+    </tr>
+    <tr>
+        <td>Response</td>
+        <td> A page where information about the game is presented to the player, is possible to go to the next explanation or skip the tutorial entirely </td>
+    </tr>
+    <tr>
+        <td>Comments</td>
+        <td> This is possible to visualize only the first time the game is opened, other times the game will start from the main menu </td>
+    </tr>
+</table>
+
+
+<table>
+    <tr>
         <th colspan="2"> Game settings </th>
     </tr>
     <tr>

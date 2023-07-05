@@ -5,113 +5,193 @@ nav_order: 5
 ---
 
 # System Sequence Diagram
+```mermaid
+sequenceDiagram
+    actor Player
+    Participant Klotski Game
+    participant Local storage
 
-[//]: # (Reference: https://mermaid.js.org/syntax/sequenceDiagram.html)
+
+    opt Tutorial
+        Player ->>+ Klotski Game: opens game for the 1st time
+        Klotski Game -->> Player: displays the tutorial
+    end
+    Klotski Game -->> Player: displays the main menu
+
+
+    alt New Game
+        Player ->> Klotski Game: clicks on "NEW GAME"
+        Klotski Game ->> Klotski Game: gets random configuration
+        Klotski Game -->> Player: displays game screen
+        
+    else Select configuration
+        Player ->> Klotski Game: clicks on "SELECT CONFIGURATION"
+        Klotski Game -->> Player: displays configurations
+        Player ->> Klotski Game: chooses configuration
+        Klotski Game -->> Player: displays game screen
+        
+    else Load Game
+        Player ->> Klotski Game: clicks on "LOAD GAME"
+        Klotski Game ->>+ Local storage: gets saves 
+        Local storage -->>-  Klotski Game: returns saves
+        Player ->>  Klotski Game: chooses save configuration
+        Klotski Game -->> Player: displays game
+        
+    else Play Game
+        loop Playing the game
+            alt Save Game
+                Player ->> Klotski Game: clicks on "Save"
+                Klotski Game ->> Local storage: saves the state of the game
+                Local storage -->> Klotski Game : 
+            else Move block
+                Player ->> Klotski Game: makes a move
+            else Next best action
+                Player ->> Klotski Game: clicks on "Next move"
+            else Undo action
+                Player ->> Klotski Game: clicks on "Undo"
+            else Reset setup
+                Player ->> Klotski Game: clicks on "Reset"
+            end
+            Klotski Game -->> Player : displays game screen
+
+        end
+    else Settings
+        Player ->> Klotski Game: clicks on "SETTINGS"
+        Klotski Game -->> Player: displays settings screen
+        opt Settings actions
+            Player ->> Klotski Game: adjusts volume
+        end
+    else Exit game
+        Player ->> Klotski Game: clicks on "EXIT GAME"
+        Klotski Game -->>- Player: game shuts down
+    end
+```
 
 # Internal Sequence Diagram
 
-### Game Settings
-
+## Tutorial
 ```mermaid
 sequenceDiagram
     actor User
-    User ->> MainMenuScreen: start game
-    activate MainMenuScreen
-    MainMenuScreen ->> SettingsScreen: press on "SETTINGS"
-    SettingsScreen -->> User: Render settings
-    deactivate MainMenuScreen
+    participant TutorialScreen
+    participant MainMenuScreen
+    
+    User ->> TutorialScreen : opens the game for the fist time
+    TutorialScreen -->> User : shows the tutorial screen
+    
+    alt Exit the game
+        User ->>+ TutorialScreen : clicks on "QUIT" button
+        TutorialScreen -->>- User : game shuts down
+    else Skip the tutorial 
+        User ->> TutorialScreen : clicks on "SKIP" button
+        TutorialScreen ->> MainMenuScreen : displays
+        MainMenuScreen -->> User : 
+    else Make the tutorial
+        loop while the tutorial is completed or is skipped
+            alt Next button
+            User ->>+ TutorialScreen : click on "NEXT" button
+            TutorialScreen -->>- User : displays next information
+            else Back button
+            User ->>+ TutorialScreen : click on "BACK" button
+            TutorialScreen -->>- User : displays previous information
+            end
+        end
+        User ->> TutorialScreen : clicks on "FINISH" button
+        TutorialScreen ->> MainMenuScreen : displays
+        MainMenuScreen -->> User : 
+    end
+    
 ```
 
-### Adjust Music/Effects Volume
-
+## Game Settings
 ```mermaid
 sequenceDiagram
     actor User
-    User ->> MainMenuScreen: Start game
-    activate MainMenuScreen
-    MainMenuScreen ->> SettingsScreen: press on "SETTINGS"
-    activate SettingsScreen
+    participant MainMenuScreen
+    participant SettingsScreen
+
+    User ->> MainMenuScreen: clicks on "SETTINGS"
+    MainMenuScreen ->>+ SettingsScreen: displays
+    par setupLayout
+        SettingsScreen ->> SettingsScreen: makeMusicVolumeSettings
+        SettingsScreen ->> SettingsScreen: makeEffectsVolumeSettings
+        SettingsScreen ->> SettingsScreen: makeBackButton
+    end
+    SettingsScreen -->>- User: 
+    opt Go back
+        User ->>+ SettingsScreen : clicks on "BACK" button
+        SettingsScreen -->>- MainMenuScreen : displays
+        MainMenuScreen -->> User : 
+    end
+```
+
+## Adjust Music/Effects Volume
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant SettingsScreen
+
+    User ->> MainMenuScreen: clicks on "SETTINGS"
+    MainMenuScreen ->>+ SettingsScreen: displays
     SettingsScreen ->> SettingsScreen: setupLayout
-    activate SettingsScreen
-    SettingsScreen ->> SettingsScreen: makeMusicVolumeSettings
-    activate SettingsScreen
-    deactivate SettingsScreen
-    SettingsScreen ->> SettingsScreen: makeEffectsVolumeSettings
-    SettingsScreen ->> SettingsScreen: makeBackButton
-    activate SettingsScreen
-    SettingsScreen ->> BackToMainMenuClickListener: create
-    activate BackToMainMenuClickListener
-    BackToMainMenuClickListener -->> SettingsScreen: listener
-    deactivate BackToMainMenuClickListener
-    deactivate SettingsScreen
-    SettingsScreen -->> User: Render settings;
-    deactivate SettingsScreen
-    deactivate MainMenuScreen
-    par Music volume slider
-        User ->> SettingsScreen: Adjust slider
+    SettingsScreen -->>- User: 
+    
+    alt Music volume slider
+        User ->> SettingsScreen: adjusts slider
+    else Effects volume slider
+        User ->> SettingsScreen: adjusts slider
     end
-    par Effects volume slider
-        User ->> SettingsScreen: Adjust slider
-    end
-    activate SettingsScreen
+
     SettingsScreen -->> User: Volume changed
-    deactivate SettingsScreen
+
 ```
 
-### Select Starting Configuration
+## Select Configuration
 ```mermaid
 sequenceDiagram
     actor User
-    User ->> MainMenuScreen: start game
-    activate MainMenuScreen
-    MainMenuScreen ->> ConfigurationMenuScreen: press on "CHOOSE CONFIGURATION"
-    deactivate MainMenuScreen
-    activate ConfigurationMenuScreen
-    ConfigurationMenuScreen ->> SavesManager: loadLevels
-    activate SavesManager
-    SavesManager ->> Level: fromJson
-    activate Level
-Level -->> SavesManager: #32; 
-deactivate Level
-SavesManager -->> ConfigurationMenuScreen: #32; 
-deactivate SavesManager
-ConfigurationMenuScreen ->> SavesManager: loadCompletedLevels
-activate SavesManager
-SavesManager ->> SavesManager: getCompletedLevelsFilePath
-SavesManager -->> ConfigurationMenuScreen:  #32; 
-deactivate SavesManager
-ConfigurationMenuScreen ->> Level: getName
-activate Level
-Level -->> ConfigurationMenuScreen: #32; 
-deactivate Level
-ConfigurationMenuScreen ->> Level: setCompleted
-activate Level
-Level -->> ConfigurationMenuScreen: #32; 
-deactivate Level
-ConfigurationMenuScreen ->> BoardPreview: create
-activate BoardPreview
-BoardPreview ->> Level: getName
-activate Level
-Level -->> BoardPreview: level name
+    participant MainMenuScreen
+    participant ConfigurationMenuScreen
+    participant SavesManager
+    participant Level
+    participant BoardPreview
+    participant GameScreen
 
-deactivate Level
-BoardPreview -->> ConfigurationMenuScreen: render preview
-deactivate BoardPreview
+    User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
 
-ConfigurationMenuScreen -->> User: Render configurations
-deactivate ConfigurationMenuScreen
+    MainMenuScreen ->>+ ConfigurationMenuScreen: displays
+    par levels screen
+        ConfigurationMenuScreen ->>+ SavesManager: loadLevels
+        SavesManager ->> Level: fromJson
+        Level -->> SavesManager: 
+        SavesManager -->>- ConfigurationMenuScreen: #32;
+        ConfigurationMenuScreen ->>+ SavesManager: loadCompletedLevels
+        SavesManager ->> SavesManager: getCompletedLevelsFilePath
+        SavesManager -->>- ConfigurationMenuScreen: 
 
+        ConfigurationMenuScreen ->> Level: getName
+        Level -->> ConfigurationMenuScreen:  
 
-User ->> ConfigurationMenuScreen: Select Level
-activate ConfigurationMenuScreen
-ConfigurationMenuScreen ->> GameScreen: Level
-GameScreen -->> User: Render board
-deactivate ConfigurationMenuScreen
+        ConfigurationMenuScreen ->> Level: setCompleted
+        Level -->> ConfigurationMenuScreen:  
+
+        par preview
+            ConfigurationMenuScreen ->>+ BoardPreview: creates
+            BoardPreview ->>+ Level: getName
+            Level -->>- BoardPreview: level name
+        end
+        BoardPreview -->>- ConfigurationMenuScreen: render preview
+        ConfigurationMenuScreen -->>- User: render configurations
+    end
+
+    User ->> ConfigurationMenuScreen: selects level
+    ConfigurationMenuScreen ->> GameScreen: displays selected level
+    GameScreen -->> User: 
 ```
 
-### New Game
+## New Game
 ```mermaid
-
 sequenceDiagram
 actor User
 User ->> GameScreen : new
@@ -197,25 +277,58 @@ deactivate GameScreen
 ```
 
 ### Load Game
-
 ```mermaid
 sequenceDiagram
     actor User
-    User ->> LoadMenuScreen : setupLayout
-    activate LoadMenuScreen
-    LoadMenuScreen ->> StartFromSaveClickListener : new
-    activate StartFromSaveClickListener
-    StartFromSaveClickListener ->> SavesManager : new
-    activate SavesManager
-    SavesManager -->> StartFromSaveClickListener : #32; 
-    deactivate SavesManager
-    StartFromSaveClickListener -->> LoadMenuScreen : #32; 
-    deactivate StartFromSaveClickListener
-    LoadMenuScreen ->> BackToMainMenuClickListener : new
-    activate BackToMainMenuClickListener
-    BackToMainMenuClickListener -->> LoadMenuScreen : #32; 
-    deactivate BackToMainMenuClickListener
-    deactivate LoadMenuScreen
+    participant MainMenuScreen
+    participant LoadMenuScreen
+    participant SavesManager
+    participant Local Storage
+    participant GameScreen
+    
+
+    User ->> MainMenuScreen : clicks on "LOAD GAME"
+
+    MainMenuScreen ->>+ LoadMenuScreen : displays
+
+    par load screen
+        LoadMenuScreen ->> LoadMenuScreen : setupLayout
+        LoadMenuScreen ->> LoadMenuScreen : setupConfirmDialog
+        LoadMenuScreen ->> SavesManager : creates
+        SavesManager -->> LoadMenuScreen :  
+    end
+    
+    opt Go back
+        User ->> LoadMenuScreen : clicks on "BACK"
+        LoadMenuScreen -->> MainMenuScreen : displays
+        MainMenuScreen -->> User : 
+    end
+
+    alt Delete save
+        User ->> LoadMenuScreen : selects delete
+        LoadMenuScreen ->> LoadMenuScreen : displays confirm dialog
+        alt Confirm
+            User ->> LoadMenuScreen : confirms delete
+            LoadMenuScreen ->>+ SavesManager : calls
+            SavesManager ->> Local Storage : delete selected save
+            Local Storage -->> SavesManager : 
+            SavesManager -->>- LoadMenuScreen : displays
+            LoadMenuScreen -->> User : 
+        else Cancel
+            User ->> LoadMenuScreen : cancel delete
+            LoadMenuScreen ->> LoadMenuScreen : displays
+            LoadMenuScreen -->> User : 
+        end
+    else Load save
+        User ->> LoadMenuScreen: selects save
+        LoadMenuScreen ->>+ SavesManager: calls
+        SavesManager ->> Local Storage : gets selected save
+        Local Storage -->> SavesManager : 
+        SavesManager -->>- LoadMenuScreen : returns selected save
+        LoadMenuScreen ->> GameScreen: displays game with selected save
+        GameScreen -->> User : 
+    end
+
 ```
 
 ### Exit Game
@@ -223,112 +336,350 @@ sequenceDiagram
 sequenceDiagram
     actor User
     User ->> MainMenuScreen : clicks on "EXIT GAME"
-    activate MainMenuScreen
-    deactivate MainMenuScreen
+    MainMenuScreen ->> MainMenuScreen: game shuts down
+    MainMenuScreen -->> User: #32;
 ```
 
-
 ## Save Game
-
 ```mermaid
 sequenceDiagram
 actor User
     actor User
-    User ->> MainMenuScreen: start game
-    
-    alt Choose Configuration
-        MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen ->> GameScreen: 
-    end
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant SavesManager
+    participant State
 
-    alt Load Save
-        MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen ->> GameScreen: 
-    end
-    
     alt Start from random level 
-        MainMenuScreen ->> GameScreen: 
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
     end
-    activate GameScreen
-    GameScreen -->> User: Render game screen
     
-    User ->> GameScreen : click on save button
+
+    activate GameScreen
+    GameScreen -->> User: renders game screen
+    
+    User ->> GameScreen : clicks on "Save"
     activate GameScreen
     GameScreen ->> SavesManager : saveState
     activate SavesManager
-    SavesManager ->> State : toJson
 
-    activate State
-    State -->> SavesManager : #32; 
+    SavesManager ->> State : toJson
+    State -->> SavesManager : 
+
     SavesManager ->> SavesManager: Persist to file
-    deactivate State
-    SavesManager -->> GameScreen : #32; 
+    SavesManager -->> GameScreen : 
+
     deactivate SavesManager
     deactivate GameScreen
+    
+    GameScreen -->> User: renders game screen
 ```
+
 ## Move Blocks
-# Incompleto
 ```mermaid
 sequenceDiagram
-actor User
     actor User
-    User ->> MainMenuScreen: start game
-    
-    alt Choose Configuration
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant BoardListener
+    participant GameState
+
+
+    alt Start from random level 
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen ->> GameScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
     end
 
-    alt Load Save
-        MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen ->> GameScreen: 
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
     end
-    
-    alt Start from random level 
-        MainMenuScreen ->> GameScreen: 
-    end
-    activate GameScreen
-    GameScreen ->> Board: create
-    Board ->> GameState: create
-    GameState -->> Board: 
-    Board ->> BoardListener: create
-    BoardListener -->> Board: 
-    Board -->> GameScreen: 
-    GameScreen -->> User: Render game screen
-    deactivate GameScreen
-    
-    activate BoardListener
+        
     alt mouse movement
-    User ->> BoardListener : touchDragged
-    BoardListener ->> BoardListener : calculateDragDirection
+        User ->> BoardListener : touchDragged
+        BoardListener ->> BoardListener : calculateDragDirection
     end
+
     alt arrow keys 
-    User ->> BoardListener: key down
+        User ->> BoardListener: key down
     end
+
     BoardListener ->> GameState : moveBlock
-    GameState ->> State : clone
-    State -->> GameState: clonedState
-    activate State
-    GameState ->> State: moveBlock on clonedState
-    State ->> State: canMoveBlock
-    State ->> State: isValidBlock
-    State -->> GameState: 
-    deactivate State
     activate GameState
     GameState ->> GameState : updateTiles
     GameState ->> GameState : createTile
     GameState -->> Board: new state
+    deactivate GameState
     Board -->> GameScreen: Render game state
-    GameScreen -->> User: Render game
-    
-
+    GameScreen -->> User: renders game screen
 ```
 
 ## Next Best Action
-Mouhi
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant BoardListener
+    participant GameState
+    participant KlotskiSolver
+
+
+    alt Start from random level 
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+    
+    activate BoardListener
+
+
+    User ->> BoardListener : NextBestMove
+    BoardListener ->> Board : getState
+    Board -->> BoardListener: 
+
+    BoardListener ->> KlotskiSolver: getSolution
+    KlotskiSolver -->> BoardListener: 
+
+    BoardListener ->> GameState : moveBlock
+    activate GameState
+    GameState ->> GameState : updateTiles
+    GameState ->> GameState : createTile
+    GameState -->> Board: new state
+    deactivate GameState
+    Board -->> GameScreen: Render game state
+    GameScreen -->> User: renders game screen
+    
+```
+
 ## Undo Action
-Gianluca
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant GameState
+
+
+    alt Start from random level 
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+    
+    
+    User ->> GameScreen : undoButton
+    activate GameScreen
+    GameScreen ->> Board : getGameState
+    activate Board
+    Board ->> GameState : undoMove
+    activate GameState
+    GameState -->> Board : previous state
+    deactivate GameState
+    Board -->> GameScreen : render previous state
+    deactivate Board
+    GameScreen -->> User : render game screen
+    deactivate GameScreen
+    
+```
+
 ## Reset game
-Gianluca
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant GameState
+
+
+    alt Start from random level
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+
+
+    User ->> GameScreen : resetButton
+    activate GameScreen
+    GameScreen ->> Board : getGameState
+    activate Board
+    Board ->> GameState : reset
+    activate GameState
+    GameState ->> GameState: clear all previous states
+    GameState ->> GameState: set moves to 0
+    GameState ->> GameState: update tiles
+    GameState -->> Board : initial state
+    deactivate GameState
+    Board -->> GameScreen : render initial state
+    deactivate Board
+    GameScreen -->> User : render game screen
+    deactivate GameScreen
+    
+```
+
 ## Moves Counter
-Gianluca
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant BoardListener
+    participant GameState
+    participant State
+
+
+    alt Start from random level
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+
+    alt Move blocks
+        User ->>+ GameScreen : 
+    else Next best action
+        User ->> GameScreen : 
+    else Undo action
+        User ->> GameScreen : 
+    else Reset game
+        User ->> GameScreen : 
+    end
+    
+    GameScreen ->> BoardListener : capture action made by the user
+    alt Play best move
+        BoardListener ->>+ GameState : 
+    else Move block
+        BoardListener ->> GameState : 
+    else Undo move
+        BoardListener ->> GameState : 
+    end
+    
+    alt Move block Play best move
+        GameState ->>+ State : Move block
+        State ->> State : increment moves
+        State -->>- GameState : 
+    else Undo move
+        GameState ->> GameState : undo move
+    end
+    GameState ->> GameState : update tiles
+    GameState -->>- Board : new state
+    Board -->> GameScreen : render new state
+    deactivate GameScreen
+    GameScreen -->> User : render game screen
+```
