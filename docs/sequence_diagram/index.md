@@ -513,10 +513,182 @@ sequenceDiagram
 ```
 
 ## Undo Action
-Gianluca
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant GameState
+
+
+    alt Start from random level 
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+    
+    
+    User ->> GameScreen : undoButton
+    activate GameScreen
+    GameScreen ->> Board : getGameState
+    activate Board
+    Board ->> GameState : undoMove
+    activate GameState
+    GameState -->> Board : previous state
+    deactivate GameState
+    Board -->> GameScreen : render previous state
+    deactivate Board
+    GameScreen -->> User : render game screen
+    deactivate GameScreen
+    
+```
 
 ## Reset game
-Gianluca
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant GameState
+
+
+    alt Start from random level
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+
+
+    User ->> GameScreen : resetButton
+    activate GameScreen
+    GameScreen ->> Board : getGameState
+    activate Board
+    Board ->> GameState : reset
+    activate GameState
+    GameState ->> GameState: clear all previous states
+    GameState ->> GameState: set moves to 0
+    GameState ->> GameState: update tiles
+    GameState -->> Board : initial state
+    deactivate GameState
+    Board -->> GameScreen : render initial state
+    deactivate Board
+    GameScreen -->> User : render game screen
+    deactivate GameScreen
+    
+```
 
 ## Moves Counter
-Gianluca
+```mermaid
+sequenceDiagram
+    actor User
+    participant MainMenuScreen
+    participant ConfigurationScreen
+    participant LoadGameScreen
+    participant GameScreen
+    participant Board
+    participant BoardListener
+    participant GameState
+    participant State
+
+
+    alt Start from random level
+        User ->> MainMenuScreen: clicks on "NEW GAME"
+        MainMenuScreen -->> GameScreen: 
+    else Choose Configuration
+        User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
+        MainMenuScreen ->> ConfigurationScreen: 
+        ConfigurationScreen -->> GameScreen: 
+    else Load Save
+        User ->> MainMenuScreen: clicks on "LOAD GAME"
+        MainMenuScreen ->> LoadGameScreen: 
+        LoadGameScreen -->> GameScreen: 
+    end
+
+    par render game screen
+        activate GameScreen
+        GameScreen ->> Board: creates
+        Board ->> GameState: creates
+        GameState -->> Board: 
+        Board ->> BoardListener: creates
+        BoardListener -->> Board: 
+        Board -->> GameScreen: 
+        GameScreen -->> User: renders game screen
+        deactivate GameScreen
+    end
+
+    alt Move blocks
+        User ->>+ GameScreen : 
+    else Next best action
+        User ->> GameScreen : 
+    else Undo action
+        User ->> GameScreen : 
+    else Reset game
+        User ->> GameScreen : 
+    end
+    
+    GameScreen ->> BoardListener : capture action made by the user
+    alt Play best move
+        BoardListener ->>+ GameState : 
+    else Move block
+        BoardListener ->> GameState : 
+    else Undo move
+        BoardListener ->> GameState : 
+    end
+    
+    alt Move block Play best move
+        GameState ->>+ State : Move block
+        State ->> State : increment moves
+        State -->>- GameState : 
+    else Undo move
+        GameState ->> GameState : undo move
+    end
+    GameState ->> GameState : update tiles
+    GameState -->>- Board : new state
+    Board -->> GameScreen : render new state
+    deactivate GameScreen
+    GameScreen -->> User : render game screen
+```
