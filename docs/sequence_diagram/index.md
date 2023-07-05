@@ -23,73 +23,89 @@ sequenceDiagram
         Player ->> Klotski Game: clicks on "NEW GAME"
         Klotski Game ->> Player: displays random configurations
         Klotski Game ->> Player: displays game
-    end
-
-
-    alt Select configuration
+        
+    else Select configuration
         Player ->> Klotski Game: clicks on "SELECT CONFIGURATION"
         Klotski Game ->> Player: displays configurations
         Player ->> Klotski Game: chooses configuration
         Klotski Game ->> Player: displays game
-    end
-
-
-    alt Load Game
+        
+    else Load Game
         Player ->> Klotski Game: clicks on "LOAD GAME"
         Klotski Game ->> Local file: gets configurations
         Local file ->>  Klotski Game: returns configurations
         Player ->>  Klotski Game: chooses configuration
         Klotski Game ->> Player: displays game
-    end
+        
+    else Play Game
+        loop Playing the game
 
+            alt Save Game
+                Player ->> Klotski Game: clicks on "Save"
+                Klotski Game ->> Local file: saves the state of the game
+                Klotski Game ->> Player : displays game
+            else Move block
+                Player ->> Klotski Game: makes a move
+                Klotski Game ->> Player: displays game
+            else Next best action
+                Player ->> Klotski Game: clicks on "Next move"
+                Klotski Game ->> Player: displays game
+            else Undo action
+                Player ->> Klotski Game: clicks on "Undo"
+                Klotski Game ->> Player: displays game
+            else Reset setup
+                Player ->> Klotski Game: clicks on "Reset"
+                Klotski Game ->> Player: displays game
+            end
 
-
-
-    loop Playing the game
-
-        alt Save Game
-            Player ->> Klotski Game: clicks on "Save"
-            Klotski Game ->> Local file: saves the state of the game
-            Klotski Game ->> Player : displays game
         end
-
-        alt Move block
-            Player ->> Klotski Game: makes a move
-            Klotski Game ->> Player: displays game
-        end
-
-        alt Next best action
-            Player ->> Klotski Game: clicks on "Next move"
-            Klotski Game ->> Player: displays game
-        end
-
-        alt Undo action
-            Player ->> Klotski Game: clicks on "Undo"
-            Klotski Game ->> Player: displays game
-                
-        end
-
-        alt Reset setup
-            Player ->> Klotski Game: clicks on "Reset"
-            Klotski Game ->> Player: displays game
-        end
-
-    end
-
-    alt Settings
+    else Settings
         Player ->> Klotski Game: clicks on "SETTINGS"
         Klotski Game ->> Player: displays game settings
         Player ->> Klotski Game: adjusts volume
-    end
-
-
-    alt Exit game
+    else Exit game
         Player ->> Klotski Game: clicks on "EXIT GAME"
         Klotski Game ->> Player: game shuts down
     end
 ```
 
 # Internal Sequence Diagram
+
+## Tutorial
+```mermaid
+sequenceDiagram
+    actor User
+    participant TutorialScreen
+    participant MainMenuScreen
+    
+    User ->> TutorialScreen : open the game for the fist time
+    TutorialScreen -->> User : shows the tutorial screen
+    
+    alt Exit the game
+        User ->>+ TutorialScreen : clicks on "QUIT" button
+        TutorialScreen ->> TutorialScreen : close the application
+        TutorialScreen -->>- User : 
+    else Skip the tutorial 
+        User ->>+ TutorialScreen : clicks on "SKIP" button
+        TutorialScreen ->>+ MainMenuScreen : creates new main menu
+        deactivate TutorialScreen
+        MainMenuScreen -->>- User : presents the main menu
+    else Make the tutorial
+        loop while the tutorial is completed or is skipped
+            alt Click on "NEXT" button
+            User ->>+ TutorialScreen : Click on "NEXT" button
+            TutorialScreen -->>- User : presents next information about the game
+            else Click on "BACK" button
+            User ->>+ TutorialScreen : Click on "BACK" button
+            TutorialScreen -->>- User : presents previous information about the game
+            end
+        end
+        User ->> TutorialScreen : clicks on "FINISH" button
+        TutorialScreen ->>+ MainMenuScreen : create main menu
+        MainMenuScreen -->>- User : shows the main menu screen
+    end
+    
+```
 
 ## Game Settings
 ```mermaid
@@ -138,9 +154,7 @@ sequenceDiagram
     
     alt Music volume slider
         User ->> SettingsScreen: adjusts slider
-    end
-
-    alt Effects volume slider
+    else Effects volume slider
         User ->> SettingsScreen: adjusts slider
     end
 
@@ -361,15 +375,11 @@ actor User
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
         MainMenuScreen -->> GameScreen: 
-    end
-    
-    alt Choose Configuration
+    else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
         ConfigurationScreen -->> GameScreen: 
-    end
-
-    alt Load Save
+    else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
         LoadGameScreen -->> GameScreen: 
@@ -412,15 +422,11 @@ sequenceDiagram
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
         MainMenuScreen -->> GameScreen: 
-    end
-    
-    alt Choose Configuration
+    else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
         ConfigurationScreen -->> GameScreen: 
-    end
-
-    alt Load Save
+    else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
         LoadGameScreen -->> GameScreen: 
@@ -474,15 +480,11 @@ sequenceDiagram
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
         MainMenuScreen -->> GameScreen: 
-    end
-    
-    alt Choose Configuration
+    else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
         ConfigurationScreen -->> GameScreen: 
-    end
-
-    alt Load Save
+    else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
         LoadGameScreen -->> GameScreen: 
