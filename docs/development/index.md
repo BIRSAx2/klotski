@@ -53,6 +53,26 @@ To automate the building and deployment of the documentation website, we utilize
 Actions to trigger the Jekyll build process whenever changes were made to the documentation files. The generated website
 was then automatically deployed to GitHub Pages, making it accessible to users through the project's GitHub repository.
 
+## Documentation as code
+
+In our development process, we have embraced a "Documentation as Code" approach. We createg all our diagrams using
+code-based diagramming tools like Mermaid or PlantUML. This means that instead of using graphical editors, we represent
+our system diagrams, architectures, and other visual representations of our software using a textual representation in
+code.
+
+One of the major advantages of this approach is the integration of our diagrams with our version control system. Since
+our diagrams are defined as code, they can be versioned and managed alongside our source code using the same version
+control system, like Git. This enables us to have a clear history of changes, facilitates collaboration, and allows us
+to trace the relationship between code changes and corresponding diagram modifications.
+
+Another benefit is the consistency and maintainability of our diagrams. Since they are defined as code, they become an
+integral part of our codebase. We follow the same practices for documentation, such as code reviews, linting, and
+continuous integration, ensuring that our diagrams are consistent, up-to-date, and maintained alongside the evolving
+code.
+
+By utilizing tools like Mermaid or PlantUML, we efficiently create and maintain our system diagrams while leveraging the
+advantages of code-centric workflows and practices.
+
 ## Conclusion
 
 The development of the Klotski game followed a structured approach using GitHub and Git as the version control system,
