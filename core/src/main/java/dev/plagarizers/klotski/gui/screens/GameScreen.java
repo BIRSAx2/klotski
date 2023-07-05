@@ -35,7 +35,6 @@ public class GameScreen implements Screen {
     private final SavesManager savesManager; // The saves manager for managing saved game states
     private Image backgroundImage; // The background image for the save dialog
     private Table saveTable; // The table for the save dialog
-
     private Level currentLevel;
 
     /**

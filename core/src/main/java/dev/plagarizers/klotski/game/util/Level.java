@@ -99,8 +99,7 @@ public class Level {
      */
     @Override
     public String toString() {
-        return "Level{" +
-            "moves=" + moves + ", "
+        return "Level{"
             + "name='" + name + '\'' + ", board=" + Arrays.toString(blocks) + '}';
     }
 
@@ -112,6 +111,7 @@ public class Level {
     public State toState() {
         State state = State.fromDefaultConfiguration();
         state.setBlocks(blocks);
+        state.setMoves(moves);
         return state;
     }
 
