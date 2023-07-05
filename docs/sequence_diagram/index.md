@@ -1,7 +1,7 @@
 ---
 title: Sequence Diagrams
 layout: default
-nav_order: 5
+nav_order: 6
 ---
 
 # System Sequence Diagram

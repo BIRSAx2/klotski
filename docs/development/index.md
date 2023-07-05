@@ -1,7 +1,7 @@
 ---
 title: Notes on development
 layout: default
-nav_order: 8
+nav_order: 9
 ---
 
 This is an overview of the development approach used for creating the Klotski game. It outlines the
