@@ -419,7 +419,7 @@ sequenceDiagram
     GameScreen -->> User: displays updated board
 ```
 
-## Next Best Action
+## Next Best Move
 ```mermaid
 sequenceDiagram
     actor User
@@ -428,55 +428,39 @@ sequenceDiagram
     participant LoadGameScreen
     participant GameScreen
     participant Board
-    participant BoardListener
     participant GameState
     participant KlotskiSolver
 
 
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
-        MainMenuScreen -->> GameScreen: 
+        MainMenuScreen -->> GameScreen: displays
+        activate GameScreen
     else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen -->> GameScreen: 
+        ConfigurationScreen -->> GameScreen: displays
     else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen -->> GameScreen: 
+        LoadGameScreen -->> GameScreen: displays
     end
 
-    par render game screen
-        activate GameScreen
-        GameScreen ->> Board: creates
-        Board ->> GameState: creates
-        GameState -->> Board: 
-        Board ->> BoardListener: creates
-        BoardListener -->> Board: 
-        Board -->> GameScreen: 
-        GameScreen -->> User: renders game screen
-        deactivate GameScreen
+    GameScreen -->>- User: #32;
+
+    User ->> GameScreen : clicks "NEXT MOVE" button
+    GameScreen ->> Board: uses
+
+    par next best move
+        Board ->> GameState: playBestMove
+        GameState ->> KlotskiSolver:  calculates next move
+        KlotskiSolver -->> GameState: returns new state
+        GameState ->> GameState: updates state
+        GameState -->> Board: updates game state
     end
-    
-    activate BoardListener
 
-
-    User ->> BoardListener : NextBestMove
-    BoardListener ->> Board : getState
-    Board -->> BoardListener: 
-
-    BoardListener ->> KlotskiSolver: getSolution
-    KlotskiSolver -->> BoardListener: 
-
-    BoardListener ->> GameState : moveBlock
-    activate GameState
-    GameState ->> GameState : updateTiles
-    GameState ->> GameState : createTile
-    GameState -->> Board: new state
-    deactivate GameState
-    Board -->> GameScreen: Render game state
-    GameScreen -->> User: renders game screen
-    
+    Board -->> GameScreen: 
+    GameScreen -->> User: displays updated board
 ```
 
 ## Undo Action
