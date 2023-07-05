@@ -332,6 +332,7 @@ actor User
     participant GameScreen
     participant SavesManager
     participant State
+    participant Local Storage
 
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
@@ -340,7 +341,7 @@ actor User
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
         ConfigurationScreen -->> GameScreen: 
-    else Load Save
+    else Load save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
         LoadGameScreen -->> GameScreen: 
@@ -350,21 +351,23 @@ actor User
     activate GameScreen
     GameScreen -->> User: renders game screen
     
-    User ->> GameScreen : clicks on "Save"
-    activate GameScreen
-    GameScreen ->> SavesManager : saveState
-    activate SavesManager
+    User ->> GameScreen : clicks on "SAVE"
+    GameScreen -->> User : displays save dialog
+    alt Save file
+        User ->>+ GameScreen : enter the save name
+        User ->> GameScreen : clicks "SAVE"
+        GameScreen ->>+ SavesManager : saveState
 
-    SavesManager ->> State : toJson
-    State -->> SavesManager : 
-
-    SavesManager ->> SavesManager: Persist to file
-    SavesManager -->> GameScreen : 
-
-    deactivate SavesManager
-    deactivate GameScreen
+        SavesManager ->> State : toJson
+        State -->> SavesManager : 
+        SavesManager ->> Local Storage: Persist save to file
+        Local Storage -->> SavesManager : 
+        SavesManager -->>- GameScreen : 
+    else Cancel
+        User ->> GameScreen : clicks "CANCEL"
+    end
     
-    GameScreen -->> User: renders game screen
+    GameScreen -->>- User: displays game screen
 ```
 
 ## Move Blocks
@@ -477,41 +480,25 @@ sequenceDiagram
 
     alt Start from random level 
         User ->> MainMenuScreen: clicks on "NEW GAME"
-        MainMenuScreen -->> GameScreen: 
+        MainMenuScreen -->>+ GameScreen: displays
     else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen -->> GameScreen: 
+        ConfigurationScreen -->> GameScreen: displays
     else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen -->> GameScreen: 
-    end
-
-    par render game screen
-        activate GameScreen
-        GameScreen ->> Board: creates
-        Board ->> GameState: creates
-        GameState -->> Board: 
-        Board ->> BoardListener: creates
-        BoardListener -->> Board: 
-        Board -->> GameScreen: 
-        GameScreen -->> User: renders game screen
-        deactivate GameScreen
+        LoadGameScreen -->> GameScreen: displays
     end
     
+    GameScreen -->> User : #32;
     
-    User ->> GameScreen : undoButton
-    activate GameScreen
+    User ->> GameScreen : clicks "UNDO" button
     GameScreen ->> Board : getGameState
-    activate Board
-    Board ->> GameState : undoMove
-    activate GameState
-    GameState -->> Board : previous state
-    deactivate GameState
-    Board -->> GameScreen : render previous state
-    deactivate Board
-    GameScreen -->> User : render game screen
+    Board -->> GameScreen : 
+    GameScreen ->>+ GameState : undoMove
+    GameState -->>- GameScreen : displays previous state
+    GameScreen -->> User : displays updated game screen
     deactivate GameScreen
     
 ```
@@ -530,44 +517,31 @@ sequenceDiagram
 
     alt Start from random level
         User ->> MainMenuScreen: clicks on "NEW GAME"
-        MainMenuScreen -->> GameScreen: 
+        MainMenuScreen -->>+ GameScreen: displays
     else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen -->> GameScreen: 
+        ConfigurationScreen -->> GameScreen: displays
     else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen -->> GameScreen: 
+        LoadGameScreen -->> GameScreen: displays
     end
-
-    par render game screen
-        activate GameScreen
-        GameScreen ->> Board: creates
-        Board ->> GameState: creates
-        GameState -->> Board: 
-        Board ->> BoardListener: creates
-        BoardListener -->> Board: 
-        Board -->> GameScreen: 
-        GameScreen -->> User: renders game screen
-        deactivate GameScreen
-    end
+    
+    GameScreen -->> User : #32;
 
 
-    User ->> GameScreen : resetButton
-    activate GameScreen
+    User ->> GameScreen : clicks on "RESET" button
     GameScreen ->> Board : getGameState
-    activate Board
-    Board ->> GameState : reset
-    activate GameState
-    GameState ->> GameState: clear all previous states
-    GameState ->> GameState: set moves to 0
-    GameState ->> GameState: update tiles
-    GameState -->> Board : initial state
-    deactivate GameState
-    Board -->> GameScreen : render initial state
-    deactivate Board
-    GameScreen -->> User : render game screen
+    Board -->> GameScreen : 
+    GameScreen ->>+ GameState : reset
+    par Reset game state
+        GameState ->> GameState: clear all previous states
+        GameState ->> GameState: set moves to 0
+        GameState ->> GameState: update tiles
+    end
+    GameState -->>- GameScreen : displays initial state
+    GameScreen -->> User : displays updated game screen
     deactivate GameScreen
     
 ```
@@ -581,38 +555,27 @@ sequenceDiagram
     participant LoadGameScreen
     participant GameScreen
     participant Board
-    participant BoardListener
     participant GameState
     participant State
 
 
     alt Start from random level
         User ->> MainMenuScreen: clicks on "NEW GAME"
-        MainMenuScreen -->> GameScreen: 
+        MainMenuScreen -->>+ GameScreen: displays
     else Choose Configuration
         User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
         MainMenuScreen ->> ConfigurationScreen: 
-        ConfigurationScreen -->> GameScreen: 
+        ConfigurationScreen -->> GameScreen: displays
     else Load Save
         User ->> MainMenuScreen: clicks on "LOAD GAME"
         MainMenuScreen ->> LoadGameScreen: 
-        LoadGameScreen -->> GameScreen: 
+        LoadGameScreen -->> GameScreen: displays
     end
 
-    par render game screen
-        activate GameScreen
-        GameScreen ->> Board: creates
-        Board ->> GameState: creates
-        GameState -->> Board: 
-        Board ->> BoardListener: creates
-        BoardListener -->> Board: 
-        Board -->> GameScreen: 
-        GameScreen -->> User: renders game screen
-        deactivate GameScreen
-    end
+    GameScreen -->> User : #32;
 
     alt Move blocks
-        User ->>+ GameScreen : 
+        User ->> GameScreen : 
     else Next best action
         User ->> GameScreen : 
     else Undo action
@@ -621,25 +584,11 @@ sequenceDiagram
         User ->> GameScreen : 
     end
     
-    GameScreen ->> BoardListener : capture action made by the user
-    alt Play best move
-        BoardListener ->>+ GameState : 
-    else Move block
-        BoardListener ->> GameState : 
-    else Undo move
-        BoardListener ->> GameState : 
-    end
-    
-    alt Move block Play best move
-        GameState ->>+ State : Move block
-        State ->> State : increment moves
-        State -->>- GameState : 
-    else Undo move
-        GameState ->> GameState : undo move
-    end
-    GameState ->> GameState : update tiles
-    GameState -->>- Board : new state
-    Board -->> GameScreen : render new state
-    deactivate GameScreen
-    GameScreen -->> User : render game screen
+    GameScreen ->> Board : uses
+    Board ->>+ GameState : perform action
+    GameState ->> State : update moves
+    State -->> GameState : 
+    GameState -->>- Board : 
+    Board -->> GameScreen : update game state
+    GameScreen -->>- User : displays updated game screen
 ```
