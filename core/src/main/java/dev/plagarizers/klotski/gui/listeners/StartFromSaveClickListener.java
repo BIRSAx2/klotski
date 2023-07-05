@@ -45,7 +45,9 @@ public class StartFromSaveClickListener extends ClickListener {
         // Handle click event
         SoundHandler.getInstance().playButtonClick();
         State save = savesManager.loadStateByName(saveName);
+        Level level = new Level(save, saveName);
+        level.setMoves(save.getMoves());
         game.getScreen().dispose();
-        game.setScreen(new GameScreen(game, new Level(save, saveName)));
+        game.setScreen(new GameScreen(game,level ));
     }
 }

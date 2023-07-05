@@ -23,6 +23,8 @@ public class Level {
 
     private transient boolean isCompleted;
 
+    private transient int moves;
+
     /**
      * Constructs a `Level` object with the specified name and game board.
      *
@@ -32,11 +34,13 @@ public class Level {
     public Level(String name, Block[] blocks) {
         this.name = name;
         this.blocks = blocks;
+        int moves = 0;
     }
 
     public Level(State state, String name) {
         this.name = name;
         this.blocks = state.getBlocks();
+        this.moves = state.getMoves();
     }
 
     /**
@@ -95,7 +99,9 @@ public class Level {
      */
     @Override
     public String toString() {
-        return "Level{" + "name='" + name + '\'' + ", board=" + Arrays.toString(blocks) + '}';
+        return "Level{" +
+            "moves=" + moves + ", "
+            + "name='" + name + '\'' + ", board=" + Arrays.toString(blocks) + '}';
     }
 
     /**
@@ -116,5 +122,13 @@ public class Level {
 
     public void setCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
+    }
+
+    public int getMoves() {
+        return moves;
+    }
+
+    public void setMoves(int moves) {
+        this.moves = moves;
     }
 }

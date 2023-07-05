@@ -21,13 +21,13 @@ import java.util.List;
 public class Board extends Actor implements Disableable {
     public static final float ITEM_WIDTH = 64;
     public static final float ITEM_HEIGHT = 64;
-    private boolean isDisabled;
     private final Texture boardTexture;
     private final Label movesLabel;
     private final Label levelLabel;
     private final BoardListener boardListener;
     private final GameState gameState;
     private final String boardTexturePath = "textures/board.png";
+    private boolean isDisabled;
 
     /**
      * Constructs a new `Board` object with the specified initial state and label style.
@@ -35,7 +35,11 @@ public class Board extends Actor implements Disableable {
      * @param level the initial game state
      */
     public Board(Level level) {
-        this.gameState = new GameState(level.toState());
+        State state = level.toState();
+        state.setMoves(level.getMoves());
+
+
+        this.gameState = new GameState(state);
         boardListener = new BoardListener(this, gameState);
         boardTexture = new Texture(Gdx.files.internal(boardTexturePath));
 
@@ -68,7 +72,7 @@ public class Board extends Actor implements Disableable {
         movesLabel.setPosition(getX() - ITEM_WIDTH, getY() - ITEM_HEIGHT * 4);
         movesLabel.draw(batch, parentAlpha);
 
-        levelLabel.setPosition(getX() - ITEM_WIDTH, getY() + ITEM_HEIGHT * 4);
+        levelLabel.setPosition(getX() - ITEM_WIDTH * 3, getY() + ITEM_HEIGHT * 4.2f);
         levelLabel.draw(batch, parentAlpha);
 
 
@@ -111,12 +115,12 @@ public class Board extends Actor implements Disableable {
     }
 
     @Override
-    public void setDisabled(boolean isDisabled) {
-        this.isDisabled = isDisabled;
+    public boolean isDisabled() {
+        return this.isDisabled;
     }
 
     @Override
-    public boolean isDisabled() {
-        return this.isDisabled;
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
 }
