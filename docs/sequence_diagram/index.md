@@ -9,63 +9,61 @@ nav_order: 5
 sequenceDiagram
     actor Player
     Participant Klotski Game
-    participant Local file
+    participant Local storage
 
 
-    par Tutorial
-        Player ->> Klotski Game: opens game for the 1st time
-        Klotski Game ->> Player: displays the tutorial
-        Klotski Game ->> Player: displays the main menu
+    opt Tutorial
+        Player ->>+ Klotski Game: opens game for the 1st time
+        Klotski Game -->> Player: displays the tutorial
     end
+    Klotski Game -->> Player: displays the main menu
 
 
     alt New Game
         Player ->> Klotski Game: clicks on "NEW GAME"
-        Klotski Game ->> Player: displays random configurations
-        Klotski Game ->> Player: displays game
+        Klotski Game ->> Klotski Game: gets random configuration
+        Klotski Game -->> Player: displays game screen
         
     else Select configuration
         Player ->> Klotski Game: clicks on "SELECT CONFIGURATION"
-        Klotski Game ->> Player: displays configurations
+        Klotski Game -->> Player: displays configurations
         Player ->> Klotski Game: chooses configuration
-        Klotski Game ->> Player: displays game
+        Klotski Game -->> Player: displays game screen
         
     else Load Game
         Player ->> Klotski Game: clicks on "LOAD GAME"
-        Klotski Game ->> Local file: gets configurations
-        Local file ->>  Klotski Game: returns configurations
-        Player ->>  Klotski Game: chooses configuration
-        Klotski Game ->> Player: displays game
+        Klotski Game ->>+ Local storage: gets saves 
+        Local storage -->>-  Klotski Game: returns saves
+        Player ->>  Klotski Game: chooses save configuration
+        Klotski Game -->> Player: displays game
         
     else Play Game
         loop Playing the game
-
             alt Save Game
                 Player ->> Klotski Game: clicks on "Save"
-                Klotski Game ->> Local file: saves the state of the game
-                Klotski Game ->> Player : displays game
+                Klotski Game ->> Local storage: saves the state of the game
+                Local storage -->> Klotski Game : 
             else Move block
                 Player ->> Klotski Game: makes a move
-                Klotski Game ->> Player: displays game
             else Next best action
                 Player ->> Klotski Game: clicks on "Next move"
-                Klotski Game ->> Player: displays game
             else Undo action
                 Player ->> Klotski Game: clicks on "Undo"
-                Klotski Game ->> Player: displays game
             else Reset setup
                 Player ->> Klotski Game: clicks on "Reset"
-                Klotski Game ->> Player: displays game
             end
+            Klotski Game -->> Player : displays game screen
 
         end
     else Settings
         Player ->> Klotski Game: clicks on "SETTINGS"
-        Klotski Game ->> Player: displays game settings
-        Player ->> Klotski Game: adjusts volume
+        Klotski Game -->> Player: displays settings screen
+        opt Settings actions
+            Player ->> Klotski Game: adjusts volume
+        end
     else Exit game
         Player ->> Klotski Game: clicks on "EXIT GAME"
-        Klotski Game ->> Player: game shuts down
+        Klotski Game -->>- Player: game shuts down
     end
 ```
 
@@ -78,31 +76,29 @@ sequenceDiagram
     participant TutorialScreen
     participant MainMenuScreen
     
-    User ->> TutorialScreen : open the game for the fist time
+    User ->> TutorialScreen : opens the game for the fist time
     TutorialScreen -->> User : shows the tutorial screen
     
     alt Exit the game
         User ->>+ TutorialScreen : clicks on "QUIT" button
-        TutorialScreen ->> TutorialScreen : close the application
-        TutorialScreen -->>- User : 
+        TutorialScreen -->>- User : game shuts down
     else Skip the tutorial 
-        User ->>+ TutorialScreen : clicks on "SKIP" button
-        TutorialScreen ->>+ MainMenuScreen : creates new main menu
-        deactivate TutorialScreen
-        MainMenuScreen -->>- User : presents the main menu
+        User ->> TutorialScreen : clicks on "SKIP" button
+        TutorialScreen ->> MainMenuScreen : displays
+        MainMenuScreen -->> User : 
     else Make the tutorial
         loop while the tutorial is completed or is skipped
-            alt Click on "NEXT" button
-            User ->>+ TutorialScreen : Click on "NEXT" button
-            TutorialScreen -->>- User : presents next information about the game
-            else Click on "BACK" button
-            User ->>+ TutorialScreen : Click on "BACK" button
-            TutorialScreen -->>- User : presents previous information about the game
+            alt Next button
+            User ->>+ TutorialScreen : click on "NEXT" button
+            TutorialScreen -->>- User : displays next information
+            else Back button
+            User ->>+ TutorialScreen : click on "BACK" button
+            TutorialScreen -->>- User : displays previous information
             end
         end
         User ->> TutorialScreen : clicks on "FINISH" button
-        TutorialScreen ->>+ MainMenuScreen : create main menu
-        MainMenuScreen -->>- User : shows the main menu screen
+        TutorialScreen ->> MainMenuScreen : displays
+        MainMenuScreen -->> User : 
     end
     
 ```
@@ -114,12 +110,19 @@ sequenceDiagram
     participant MainMenuScreen
     participant SettingsScreen
 
-
     User ->> MainMenuScreen: clicks on "SETTINGS"
-    activate MainMenuScreen
-    MainMenuScreen ->> SettingsScreen: displays
-    SettingsScreen -->> User: renders settings
-    deactivate MainMenuScreen
+    MainMenuScreen ->>+ SettingsScreen: displays
+    par setupLayout
+        SettingsScreen ->> SettingsScreen: makeMusicVolumeSettings
+        SettingsScreen ->> SettingsScreen: makeEffectsVolumeSettings
+        SettingsScreen ->> SettingsScreen: makeBackButton
+    end
+    SettingsScreen -->>- User: 
+    opt Go back
+        User ->>+ SettingsScreen : clicks on "BACK" button
+        SettingsScreen -->>- MainMenuScreen : displays
+        MainMenuScreen -->> User : 
+    end
 ```
 
 ## Adjust Music/Effects Volume
@@ -128,29 +131,11 @@ sequenceDiagram
     actor User
     participant MainMenuScreen
     participant SettingsScreen
-    participant BackToMainMenuClickListener
 
     User ->> MainMenuScreen: clicks on "SETTINGS"
-    activate MainMenuScreen
-    MainMenuScreen ->> SettingsScreen: displays
-    activate SettingsScreen
+    MainMenuScreen ->>+ SettingsScreen: displays
     SettingsScreen ->> SettingsScreen: setupLayout
-    activate SettingsScreen
-
-    par creates settings screen
-        SettingsScreen ->> SettingsScreen: makeMusicVolumeSettings
-        SettingsScreen ->> SettingsScreen: makeEffectsVolumeSettings
-        SettingsScreen ->> SettingsScreen: makeBackButton
-    end
-
-    activate SettingsScreen
-    SettingsScreen ->> BackToMainMenuClickListener: creates
-    BackToMainMenuClickListener -->> SettingsScreen: 
-    deactivate SettingsScreen
-
-    SettingsScreen -->> User: renders settings
-    deactivate SettingsScreen
-    deactivate MainMenuScreen
+    SettingsScreen -->>- User: 
     
     alt Music volume slider
         User ->> SettingsScreen: adjusts slider
@@ -167,36 +152,23 @@ sequenceDiagram
 sequenceDiagram
     actor User
     participant MainMenuScreen
-    participant SavesManager
     participant ConfigurationMenuScreen
+    participant SavesManager
     participant Level
     participant BoardPreview
     participant GameScreen
 
     User ->> MainMenuScreen: clicks on "CHOOSE CONFIGURATION"
 
-    MainMenuScreen ->> ConfigurationMenuScreen: displays
-    activate ConfigurationMenuScreen
-
+    MainMenuScreen ->>+ ConfigurationMenuScreen: displays
     par levels screen
-        ConfigurationMenuScreen ->> SavesManager: loadLevels
-        activate SavesManager
-
+        ConfigurationMenuScreen ->>+ SavesManager: loadLevels
         SavesManager ->> Level: fromJson
-
         Level -->> SavesManager: 
-
-        SavesManager -->> ConfigurationMenuScreen: #32;
-        deactivate SavesManager
-
-        ConfigurationMenuScreen ->> SavesManager: loadCompletedLevels
-        activate SavesManager
-
+        SavesManager -->>- ConfigurationMenuScreen: #32;
+        ConfigurationMenuScreen ->>+ SavesManager: loadCompletedLevels
         SavesManager ->> SavesManager: getCompletedLevelsFilePath
-
-        SavesManager -->> ConfigurationMenuScreen: 
-        deactivate SavesManager
-    
+        SavesManager -->>- ConfigurationMenuScreen: 
 
         ConfigurationMenuScreen ->> Level: getName
         Level -->> ConfigurationMenuScreen:  
@@ -205,29 +177,21 @@ sequenceDiagram
         Level -->> ConfigurationMenuScreen:  
 
         par preview
-            ConfigurationMenuScreen ->> BoardPreview: creates
-            activate BoardPreview
-            BoardPreview ->> Level: getName
-            activate Level
-            Level -->> BoardPreview: level name
+            ConfigurationMenuScreen ->>+ BoardPreview: creates
+            BoardPreview ->>+ Level: getName
+            Level -->>- BoardPreview: level name
         end
-
-        deactivate Level
-        BoardPreview -->> ConfigurationMenuScreen: render preview
-        deactivate BoardPreview
-
-        ConfigurationMenuScreen -->> User: Render configurations
-        deactivate ConfigurationMenuScreen
+        BoardPreview -->>- ConfigurationMenuScreen: render preview
+        ConfigurationMenuScreen -->>- User: render configurations
     end
 
     User ->> ConfigurationMenuScreen: selects level
-    ConfigurationMenuScreen ->> GameScreen: level
-    GameScreen -->> User: renders game
+    ConfigurationMenuScreen ->> GameScreen: displays selected level
+    GameScreen -->> User: 
 ```
 
 ## New Game
 ```mermaid
-
 sequenceDiagram
 actor User
 User ->> GameScreen : new
@@ -318,36 +282,52 @@ sequenceDiagram
     actor User
     participant MainMenuScreen
     participant LoadMenuScreen
-    participant StartFromSaveClickListener
     participant SavesManager
-    participant BackToMainMenuClickListener
+    participant Local Storage
     participant GameScreen
     
 
     User ->> MainMenuScreen : clicks on "LOAD GAME"
 
-    MainMenuScreen ->> LoadMenuScreen : displays
+    MainMenuScreen ->>+ LoadMenuScreen : displays
 
     par load screen
-        activate LoadMenuScreen
-        LoadMenuScreen ->> StartFromSaveClickListener : creates
-
-        StartFromSaveClickListener ->> SavesManager : creates
-        SavesManager -->> StartFromSaveClickListener :  
-
-        StartFromSaveClickListener -->> LoadMenuScreen : 
-
-        LoadMenuScreen ->> BackToMainMenuClickListener : creates
-        activate BackToMainMenuClickListener
-        BackToMainMenuClickListener -->> LoadMenuScreen :  
-        LoadMenuScreen -->> User: renders load menu
-        deactivate LoadMenuScreen
+        LoadMenuScreen ->> LoadMenuScreen : setupLayout
+        LoadMenuScreen ->> LoadMenuScreen : setupConfirmDialog
+        LoadMenuScreen ->> SavesManager : creates
+        SavesManager -->> LoadMenuScreen :  
+    end
+    
+    opt Go back
+        User ->> LoadMenuScreen : clicks on "BACK"
+        LoadMenuScreen -->> MainMenuScreen : displays
+        MainMenuScreen -->> User : 
     end
 
-    User ->> LoadMenuScreen: selects save
-    LoadMenuScreen ->> GameScreen: save
-    GameScreen -->> User: renders game
-
+    alt Delete save
+        User ->> LoadMenuScreen : selects delete
+        LoadMenuScreen ->> LoadMenuScreen : displays confirm dialog
+        alt Confirm
+            User ->> LoadMenuScreen : confirms delete
+            LoadMenuScreen ->>+ SavesManager : calls
+            SavesManager ->> Local Storage : delete selected save
+            Local Storage -->> SavesManager : 
+            SavesManager -->>- LoadMenuScreen : displays
+            LoadMenuScreen -->> User : 
+        else Cancel
+            User ->> LoadMenuScreen : cancel delete
+            LoadMenuScreen ->> LoadMenuScreen : displays
+            LoadMenuScreen -->> User : 
+        end
+    else Load save
+        User ->> LoadMenuScreen: selects save
+        LoadMenuScreen ->>+ SavesManager: calls
+        SavesManager ->> Local Storage : gets selected save
+        Local Storage -->> SavesManager : 
+        SavesManager -->>- LoadMenuScreen : returns selected save
+        LoadMenuScreen ->> GameScreen: displays game with selected save
+        GameScreen -->> User : 
+    end
 
 ```
 
@@ -356,7 +336,7 @@ sequenceDiagram
 sequenceDiagram
     actor User
     User ->> MainMenuScreen : clicks on "EXIT GAME"
-    MainMenuScreen -->> MainMenuScreen: game shuts down
+    MainMenuScreen ->> MainMenuScreen: game shuts down
     MainMenuScreen -->> User: #32;
 ```
 
