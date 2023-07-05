@@ -99,8 +99,7 @@ public class Level {
      */
     @Override
     public String toString() {
-        return "Level{" +
-            "moves=" + moves + ", "
+        return "Level{"
             + "name='" + name + '\'' + ", board=" + Arrays.toString(blocks) + '}';
     }
 
