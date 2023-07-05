@@ -1,4 +1,4 @@
-# Klotski
+# Klotski [![CircleCI](https://dl.circleci.com/status-badge/img/gh/BIRSAx2/klotski/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/BIRSAx2/klotski/tree/main) ![example branch parameter](https://github.com/BIRSAx2/klotski/actions/workflows/pages.yml/badge.svg)
 
 Welcome to the Klotski game! Klotski is a sliding block puzzle game where the goal is to move the special block (also
 known as the "hero" block) to a specific location on the game board by sliding the other blocks out of the way.
@@ -13,16 +13,7 @@ known as the "hero" block) to a specific location on the game board by sliding t
 
 ## Installation
 
-Clone this repository
-
-```bash
-  git clone https://github.com/BIRSAx2/klotski
-  cd klotski
-  ./gradlew desktop:run
-```
-
-Mote: make sure you have Java 17 or higher installed on your system, and Android SDK to project.
-
+Please follow our [Getting Started Guide](https://birsax2.github.io/klotski/manual/)
 ## Running Tests
 
 To run tests, run the following command
@@ -35,10 +26,6 @@ To run tests, run the following command
 
 - [LibGDX](https://libgdx.com/)
 
-## Authors
-
-- [@BIRSAx2](https://www.github.com/BIRSAx2)
-- [@gp-9](https://www.github.com/gp-9)
 
 ## License
 
