@@ -112,6 +112,7 @@ public class Level {
     public State toState() {
         State state = State.fromDefaultConfiguration();
         state.setBlocks(blocks);
+        state.setMoves(moves);
         return state;
     }
 

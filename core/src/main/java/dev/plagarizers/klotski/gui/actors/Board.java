@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.utils.Align;
 import dev.plagarizers.klotski.game.state.State;
 import dev.plagarizers.klotski.game.util.Level;
 import dev.plagarizers.klotski.gui.listeners.BoardListener;
@@ -36,7 +37,6 @@ public class Board extends Actor implements Disableable {
      */
     public Board(Level level) {
         State state = level.toState();
-        state.setMoves(level.getMoves());
 
 
         this.gameState = new GameState(state);
@@ -44,7 +44,7 @@ public class Board extends Actor implements Disableable {
         boardTexture = new Texture(Gdx.files.internal(boardTexturePath));
 
         movesLabel = new Label("Moves: ", FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.InfoStyle));
-        levelLabel = new Label("Level: " + level.getName(), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.MenuStyle));
+        levelLabel = new Label("" + level.getName(), FontHandler.getInstance().getLabelStyle(FontHandler.LabelStyleType.MenuStyle));
     }
 
     /**
@@ -72,7 +72,9 @@ public class Board extends Actor implements Disableable {
         movesLabel.setPosition(getX() - ITEM_WIDTH, getY() - ITEM_HEIGHT * 4);
         movesLabel.draw(batch, parentAlpha);
 
-        levelLabel.setPosition(getX() - ITEM_WIDTH * 3, getY() + ITEM_HEIGHT * 4.2f);
+        levelLabel.setPosition(getX() , getY() + ITEM_HEIGHT * 4f);
+        levelLabel.setWidth(getWidth() / 3f);
+        levelLabel.setAlignment(Align.center);
         levelLabel.draw(batch, parentAlpha);
 
 
