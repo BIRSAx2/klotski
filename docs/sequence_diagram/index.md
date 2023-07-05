@@ -91,6 +91,42 @@ sequenceDiagram
 
 # Internal Sequence Diagram
 
+## Tutorial
+```mermaid
+sequenceDiagram
+    actor User
+    participant TutorialScreen
+    participant MainMenuScreen
+    
+    User ->> TutorialScreen : open the game for the fist time
+    TutorialScreen -->> User : shows the tutorial screen
+    
+    alt Exit the game
+        User ->>+ TutorialScreen : clicks on "QUIT" button
+        TutorialScreen ->> TutorialScreen : close the application
+        TutorialScreen -->>- User : 
+    else Skip the tutorial 
+        User ->>+ TutorialScreen : clicks on "SKIP" button
+        TutorialScreen ->>+ MainMenuScreen : creates new main menu
+        deactivate TutorialScreen
+        MainMenuScreen -->>- User : presents the main menu
+    else Make the tutorial
+        loop while the tutorial is completed or is skipped
+            alt Click on "NEXT" button
+            User ->>+ TutorialScreen : Click on "NEXT" button
+            TutorialScreen -->>- User : presents next information about the game
+            else Click on "BACK" button
+            User ->>+ TutorialScreen : Click on "BACK" button
+            TutorialScreen -->>- User : presents previous information about the game
+            end
+        end
+        User ->> TutorialScreen : clicks on "FINISH" button
+        TutorialScreen ->>+ MainMenuScreen : create main menu
+        MainMenuScreen -->>- User : shows the main menu screen
+    end
+    
+```
+
 ## Game Settings
 ```mermaid
 sequenceDiagram
