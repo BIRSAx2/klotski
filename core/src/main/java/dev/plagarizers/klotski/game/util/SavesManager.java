@@ -237,7 +237,7 @@ public class SavesManager {
 
             if (!completedLevelsFile.exists()) {
                 // If the file doesn't exist, return an empty list
-
+                createSaveDirectoryIfNotExists();
                 boolean created = completedLevelsFile.createNewFile();
                 if (!created) {
                     System.err.println("Failed to create completed levels file: " + completedLevelsFile.getAbsolutePath());
@@ -288,7 +288,7 @@ public class SavesManager {
      */
     public void addCompletedLevel(String levelName) {
         List<String> completedLevels = loadCompletedLevels();
-        if(completedLevels == null) {
+        if (completedLevels == null) {
             completedLevels = new ArrayList<>();
         }
         if (!completedLevels.contains(levelName)) {
