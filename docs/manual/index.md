@@ -1,7 +1,7 @@
 ---
 title: Getting started
 layout: default
-nav_order: 1g
+nav_order: 1
 ---
 
 # Getting Started with Klotski Game
