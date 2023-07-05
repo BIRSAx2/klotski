@@ -12,14 +12,21 @@ sequenceDiagram
     participant Local file
 
 
-    par New Game
+    par Tutorial
+        Player ->> Klotski Game: opens game for the 1st time
+        Klotski Game ->> Player: displays the tutorial
+        Klotski Game ->> Player: displays the main menu
+    end
+
+
+    alt New Game
         Player ->> Klotski Game: clicks on "NEW GAME"
         Klotski Game ->> Player: displays random configurations
         Klotski Game ->> Player: displays game
     end
 
 
-    par Select configuration
+    alt Select configuration
         Player ->> Klotski Game: clicks on "SELECT CONFIGURATION"
         Klotski Game ->> Player: displays configurations
         Player ->> Klotski Game: chooses configuration
@@ -27,7 +34,7 @@ sequenceDiagram
     end
 
 
-    par Load Game
+    alt Load Game
         Player ->> Klotski Game: clicks on "LOAD GAME"
         Klotski Game ->> Local file: gets configurations
         Local file ->>  Klotski Game: returns configurations
@@ -36,45 +43,47 @@ sequenceDiagram
     end
 
 
-    par Save Game
-        Player ->> Klotski Game: clicks on "Save"
-        Klotski Game ->> Local file: saves the state of the game
-        Klotski Game ->> Player : displays game
-    end
-
 
 
     loop Playing the game
-        par Move block
+
+        alt Save Game
+            Player ->> Klotski Game: clicks on "Save"
+            Klotski Game ->> Local file: saves the state of the game
+            Klotski Game ->> Player : displays game
+        end
+
+        alt Move block
             Player ->> Klotski Game: makes a move
             Klotski Game ->> Player: displays game
         end
 
-        par Next best action
+        alt Next best action
             Player ->> Klotski Game: clicks on "Next move"
             Klotski Game ->> Player: displays game
         end
 
-        par Undo action
+        alt Undo action
             Player ->> Klotski Game: clicks on "Undo"
             Klotski Game ->> Player: displays game
                 
         end
 
-        par Reset setup
+        alt Reset setup
             Player ->> Klotski Game: clicks on "Reset"
             Klotski Game ->> Player: displays game
         end
+
     end
 
-    par Settings
+    alt Settings
         Player ->> Klotski Game: clicks on "SETTINGS"
         Klotski Game ->> Player: displays game settings
-        Player ->> Klotski Game: adjust volume
+        Player ->> Klotski Game: adjusts volume
     end
 
 
-    par Exit game
+    alt Exit game
         Player ->> Klotski Game: clicks on "EXIT GAME"
         Klotski Game ->> Player: game shuts down
     end
